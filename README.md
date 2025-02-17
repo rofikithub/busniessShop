@@ -1,0 +1,12 @@
+pillow
+tkinter_webcam
+opencv-python
+qrcode
+tkcalendar
+fpdf
+pyhtml2pdf
+SpeechRecognition
+PyAudio
+num2words
+auto-py-to-exe
+cx_Freeze
