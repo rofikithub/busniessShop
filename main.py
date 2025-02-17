@@ -16,8 +16,8 @@ from reportlab.graphics.barcode import ecc200datamatrix
 
 class App:
     def __init__(self, root):
-        #loginView(root)
-        dashboardView(root)
+        loginView(root)
+        #dashboardView(root)
         
         folder = "report"
         if not os.path.exists(folder):
