@@ -11,3 +11,4 @@ num2words
 auto-py-to-exe
 pyzbar
 numpy
+schedule

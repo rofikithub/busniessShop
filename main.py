@@ -23,10 +23,10 @@ class App:
         if not os.path.exists(folder):
             os.mkdir(folder)
 
-
 if __name__ == "__main__":
     root = tk.Tk()
     app = App(root)
     root.mainloop() 
+
     
 # pip install -r libs.txt
