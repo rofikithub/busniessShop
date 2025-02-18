@@ -1,8 +1,10 @@
 import os
 import time
+from pyzbar.pyzbar import decode
 import cv2
 from tkinter import messagebox
 import tkinter as tk
+from PIL import Image, ImageTk
 from tkinter import filedialog as fd
 from num2words import num2words
 import playsound        # pip install --upgrade setuptools wheel  # pip install playsound
@@ -59,6 +61,51 @@ class CardController:
 
         CardController.cardBox(self)
         self.profit.set(Card.profit(self))
+
+    def scanToCard(self):
+        qunt   = '1'
+        name   = Product.pname(self.code)
+        price  = Product.price(name)
+        values = [name,price,qunt]
+
+        if(Card.chack(self,name)):
+            if ProductController.chackQun(self, [name, qunt]):
+                if(Card.update(self,values)):
+                    self.cardTotal.set(Card.total(self))
+                    self.paid.set(Card.total(self))
+                    # messagebox.showinfo("Update", "Successfully update quantity of "+name)
+                    # playsound.playsound(os.path.abspath("scan.mp3"), True)
+        else:
+            if ProductController.chackQun(self,[name,qunt]):
+                if(Card.create(self,values)):
+                    self.cardTotal.set(Card.total(self))
+                    self.paid.set(Card.total(self))
+                    # messagebox.showinfo("Success", name+" Successfully added to card")
+                    # playsound.playsound(os.path.abspath("scan.mp3"), True)
+
+        CardController.cardBox(self)
+        self.profit.set(Card.profit(self))
+        return True
+
+    def camera(self):
+        cap = cv2.VideoCapture(0)
+        while True:
+            ret, frame = cap.read()
+            if not ret:
+                break
+            decoded_objects = decode(frame)
+            for obj in decoded_objects:
+                self.code = obj.data.decode("utf-8")
+                if CardController.scanToCard(self):
+                    playsound.playsound(os.path.abspath("scan.mp3"), True)
+                    cv2.putText(frame, self.code, (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+                    break
+            cv2.imshow("QR Code Scanner", frame)
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+        cap.release()
+        cv2.destroyAllWindows()
+
 
     def refreshCard(self):
         ans = messagebox.askokcancel("Confirm", "Are you sure to refresh card?")
@@ -121,18 +168,6 @@ class CardController:
                 self.bill_box.insert (tk.END, "\t\t      ------------------------------------------------------------------------\n" )
                 self.bill_box.insert (tk.END, '\t\t\t\tDUE AMOUNT   \t=\t '+str(self.due.get())+'\n ')
 
-    def camera(self):
-        cam = cv2.VideoCapture(0)
-        cam.set(5, 640)
-        cam.set(6, 480)
-
-        camera = True
-        while camera == True:
-            ret, frame = cam.read()
-            if not ret:
-                print("Failed to grab frame")
-            cv2.imshow("QR CODE SCANNER", frame)
-            cv2.waitKey(1)
 
     def cardSpeaker(self):
         if self.volume_image["toggle"]:

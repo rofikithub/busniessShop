@@ -9,4 +9,5 @@ SpeechRecognition
 PyAudio
 num2words
 auto-py-to-exe
-cx_Freeze
+pyzbar
+numpy

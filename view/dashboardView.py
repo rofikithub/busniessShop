@@ -5,6 +5,7 @@ from types import LambdaType
 from PIL import ImageTk,Image
 from tkinter import messagebox
 import PIL
+import cv2
 from tkinter_webcam import webcam
 from importlib.metadata import files
 from PIL import Image as PIM, ImageTk
@@ -146,11 +147,20 @@ class dashboardView:
         add_to_cart_btn1 = tk.Button(add_card_frame, command=lambda:CardController.addToCard(self), text="Add to card", padx=20, bg="#ddd", fg="black", font=("Arial", 8), border=0.5)
         add_to_cart_btn1.pack(side='bottom')
 
+        # self.video_frame  = tk.Frame(details_label_frame, width=150, height=100, bg="black")
+        # self.video_frame .pack()
+        # self.video_label = tk.Label(self.video_frame)
+        # self.video_label.pack()
 
-        # add_card_frame = tk.Frame(details_label_frame)
-        # add_card_frame.pack(fill=tk.BOTH, side='top', pady=20 )
-        # add_to_cart_btn1 = tk.Button(add_card_frame, command=lambda:CardController.camera(self), text="Camera", padx=20, bg="#444", fg="white", font=("Arial", 8), border=0.5)
-        # add_to_cart_btn1.pack(side='bottom')
+        video_img = Image.open("./image/video.png").resize((45, 25))
+        video_ico = ImageTk.PhotoImage(video_img)
+        camera_frame = tk.Frame(details_label_frame)
+        camera_frame.pack(fill=tk.BOTH, side='top', pady=20 )
+        camera_frame_btn = tk.Button(camera_frame, text="Camera", image=video_ico, command=lambda:CardController.camera(self), padx=20, cursor='hand2', border=0.1)
+        camera_frame_btn.image=video_ico
+        camera_frame_btn.pack()
+        camera_frame_label = Label(camera_frame, text="Click camera icon for open and Close for tab - Q", font=("Arial", 7))
+        camera_frame_label.pack(side='bottom')
 
         # Select by nane
         label_frame = tk.LabelFrame(details_frame, text="Select product by name", padx=10, pady=10)

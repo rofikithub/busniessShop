@@ -61,7 +61,7 @@ class Product:
             return result[0][0]
         else:
             return None
-
+        
     def getid(self,name):
         query = 'SELECT id FROM products WHERE product_name=?'
         params = (name,)
