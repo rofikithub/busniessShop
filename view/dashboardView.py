@@ -146,23 +146,30 @@ class dashboardView:
         add_to_cart_btn1 = tk.Button(add_card_frame, command=lambda:CardController.addToCard(self), text="Add to card", padx=20, bg="#ddd", fg="black", font=("Arial", 8), border=0.5)
         add_to_cart_btn1.pack(side='bottom')
 
-        video_img = Image.open("./image/video.png").resize((37, 18))
-        video_ico = ImageTk.PhotoImage(video_img)
+        cmof_img = Image.open("./image/camera_of.png").resize((30, 20))
+        cmon_img = Image.open("./image/camera_on.png").resize((35, 20))
+        self.cm_of = ImageTk.PhotoImage(cmof_img)
+        self.cm_on = ImageTk.PhotoImage(cmon_img)
+        self.camera_image = {"toggle": True}
         camera_frame = tk.Frame(details_label_frame)
         camera_frame.pack(fill=tk.BOTH, side='top', pady=15 )
-        camera_frame_btn = tk.Button(camera_frame, text="Camera", image=video_ico, command=lambda:CardController.camera(self), padx=20, cursor='hand2', border=0.1)
-        camera_frame_btn.image=video_ico
-        camera_frame_btn.pack()
-        camera_frame_label = Label(camera_frame, text="Click camera icon for open and Close for tab - Q", font=("Arial", 7))
+        self.camera_frame_btn = tk.Button(camera_frame, text="Camera", image=self.cm_on, command=lambda:CardController.camera(self), padx=20, cursor='hand2', border=0.1)
+        self.camera_frame_btn.pack()
+        self.camera_frame_btn.image=self.cm_on
+        
+        camera_frame_label = Label(details_label_frame, text="Click camera icon for open and Close for tab - Q", font=("Arial", 8))
         camera_frame_label.pack(side='bottom')
 
-        on_img = Image.open("./image/microphonel.png").resize((20, 35))
-        img_on = ImageTk.PhotoImage(on_img)
+        mpof_img = Image.open("./image/microphone_of.png").resize((20, 30))
+        mpon_img = Image.open("./image/microphone_on.png").resize((20, 30))
+        self.mp_of = ImageTk.PhotoImage(mpof_img)
+        self.mp_on = ImageTk.PhotoImage(mpon_img)
+        self.speek_image = {"toggle": True}
         speek_frame = tk.Frame(details_label_frame)
         speek_frame.pack(fill=tk.BOTH, side='top', pady=15 )
-        self.speek_button = tk.Button(speek_frame, image=img_on, command=lambda:VoiceController.voice(self), cursor='hand2', padx=20, fg="black", font=("Arial", 8), border=0.1)
-        self.speek_button.image = img_on
+        self.speek_button = tk.Button(speek_frame, image=self.mp_on, command=lambda:VoiceController.voice(self), cursor='hand2', padx=20, fg="black", font=("Arial", 8), border=0.1)
         self.speek_button.pack()
+        self.speek_button.image = self.mp_on
 
 
         # Select by nane
@@ -274,15 +281,15 @@ class dashboardView:
         add_to_cart_btn1 = tk.Button(add_card_frame, command=lambda:CardController.refreshCard(self), text="Refresh Card", padx=20, bg="#ddd", fg="black", font=("Arial", 8), border=0.5)
         add_to_cart_btn1.pack(side='left')
 
-        off_img = Image.open("./image/volume_off.png").resize((20, 15))
-        on_img = Image.open("./image/volume_on.png").resize((20, 15))
-        self.v_off_img = ImageTk.PhotoImage(off_img)
-        self.v_on_img = ImageTk.PhotoImage(on_img)
+        auof_img = Image.open("./image/audio_of.png").resize((25, 18))
+        auon_img = Image.open("./image/audio_on.png").resize((25, 18))
+        self.au_of = ImageTk.PhotoImage(auof_img)
+        self.au_on = ImageTk.PhotoImage(auon_img)
         self.volume_image = {"toggle": True}
         volume_frame = tk.Frame(card_label_frame, padx=3 )
         volume_frame.pack(fill=tk.BOTH, side='left')
-        self.volume_button = tk.Button(volume_frame, image=self.v_off_img, command=lambda:CardController.cardSpeaker(self), cursor='hand2', padx=20, fg="black", font=("Arial", 8), border=0.1)
-        self.volume_button.image = self.v_off_img
+        self.volume_button = tk.Button(volume_frame, image=self.au_on, command=lambda:CardController.cardSpeaker(self), cursor='hand2', padx=20, fg="black", font=("Arial", 8), border=0.1)
+        self.volume_button.image = self.au_on
         self.volume_button.pack(side='left')
 
         # Billing option
@@ -307,7 +314,7 @@ class dashboardView:
         
         
         
-        shop_name = tk.Label(root, text='© 2025 - Softwar Developed by Md. Rafikul Islam (Rofik), Phone- 01737034338, Email- rofik.it.bd@gmail.com', font=("Times New Roman", 7))
+        shop_name = tk.Label(root, text='© 2025 - Softwar Developed by Md. Rafikul Islam (Rofik), Phone- 01737034338, Email- rofik.it.bd@gmail.com', font=("Times New Roman", 8))
         shop_name.pack(side=BOTTOM, anchor='s')
         
 

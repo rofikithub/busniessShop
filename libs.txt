@@ -11,4 +11,8 @@ num2words
 auto-py-to-exe
 pyzbar
 numpy
-schedule
+langdetect
+langid
+playsound==1.2.2
+easygoogletranslate
+googlesearch-python

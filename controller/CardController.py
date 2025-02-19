@@ -88,23 +88,34 @@ class CardController:
         return True
 
     def camera(self):
-        cap = cv2.VideoCapture(0)
-        while True:
-            ret, frame = cap.read()
-            if not ret:
-                break
-            decoded_objects = decode(frame)
-            for obj in decoded_objects:
-                self.code = obj.data.decode("utf-8")
-                if CardController.scanToCard(self):
-                    playsound.playsound(os.path.abspath("scan.mp3"), True)
-                    cv2.putText(frame, self.code, (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+        if self.camera_image["toggle"]:
+            
+            self.camera_frame_btn.config(image=self.cm_of)
+            self.camera_frame_btn.image = self.cm_of
+            
+            cap = cv2.VideoCapture(0)
+            while True:
+                ret, frame = cap.read()
+                if not ret:
                     break
-            cv2.imshow("QR Code Scanner", frame)
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
-        cap.release()
-        cv2.destroyAllWindows()
+                decoded_objects = decode(frame)
+                for obj in decoded_objects:
+                    self.code = obj.data.decode("utf-8")
+                    if CardController.scanToCard(self):
+                        playsound.playsound(os.path.abspath("scan.mp3"), True)
+                        cv2.putText(frame, self.code, (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+                        break
+                cv2.imshow("QR Code Scanner", frame)
+                if cv2.waitKey(1) & 0xFF == ord('q'):
+                    break
+            cap.release()
+            cv2.destroyAllWindows()
+            
+        else:
+            self.camera_frame_btn.config(image=self.cm_on)
+            self.camera_frame_btn.image = self.cm_on
+            
+        self.camera_image["toggle"] = not self.camera_image["toggle"]
 
 
     def refreshCard(self):
@@ -171,22 +182,22 @@ class CardController:
 
     def cardSpeaker(self):
         if self.volume_image["toggle"]:
-            self.volume_button.config(image=self.v_on_img)
-            self.volume_button.image = self.v_on_img
+            self.volume_button.config(image=self.au_of)
+            self.volume_button.image = self.au_of
             
             list = Card.all(self)
             texts = ''
-            
-            for lists in list:
-                    texts = '   '+str(lists[1])+'  price   '+num2words(str(lists[2]), lang='en-US')+'    quantity   '+num2words(str(lists[3]), lang='en-US')+' \n\n\n'
-                    toSpeak = gTTS(text=texts, lang='en', tld='us')
-                    file = "audio.mp3"
-                    toSpeak.save(file)
-                    playsound.playsound(file, True)
-                    os.remove(file)
+            if list:
+                for lists in list:
+                        texts = '   '+str(lists[1])+'  price   '+num2words(str(lists[2]), lang='en-US')+'    quantity   '+num2words(str(lists[3]), lang='en-US')+' \n\n\n'
+                        toSpeak = gTTS(text=texts, lang='en', tld='us')
+                        file = "audio.mp3"
+                        toSpeak.save(file)
+                        playsound.playsound(file, True)
+                        os.remove(file)
         else:
-            self.volume_button.config(image=self.v_off_img)
-            self.volume_button.image = self.v_off_img
+            self.volume_button.config(image=self.au_on)
+            self.volume_button.image = self.au_on
             
         self.volume_image["toggle"] = not self.volume_image["toggle"]
         
