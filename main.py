@@ -16,7 +16,7 @@ from reportlab.graphics.barcode import ecc200datamatrix
 
 class App:
     def __init__(self, root):
-        #loginView(root)
+        # loginView(root)
         dashboardView(root)
         
         folder = "report"
@@ -29,4 +29,4 @@ if __name__ == "__main__":
     root.mainloop() 
 
     
-# pip install -r libs.txt
+# pip install -r libs.txt # lllll
