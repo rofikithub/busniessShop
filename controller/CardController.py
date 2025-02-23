@@ -121,11 +121,16 @@ class CardController:
     def refreshCard(self):
         ans = messagebox.askokcancel("Confirm", "Are you sure to refresh card?")
         if ans == True:
+            shop = Shop().onselect()
             sms = Card.delete(self)
             if(sms==True):
                 self.cardTotal.set(Card.total(self))
                 self.paid.set(self.cardTotal.get())
                 self.profit.set(Card.profit(self))
+                self.bill_box.delete('1.0', tk.END)
+                self.bill_box.insert(tk.END, '\t\t\t'+str(shop[0])+'\n')
+                self.bill_box.insert(tk.END, '\t\t\t        '+str(shop[1])+'\n')
+                self.bill_box.insert(tk.END, '\t\t\t           Mobile : - '+str(shop[2])+'\n')
                 messagebox.showinfo("Success", " Successfully refresh your card")
 
 
@@ -190,7 +195,7 @@ class CardController:
             if list:
                 for lists in list:
                         texts = '   '+str(lists[1])+'  price   '+num2words(str(lists[2]), lang='en-US')+'    quantity   '+num2words(str(lists[3]), lang='en-US')+' \n\n\n'
-                        toSpeak = gTTS(text=texts, lang='en', tld='us')
+                        toSpeak = gTTS(text=texts, lang='en-US', tld='us')
                         file = "audio.mp3"
                         toSpeak.save(file)
                         playsound.playsound(file, True)

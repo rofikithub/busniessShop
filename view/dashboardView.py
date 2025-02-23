@@ -157,7 +157,7 @@ class dashboardView:
         self.camera_frame_btn.pack()
         self.camera_frame_btn.image=self.cm_on
         
-        camera_frame_label = Label(details_label_frame, text="Click camera icon for open and Close for tab - Q", font=("Arial", 8))
+        camera_frame_label = Label(details_label_frame, text="Click camera icon for open and Close for tab - q", font=("Arial", 8))
         camera_frame_label.pack(side='bottom')
 
         mpof_img = Image.open("./image/microphone_of.png").resize((20, 30))

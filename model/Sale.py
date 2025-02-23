@@ -89,3 +89,12 @@ class Sale:
             return True
         else:
             return None
+        
+    def updateReturn(self,data):
+        query = "UPDATE sales SET total = ?, less = ?, due = ?, paid = ?, status = ?, profit =? WHERE id = ?"
+        params = (data[0],data[1],data[2],data[3],data[4],data[5],data[6])
+        result = database.update(query,params)
+        if result == True:
+            return True
+        else:
+            return None

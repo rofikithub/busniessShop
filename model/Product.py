@@ -117,3 +117,12 @@ class Product:
             return True
         else:
             return None
+        
+    def getProfit(id):
+        query = 'SELECT sall_price,cost_price FROM products WHERE id=?'
+        params = (id,)
+        result = database.onselect(query,params)
+        if result:
+            return result[0][0]-result[0][1]
+        else:
+            return None

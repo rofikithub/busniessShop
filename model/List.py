@@ -53,3 +53,12 @@ class List:
             return result
         else:
             return None
+        
+    def updateReturn(qun,lid):
+        query = "UPDATE lists SET qun = ? WHERE id = ?"
+        params = (qun,lid)
+        result = database.update(query,params)
+        if result == True:
+            return True
+        else:
+            return None
