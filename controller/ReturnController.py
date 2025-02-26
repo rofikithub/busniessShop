@@ -78,7 +78,7 @@ class ReturnController:
                     self.tkReturn = (oldPaid-paidAmount)
                     
                 if self.tkReturn>0:
-                    anss = messagebox.askokcancel("Confirm", str(tkReturn) +' Taka has to be refunded.')
+                    anss = messagebox.askokcancel("Confirm", str(self.tkReturn) +' Taka has to be refunded.')
                     if anss == True:
                         if Sale.updateReturn(self,[newTotal,newLess,newDue,newPaid,newStatus,newProfit,sid]):
                             if List.updateReturn(pqun,lid):

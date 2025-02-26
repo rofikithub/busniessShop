@@ -29,4 +29,4 @@ if __name__ == "__main__":
     root.mainloop() 
 
     
-# pip install -r libs.txt # lllll
+# pip install -r libs.txt

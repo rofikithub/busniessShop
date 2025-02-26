@@ -56,7 +56,7 @@ class BillController:
                             BillController.searchBill(self)
                             messagebox.showinfo("Success", "Bill has been created successfully")
                 else:
-                    cid = Customer.create([name, mobile, email])
+                    cid = Customer.create(self,[name, mobile, email])
                     if cid:
                         sid = Sale().create([cid, total,less,due,paid,'1',profit,dates])
                         if sid:

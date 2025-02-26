@@ -13,8 +13,8 @@ class Product:
                                         product_name TEXT NOT NULL,
                                         category TEXT NOT NULL,
                                         quantity INTEGER NOT NULL,
-                                        sall_price REAL NOT NULL,
-                                        cost_price REAL NOT NULL
+                                        sall_price INTEGER NOT NULL,
+                                        cost_price INTEGER NOT NULL
                                     )''')
 
     def create(self,data):
