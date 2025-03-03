@@ -30,7 +30,7 @@ class VoiceController:
             toSpeak = gTTS(text=text, lang ='bn', slow = False)
         elif lan=="en":
             toSpeak = gTTS(text=text, lang ='en', slow = False)
-        file = "audio.mp3"
+        file = os.path.abspath(os.path.expanduser( '~' )+"\\AppData\\Local\\BMS\\audio.mp3")
         toSpeak.save(file)
         playsound.playsound(file, True)
         os.remove(file)

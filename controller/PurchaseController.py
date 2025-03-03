@@ -168,7 +168,7 @@ class PurchaseController:
                         </table>
                     </html>
                 '''
-                pdf_path = os.path.abspath("report/purchase.pdf")
+                pdf_path = os.path.abspath(os.path.expanduser( '~' )+"\\AppData\\Local\\BMS\\report\\purchase.pdf")
 
                 with open(pdf_path, "wb") as pdf_file:
                     pisa_status = pisa.CreatePDF(html, dest=pdf_file)

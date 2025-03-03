@@ -20,7 +20,7 @@ class SettingController:
             messagebox.showwarning("Warning", "Please enter shop number ! ")
         else:
             chack = Shop().chack()
-            if not len(chack) == 0:
+            if chack:
                 if Shop().update([sname,address,mobile]):
                     messagebox.showinfo("Update", "Successfully update shop informetion. ")
             else:

@@ -55,6 +55,6 @@ class loginView:
         link_label.pack(side='bottom',anchor='s')
         link_label.bind("<Button-1>", goLink)
 
-        self.mobile_entry.insert(0,"01737034338")
-        self.password_entry.insert(0,"120225")
+        # self.mobile_entry.insert(0,"01737034338")
+        # self.password_entry.insert(0,"120225")
 

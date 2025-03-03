@@ -261,7 +261,7 @@ class BillController:
                                 </tbody>
                             </table>
                             </html>'''
-                    pdf_path = os.path.abspath("report/invoice.pdf")
+                    pdf_path = os.path.abspath(os.path.expanduser( '~' )+"\\AppData\\Local\\BMS\\report\\invoice.pdf")
 
                     with open(pdf_path, "wb") as pdf_file:
                         pisa_status = pisa.CreatePDF(html, dest=pdf_file)

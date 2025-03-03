@@ -91,12 +91,12 @@ class SalesController:
         if status==0:
             plist = Sale.getall(self)
             title = "SALES LIST"
-            pdf_path = os.path.abspath("report/salesList.pdf")
+            pdf_path = os.path.abspath(os.path.expanduser( '~' )+"\\AppData\\Local\\BMS\\report\\salesList.pdf")
 
         elif status==1:
             plist = Sale.getdue(self)
             title = "DUE LIST"
-            pdf_path = os.path.abspath("report/dueList.pdf")
+            pdf_path = os.path.abspath(os.path.expanduser( '~' )+"\\AppData\\Local\\BMS\\report\\dueList.pdf")
 
         elif status==2:
             fm  = self.from_entry.get()
@@ -104,7 +104,7 @@ class SalesController:
             plist = Sale.fromTo(self,[fm,to])
             if plist:
                 title = 'SALES LIST <br>'+str(fm)+' TO '+str(to)
-                pdf_path = os.path.abspath("report/fromTo.pdf")
+                pdf_path = os.path.abspath(os.path.expanduser( '~' )+"\\AppData\\Local\\BMS\\report\\fromTo.pdf")
             else:
                 messagebox.showwarning("Warning", "Please select the correct date!")
 

@@ -148,7 +148,7 @@ class ProductController:
                         </table>
                     </html>
                 '''
-                pdf_path = os.path.abspath("report/product.pdf")
+                pdf_path = os.path.abspath(os.path.expanduser( '~' )+"\\AppData\\Local\\BMS\\report\\product.pdf")
 
                 with open(pdf_path, "wb") as pdf_file:
                     pisa_status = pisa.CreatePDF(html, dest=pdf_file)
@@ -177,14 +177,10 @@ class ProductController:
 
 
     def printqr(self):
-        
-        folder = "qrpng"
-        if not os.path.exists(folder):
-            os.mkdir(folder)
-
-        for filename in os.listdir('qrpng'):
+        qrpng = os.path.expanduser( '~' )+"\\AppData\\Local\\BMS\\qrpng"
+        for filename in os.listdir(qrpng):
             if filename.endswith('.png'):
-                os.remove(os.path.join('qrpng', filename))
+                os.remove(os.path.join(qrpng, filename))
 
         id = self.proID.get()
         if not id:
@@ -194,7 +190,7 @@ class ProductController:
             qun = self.proQun.get()
             for no in range(qun):
                 img = qrcode.make(id)
-                img.save('qrpng/'+str(id)+'_'+str(no)+'.png')
+                img.save(qrpng + '\\'+str(id)+'_'+str(no)+'.png')
 
             images = ""
             for sl in range(1, qun+1):
@@ -204,7 +200,7 @@ class ProductController:
                 elif int(repr(sl)[-1])==5:
                     br = '</br>'
 
-                url = 'qrpng/'+str(id)+'_'+str(no)+'.png'
+                url = qrpng + '\\'+str(id)+'_'+str(no)+'.png'
                 img = '''<span><img src="'''+str(url)+'''" width="145" height="145">'''+str(br)+'''</span>'''
                 images = str(images) + str(img)
 
@@ -224,7 +220,7 @@ class ProductController:
                     </body>
                 </html>
             '''
-            pdf_qrpath = os.path.abspath("report/qrcode.pdf")
+            pdf_qrpath = os.path.abspath(os.path.expanduser( '~' )+"\\AppData\\Local\\BMS\\report\\qrcode.pdf")
 
             with open(pdf_qrpath, "wb") as pdf_file:
                 pisa_status = pisa.CreatePDF(html, dest=pdf_file)

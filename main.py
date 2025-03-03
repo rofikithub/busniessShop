@@ -16,12 +16,20 @@ from reportlab.graphics.barcode import ecc200datamatrix
 
 class App:
     def __init__(self, root):
-        # loginView(root)
-        dashboardView(root)
         
-        folder = "report"
-        if not os.path.exists(folder):
-            os.mkdir(folder)
+        loginView(root)
+        # dashboardView(root)
+        
+        home_directory = os.path.expanduser( '~' )
+        
+        report = (home_directory+"\\AppData\\Local\\BMS\\report")
+        if not os.path.exists(report):
+            os.mkdir(report)
+            
+        qrpng = (home_directory+"\\AppData\\Local\\BMS\\qrpng")
+        if not os.path.exists(qrpng):
+            os.mkdir(qrpng)
+
 
 if __name__ == "__main__":
     root = tk.Tk()

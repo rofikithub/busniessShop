@@ -96,7 +96,7 @@ class CustomerController:
                         </table>
                     </html>
                 '''
-                pdf_path = os.path.abspath("report/customer.pdf")
+                pdf_path = os.path.abspath(os.path.expanduser( '~' )+"\\AppData\\Local\\BMS\\report\\customer.pdf")
 
                 with open(pdf_path, "wb") as pdf_file:
                     pisa_status = pisa.CreatePDF(html, dest=pdf_file)

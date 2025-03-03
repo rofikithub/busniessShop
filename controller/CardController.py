@@ -196,7 +196,7 @@ class CardController:
                 for lists in list:
                         texts = '   '+str(lists[1])+'  price   '+num2words(str(lists[2]), lang='en-US')+'    quantity   '+num2words(str(lists[3]), lang='en-US')+' \n\n\n'
                         toSpeak = gTTS(text=texts, lang='en-US', tld='us')
-                        file = "audio.mp3"
+                        file = os.path.abspath(os.path.expanduser( '~' )+"\\AppData\\Local\\BMS\\audio.mp3")
                         toSpeak.save(file)
                         playsound.playsound(file, True)
                         os.remove(file)
