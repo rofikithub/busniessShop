@@ -1,6 +1,8 @@
+import json
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
+from tkinter import colorchooser
 from PIL import ImageTk,Image
 from tkinter import messagebox
 import PIL
@@ -64,135 +66,155 @@ class dashboardView:
         menu_bar.add_command(label="Setting", command=self.setting)
         menu_bar.add_command(label="Help")
         root.config(menu=menu_bar)
-        # root.configure(background='#9AA6B2')
+        # root.configure(background="#eeeeee")
 
         # Title Bar
-        dashboard_frame = tk.Frame(root)
-        dashboard_frame.pack(side='top', expand=True)
-        label = tk.Label(dashboard_frame, text="Bill Management System", font=("Times New Roman", 20))
-        label.pack()
+        self.topbar_frame = tk.Frame(root)
+        self.topbar_frame.pack(side=TOP, expand = True)
         
-        shop_name = tk.Label(dashboard_frame, text="ESHOP ONLINE MARCATE CENTER", font=("Times New Roman", 8))
-        shop_name.pack()
+        self.logo_frame = tk.Frame(self.topbar_frame)
+        self.logo_frame.pack(side=LEFT)
+        
+        self.title_frame = tk.Frame(self.topbar_frame)
+        self.title_frame.pack(side='left')
+        
+        self.label = tk.Label(self.title_frame, text="Bill Management System", font=("Times New Roman", 20))
+        self.label.pack()
+        
+        self.myshop_name = tk.Label(self.title_frame, text="ESHOP ONLINE MARCATE CENTER", font=("Times New Roman", 8))
+        self.myshop_name.pack()
+        
+        
+        
+        # self.options_frame = tk.Frame(self.topbar_frame)
+        # self.options_frame.pack(side='left')
+        # self.screen_frame = tk.Frame(self.options_frame)
+        # self.screen_frame.pack(side='right')
+        # self.screen_label = tk.Label(self.screen_frame, text="Screen")
+        # self.screen_label.pack(side='left')
+        self.background = ttk.Combobox(self.title_frame, values=['Default','White', 'Red', 'Black', 'Green','Yellow'], state="readonly", width=17, background='white')
+        self.background.pack()
+        self.background.set(".. Windows Color ..")
+        self.background.bind('<<ComboboxSelected>>', self.thisBackground)  
 
 
         # Customer Details
-        customer_frame = tk.Frame(root, pady=5, padx=20)
-        customer_frame.pack(fill=tk.BOTH,side='top', expand=True)
-        customer_label_frame = tk.LabelFrame(customer_frame, text="Customer Details", pady=10, padx=10)
-        customer_label_frame.pack(fill=tk.BOTH, side='left', expand=True)
+        self.customer_frame = tk.Frame(root, pady=5, padx=20)
+        self.customer_frame.pack(fill=tk.BOTH,side='top', expand=True)
+        self.customer_label_frame = tk.LabelFrame(self.customer_frame, text="Customer Details", pady=10, padx=10)
+        self.customer_label_frame.pack(fill=tk.BOTH, side='left', expand=True)
 
-        bill_number_label = tk.Label(customer_label_frame, text="Bill Number:", pady=10, padx=20)
+        bill_number_label = tk.Label(self.customer_label_frame, text="Bill Number:", pady=2, padx=20)
         bill_number_label.pack(side='left')
-        self.bill_number_entry = tk.Entry(customer_label_frame, textvariable=self.billNo, bd=0.5, width=15, border=0, font=('Ubuntu', 13), highlightthickness=1,highlightbackground = "#ddd")
+        self.bill_number_entry = tk.Entry(self.customer_label_frame, textvariable=self.billNo, bd=0.5, width=15, border=0, font=('Ubuntu', 13), highlightthickness=1,highlightbackground = "#ddd")
         self.bill_number_entry.pack(side='left')
-        bill_number_search = tk.Button(customer_label_frame, command=lambda : BillController.searchBill(self),text="Search", padx=20, bg="#ddd", fg="black", font=("Arial", 8), border=0.5)
+        bill_number_search = tk.Button(self.customer_label_frame, command=lambda : BillController.searchBill(self),text="Search", padx=20, bg="#ddd", fg="black", font=("Arial", 9), border=0.5)
         bill_number_search.pack(side='left')
 
-        mobile_number_label = tk.Label(customer_label_frame, text="Mobile Number:", pady=10, padx=20)
+        mobile_number_label = tk.Label(self.customer_label_frame, text="Mobile Number:", pady=2, padx=20)
         mobile_number_label.pack(side='left')
-        self.mobile_number_entry = tk.Entry(customer_label_frame, textvariable=self.mobile, bd=0.5, width=15, font=12, border=0, highlightthickness=1,highlightbackground = "#ddd")
+        self.mobile_number_entry = tk.Entry(self.customer_label_frame, textvariable=self.mobile, bd=0.5, width=15, font=('Ubuntu', 13), border=0, highlightthickness=1,highlightbackground = "#ddd")
         self.mobile_number_entry.pack(side='left')
         self.mobile.trace("w", lambda name, index, mode, var=self.mobile: BillController.searchName(self))
 
-        customer_name_label = tk.Label(customer_label_frame, text="Customer Name", pady=10, padx=20)
+        customer_name_label = tk.Label(self.customer_label_frame, text="Customer Name", pady=2, padx=20)
         customer_name_label.pack(side='left')
-        self.customer_name_entry = tk.Entry(customer_label_frame, textvariable=self.name, bd=0.5, width=20, font=12, border=0, highlightthickness=1,highlightbackground = "#ddd")
+        self.customer_name_entry = tk.Entry(self.customer_label_frame, textvariable=self.name, bd=0.5, width=20, font=('Ubuntu', 13), border=0, highlightthickness=1,highlightbackground = "#ddd")
         self.customer_name_entry.pack(side='left')
 
 
-        email_address_label = tk.Label(customer_label_frame, text="Email Address:", pady=10, padx=20)
+        email_address_label = tk.Label(self.customer_label_frame, text="Email Address:", pady=2, padx=20)
         email_address_label.pack(side='left')
-        self.email_address_entry = tk.Entry(customer_label_frame, textvariable=self.email, bd=0.5, width=20, font=12, border=0, highlightthickness=1,highlightbackground = "#ddd")
+        self.email_address_entry = tk.Entry(self.customer_label_frame, textvariable=self.email, bd=0.5, width=20, font=('Ubuntu', 13), border=0, highlightthickness=1,highlightbackground = "#ddd")
         self.email_address_entry.pack(side='left')
         #self.email_address_entry.insert(0, "rofik@gmail.com")
 
 
         # Product and billing Frame
-        details_frame = tk.Frame(root, pady=5, padx=20)
-        details_frame.pack(fill=tk.BOTH, side='top', expand=True)
+        self.details_frame = tk.Frame(root, pady=5, padx=20)
+        self.details_frame.pack(fill=tk.BOTH, side='top', expand=True)
 
         # Select by category
-        details_label_frame = tk.LabelFrame(details_frame, text="Select product by category", pady=20, padx=20)
-        details_label_frame.pack(fill=tk.BOTH, side='left', expand=True)
+        self.details_label_frame = tk.LabelFrame(self.details_frame, text="Select product by category", pady=20, padx=20)
+        self.details_label_frame.pack(fill=tk.BOTH, side='left', expand=True)
 
 
-        category_frame = tk.Frame(details_label_frame)
-        category_frame.pack(fill=tk.BOTH, side='top' )
-        category_label = tk.Label(category_frame, text="Product Category", padx=20, pady=10)
-        category_label.pack(side='left')
-        self.category_select = ttk.Combobox(category_frame, state="readonly",values=Category().list(), width=30)
+        self.category_frame = tk.Frame(self.details_label_frame)
+        self.category_frame.pack(fill=tk.BOTH, side='top' )
+        self.category_label = tk.Label(self.category_frame, text="Product Category", padx=20, pady=10)
+        self.category_label.pack(side='left')
+        self.category_select = ttk.Combobox(self.category_frame, state="readonly",values=Category().list(), width=30)
         self.category_select.pack(side='left')
         self.category_select.bind('<<ComboboxSelected>>', self.thisCategory)
 
-        product_frame = tk.Frame(details_label_frame)
-        product_frame.pack(fill=tk.BOTH, side='top' )
-        product_name_label1 = tk.Label(product_frame, text="Product Name     ", padx=20, pady=10)
-        product_name_label1.pack(side='left')
-        self.product_name_entry1 = ttk.Combobox(product_frame, state="readonly", values=[], width=30)
+        self.product_frame = tk.Frame(self.details_label_frame)
+        self.product_frame.pack(fill=tk.BOTH, side='top' )
+        self.product_name_label1 = tk.Label(self.product_frame, text="Product Name     ", padx=20, pady=10)
+        self.product_name_label1.pack(side='left')
+        self.product_name_entry1 = ttk.Combobox(self.product_frame, state="readonly", values=[], width=30)
         self.product_name_entry1.pack(side='left')
         self.product_name_entry1.bind('<<ComboboxSelected>>', self.defaultQuntaty)
 
-        quntaty_frame = tk.Frame(details_label_frame)
-        quntaty_frame.pack(fill=tk.BOTH, side='top' )
-        quntaty_label1 = tk.Label(quntaty_frame, text="Product Quantity  ", padx=20, pady=10)
-        quntaty_label1.pack(side='left')
-        self.quntaty_entry1 = tk.Entry(quntaty_frame, textvariable=self.qun, width=22, font=12, border=0, highlightthickness=1,highlightbackground = "#ddd")
+        self.quntaty_frame = tk.Frame(self.details_label_frame)
+        self.quntaty_frame.pack(fill=tk.BOTH, side='top' )
+        self.quntaty_label1 = tk.Label(self.quntaty_frame, text="Product Quantity  ", padx=20, pady=10)
+        self.quntaty_label1.pack(side='left')
+        self.quntaty_entry1 = tk.Entry(self.quntaty_frame, textvariable=self.qun, width=22, font=12, border=0, highlightthickness=1,highlightbackground = "#ddd")
         self.quntaty_entry1.pack(side='left')
 
 
-        add_card_frame = tk.Frame(details_label_frame)
-        add_card_frame.pack(fill=tk.BOTH, side='top', pady=20 )
-        add_to_cart_btn1 = tk.Button(add_card_frame, command=lambda:CardController.addToCard(self), text="Add to card", padx=20, bg="#ddd", fg="black", font=("Arial", 8), border=0.5)
-        add_to_cart_btn1.pack(side='bottom')
+        self.add_card_frame1 = tk.Frame(self.details_label_frame)
+        self.add_card_frame1.pack(fill=tk.Y, side='top', pady=20 )
+        self.add_to_cart_btn1 = tk.Button(self.add_card_frame1, command=lambda:CardController.addToCard(self), text="Add to card", padx=20, bg="#ddd", fg="black", font=("Arial", 8), border=0.5)
+        self.add_to_cart_btn1.pack(side='bottom')
 
         cmof_img = Image.open("./image/camera_of.png").resize((30, 20))
         cmon_img = Image.open("./image/camera_on.png").resize((35, 20))
         self.cm_of = ImageTk.PhotoImage(cmof_img)
         self.cm_on = ImageTk.PhotoImage(cmon_img)
         self.camera_image = {"toggle": True}
-        camera_frame = tk.Frame(details_label_frame)
-        camera_frame.pack(fill=tk.BOTH, side='top', pady=15 )
-        self.camera_frame_btn = tk.Button(camera_frame, text="Camera", image=self.cm_on, command=lambda:CardController.camera(self), padx=20, cursor='hand2', border=0.1)
+        self.camera_frame = tk.Frame(self.details_label_frame)
+        self.camera_frame.pack(fill=tk.BOTH, side='top', pady=15 )
+        self.camera_frame_btn = tk.Button(self.camera_frame, text="Camera", image=self.cm_on, command=lambda:CardController.camera(self), padx=20, cursor='hand2', border=0.1)
         self.camera_frame_btn.pack()
         self.camera_frame_btn.image=self.cm_on
         
-        camera_frame_label = Label(details_label_frame, text="Click camera icon for open and Close for tab - q", font=("Arial", 8))
-        camera_frame_label.pack(side='bottom')
+        self.camera_frame_label = Label(self.details_label_frame, text="Click camera icon for open and Close for tab - q", font=("Arial", 8))
+        self.camera_frame_label.pack(side='bottom')
 
-        mpof_img = Image.open("./image/microphone_of.png").resize((20, 30))
-        mpon_img = Image.open("./image/microphone_on.png").resize((20, 30))
-        self.mp_of = ImageTk.PhotoImage(mpof_img)
-        self.mp_on = ImageTk.PhotoImage(mpon_img)
-        self.speek_image = {"toggle": True}
-        speek_frame = tk.Frame(details_label_frame)
-        speek_frame.pack(fill=tk.BOTH, side='top', pady=15 )
-        self.speek_button = tk.Button(speek_frame, image=self.mp_on, command=lambda:VoiceController.voice(self), cursor='hand2', padx=20, fg="black", font=("Arial", 8), border=0.1)
-        self.speek_button.pack()
-        self.speek_button.image = self.mp_on
+        # mpof_img = Image.open("./image/microphone_of.png").resize((20, 30))
+        # mpon_img = Image.open("./image/microphone_on.png").resize((20, 30))
+        # self.mp_of = ImageTk.PhotoImage(mpof_img)
+        # self.mp_on = ImageTk.PhotoImage(mpon_img)
+        # self.speek_image = {"toggle": True}
+        # speek_frame = tk.Frame(self.details_label_frame)
+        # speek_frame.pack(fill=tk.BOTH, side='top', pady=15 )
+        # self.speek_button = tk.Button(speek_frame, image=self.mp_on, command=lambda:VoiceController.voice(self), cursor='hand2', padx=20, fg="black", font=("Arial", 8), border=0.1)
+        # self.speek_button.pack()
+        # self.speek_button.image = self.mp_on
 
 
         # Select by nane
-        label_frame = tk.LabelFrame(details_frame, text="Select product by name", padx=10, pady=10)
-        label_frame.pack(fill=tk.BOTH, side='left' )
+        self.label_frame = tk.LabelFrame(self.details_frame, text="Select product by name", padx=10, pady=10)
+        self.label_frame.pack(fill=tk.BOTH, side='left' )
 
-        name_label_frame = tk.Frame(label_frame)
-        name_label_frame.pack(fill=tk.BOTH, side=TOP, expand=True)
+        self.name_label_frame = tk.Frame(self.label_frame)
+        self.name_label_frame.pack(fill=tk.BOTH, side=TOP, expand=True)
 
         def on_configure(event):
             canvas.configure ( scrollregion=canvas.bbox ( 'all' ) )
         
-        canvas = tk.Canvas ( name_label_frame, bg="white")
+        canvas = tk.Canvas ( self.name_label_frame)
         canvas.pack ( side="left", fill="both")
 
-        scrollbar = tk.Scrollbar ( name_label_frame, orient="vertical", command=canvas.yview, bg="white")
+        scrollbar = tk.Scrollbar ( self.name_label_frame, orient="vertical", command=canvas.yview, background='red')
         scrollbar.pack ( side="right", fill="y" )
 
         canvas.configure ( yscrollcommand=scrollbar.set )
         canvas.bind ( '<Configure>', on_configure )
 
-        frame_inside_canvas = tk.Frame ( canvas , bg="white")
-        canvas.create_window ( (0, 0), window=frame_inside_canvas, anchor='nw' )
+        self.frame_inside_canvas = tk.Frame ( canvas )
+        canvas.create_window ( (0, 0), window=self.frame_inside_canvas, anchor='nw' )
 
         products = Product().all()
         if products :
@@ -203,7 +225,7 @@ class dashboardView:
                 var = tk.IntVar()
                 self.checkbox_vars.append(var)
                 self.checkbox_values.append(product[1])
-                name_frame = tk.Frame(frame_inside_canvas, bg="white")
+                name_frame = tk.Frame(self.frame_inside_canvas, bg="white")
                 name_frame.pack(side='top', fill=tk.BOTH, expand=False)
                 product_checkbutton = tk.Checkbutton(name_frame, text=product[1], variable=var, height=1, bg="white")
                 product_checkbutton.pack(side='left', anchor=tk.NW, expand=True)
@@ -215,16 +237,16 @@ class dashboardView:
         # Set the canvas scroll region
         canvas.config ( scrollregion=canvas.bbox ( "all" ) )
 
-        add_card_frame = tk.Frame(label_frame, pady=5)
-        add_card_frame.pack(side=TOP, anchor='s')
-        add_to_cart_btn1 = tk.Button(add_card_frame, command=lambda:CardController.getQuntaty(self), text="Add to card", padx=20, bg="#ddd", fg="black", font=("Arial", 8), border=0.5)
-        add_to_cart_btn1.pack()
+        self.add_card_frame2 = tk.Frame(self.label_frame, pady=5)
+        self.add_card_frame2.pack(side=TOP, anchor='s')
+        self.add_to_cart_btn2 = tk.Button(self.add_card_frame2, command=lambda:CardController.getQuntaty(self), text="Add to card", padx=20, fg="black", font=("Arial", 8), border=0.5)
+        self.add_to_cart_btn2.pack()
 
         # Bill Area
-        bill_frame = tk.LabelFrame(details_frame, text="Bill Area", padx=10, pady=5, width=50, height=50)
-        bill_frame.pack(fill=tk.BOTH, side='top', expand=True)
+        self.bill_frame = tk.LabelFrame(self.details_frame, text="Bill Area", padx=10, pady=5, width=50, height=50)
+        self.bill_frame.pack(fill=tk.BOTH, side='top', expand=True)
 
-        self.bill_box = tk.Text(bill_frame, fg="black", font=("Arial", 9))
+        self.bill_box = tk.Text(self.bill_frame, fg="black", font=("Arial", 9))
         self.bill_box.pack(side='left')
 
         self.bill_box.delete('1.0', tk.END)
@@ -235,50 +257,49 @@ class dashboardView:
             self.bill_box.insert(tk.END, '\t\t\t           Mobile : - '+str(shop[2])+'\n')
         self.billDetails
 
-
-        # Option Frame
-        option_frame = tk.Frame(root, pady=5, padx=20)
-        option_frame.pack(fill=tk.BOTH, expand=True, side='top')
+        # Footer Options
+        self.option_frame = tk.Frame(root, pady=5, padx=20)
+        self.option_frame.pack(fill=tk.BOTH, expand=True, side='top')
 
         # Card option
-        card_label_frame = tk.LabelFrame(option_frame, text="Card Options", pady=10, padx=10)
-        card_label_frame.pack(fill=tk.BOTH, expand=True, side='left')
+        self.card_label_frame = tk.LabelFrame(self.option_frame, text="Card Options", pady=10, padx=10)
+        self.card_label_frame.pack(fill=tk.BOTH, expand=True, side='left')
 
 
-        total_frame = tk.Frame(card_label_frame, padx=10)
-        total_frame.pack(fill=tk.BOTH, side='left')
-        total_label = tk.Label(total_frame, text="Total", padx=15, pady=2, bg="#999")
+        self.total_frame = tk.Frame(self.card_label_frame, padx=10)
+        self.total_frame.pack(fill=tk.BOTH, side='left')
+        total_label = tk.Label(self.total_frame, text="Total", padx=15, pady=2, bg="#999")
         total_label.pack(side='left')
-        self.total_entry = tk.Entry(total_frame, textvariable=self.cardTotal, width=10, font=13, border=0, highlightthickness=1,highlightbackground = "#ddd", state='readonly')
+        self.total_entry = tk.Entry(self.total_frame, textvariable=self.cardTotal, width=10, font=13, border=0, highlightthickness=1,highlightbackground = "#ddd", state='readonly')
         self.total_entry.pack(side='left')
 
-        total_frame = tk.Frame(card_label_frame, padx=10)
-        total_frame.pack(fill=tk.BOTH, side='left' )
-        total_label = tk.Label(total_frame, text="Less", padx=10, pady=2, bg="#ddd")
+        self.less_frame = tk.Frame(self.card_label_frame, padx=10)
+        self.less_frame.pack(fill=tk.BOTH, side='left' )
+        total_label = tk.Label(self.less_frame, text="Less", padx=10, pady=2, bg="#ddd")
         total_label.pack(side='left')
-        self.less_entry = tk.Entry(total_frame, textvariable=self.less, width=7, font=5, border=0, highlightthickness=1,highlightbackground = "#ddd")
+        self.less_entry = tk.Entry(self.less_frame, textvariable=self.less, width=7, font=5, border=0, highlightthickness=1,highlightbackground = "#ddd")
         self.less_entry.pack(side='left')
         self.less.trace("w", lambda name, index, mode, var=IntVar: CardController.cardCalculate(self))
 
-        total_frame = tk.Frame(card_label_frame, padx=10)
-        total_frame.pack(fill=tk.BOTH, side='left' )
-        total_label = tk.Label(total_frame, text="Due", padx=10, pady=2, bg="#ddd")
+        self.due_frame = tk.Frame(self.card_label_frame, padx=10)
+        self.due_frame.pack(fill=tk.BOTH, side='left' )
+        total_label = tk.Label(self.due_frame, text="Due", padx=10, pady=2, bg="#ddd")
         total_label.pack(side='left')
-        self.due_entry = tk.Entry(total_frame, textvariable=self.due, width=7, font=5, border=0, highlightthickness=1,highlightbackground = "#ddd")
+        self.due_entry = tk.Entry(self.due_frame, textvariable=self.due, width=7, font=5, border=0, highlightthickness=1,highlightbackground = "#ddd")
         self.due_entry.pack(side='left')
         self.due.trace("w", lambda name, index, mode, var=IntVar: CardController.cardCalculate(self))
 
 
-        total_frame = tk.Frame(card_label_frame, padx=10)
-        total_frame.pack(fill=tk.BOTH, side='left' )
-        total_label = tk.Label(total_frame, text="Paid", padx=10, pady=2, bg="#999")
+        self.paid_frame = tk.Frame(self.card_label_frame, padx=10)
+        self.paid_frame.pack(fill=tk.BOTH, side='left' )
+        total_label = tk.Label(self.paid_frame, text="Paid", padx=10, pady=2, bg="#999")
         total_label.pack(side='left')
-        self.total_entry = tk.Entry(total_frame, textvariable=self.paid, width=10, font=13, border=0, highlightthickness=1,highlightbackground = "#ddd", state='readonly')
+        self.total_entry = tk.Entry(self.paid_frame, textvariable=self.paid, width=10, font=13, border=0, highlightthickness=1,highlightbackground = "#ddd", state='readonly')
         self.total_entry.pack(side='left')
 
-        add_card_frame = tk.Frame(card_label_frame, padx=20 )
-        add_card_frame.pack(fill=tk.BOTH, side='left')
-        add_to_cart_btn1 = tk.Button(add_card_frame, command=lambda:CardController.refreshCard(self), text="Refresh Card", padx=20, bg="#ddd", fg="black", font=("Arial", 8), border=0.5)
+        self.refresh_frame = tk.Frame(self.card_label_frame, padx=20 )
+        self.refresh_frame.pack(fill=tk.BOTH, side='left')
+        add_to_cart_btn1 = tk.Button(self.refresh_frame, command=lambda:CardController.refreshCard(self), text="Refresh Card", padx=20, bg="#ddd", fg="black", font=("Arial", 8), border=0.5)
         add_to_cart_btn1.pack(side='left')
 
         auof_img = Image.open("./image/audio_of.png").resize((25, 18))
@@ -286,37 +307,42 @@ class dashboardView:
         self.au_of = ImageTk.PhotoImage(auof_img)
         self.au_on = ImageTk.PhotoImage(auon_img)
         self.volume_image = {"toggle": True}
-        volume_frame = tk.Frame(card_label_frame, padx=3 )
-        volume_frame.pack(fill=tk.BOTH, side='left')
-        self.volume_button = tk.Button(volume_frame, image=self.au_on, command=lambda:CardController.cardSpeaker(self), cursor='hand2', padx=20, fg="black", font=("Arial", 8), border=0.1)
+        self.volume_frame = tk.Frame(self.card_label_frame, padx=3 )
+        self.volume_frame.pack(fill=tk.BOTH, side='left')
+        self.volume_button = tk.Button(self.volume_frame, image=self.au_on, command=lambda:CardController.cardSpeaker(self), cursor='hand2', padx=20, fg="black", font=("Arial", 8), border=0.1)
         self.volume_button.image = self.au_on
         self.volume_button.pack(side='left')
 
         # Billing option
-        bill_label_frame = tk.LabelFrame(option_frame, text="Bill Options", pady=10, padx=10)
-        bill_label_frame.pack(fill=tk.BOTH, expand=True, side='left')
+        self.bill_label_frame = tk.LabelFrame(self.option_frame, text="Bill Options", pady=10, padx=10)
+        self.bill_label_frame.pack(fill=tk.BOTH, expand=True, side='left')
 
 
-        frame = tk.Frame(bill_label_frame, padx=40)
-        frame.pack(fill=tk.BOTH, side='left' )
-        add_to_cart_btn = tk.Button(frame, text="Save Bill", command=lambda :BillController.createBill(self), padx=20, bg="#A2C579", fg="black", font=("Arial", 8), border=0.5)
+        self.save_frame = tk.Frame(self.bill_label_frame, padx=40)
+        self.save_frame.pack(fill=tk.BOTH, side='left' )
+        add_to_cart_btn = tk.Button(self.save_frame, text="Save Bill", command=lambda :BillController.createBill(self), padx=20, bg="#A2C579", fg="black", font=("Arial", 8), border=0.5)
         add_to_cart_btn.pack(side='left')
 
-        frame = tk.Frame(bill_label_frame, padx=20)
-        frame.pack(fill=tk.BOTH, side='left' )
-        add_to_cart_btn = tk.Button(frame, text="Print Bill", command=lambda: BillController.print(self), padx=30, bg="#ddd", fg="black", font=("Arial", 8), border=0.5)
+        self.print_frame = tk.Frame(self.bill_label_frame, padx=20)
+        self.print_frame.pack(fill=tk.BOTH, side='left' )
+        add_to_cart_btn = tk.Button(self.print_frame, text="Print Bill", command=lambda: BillController.print(self), padx=30, bg="#ddd", fg="black", font=("Arial", 8), border=0.5)
         add_to_cart_btn.pack(side='left')
 
-        frame = tk.Frame(bill_label_frame, padx=40)
-        frame.pack(fill=tk.BOTH, side='left' )
-        add_to_cart_btn = tk.Button(frame, command=lambda : self.logout(), text="Logout", padx=20, bg="#E25E3E", fg="black", font=("Arial", 8), border=0.5)
+        self.logout_frame = tk.Frame(self.bill_label_frame, padx=40)
+        self.logout_frame.pack(fill=tk.BOTH, side='left' )
+        add_to_cart_btn = tk.Button(self.logout_frame, command=lambda : self.logout(), text="Logout", padx=20, bg="#E25E3E", fg="black", font=("Arial", 8), border=0.5)
         add_to_cart_btn.pack(side='left')
         
         
         
-        shop_name = tk.Label(root, text='© 2025 - Softwar Developed by Md. Rafikul Islam (Rofik), Phone- 01737034338, Email- rofik.it.bd@gmail.com', font=("Times New Roman", 8))
-        shop_name.pack(side=BOTTOM, anchor='s')
+        self.shop_name = tk.Label(root, text='© 2025 - Softwar Developed by Md. Rafikul Islam (Rofik), Phone- 01737034338, Email- rofik.it.bd@gmail.com', font=("Times New Roman", 8))
+        self.shop_name.pack(side=BOTTOM, anchor='s')
         
+        
+        SettingController.getDeshboardBackground(self)
+                
+                
+
 
     def viewDealer(self):
         self.root.destroy()
@@ -375,3 +401,12 @@ class dashboardView:
         if ans == True:
             self.root.quit()
             
+    def thisBackground(self, event):
+        bg = None
+        color = self.background.get()
+        if color=='Default':
+            bg=("#eeeeee")
+        else:
+            bg=(color)
+        SettingController.updateJsonFile(self,"backgroundColor",bg)
+        SettingController.getDeshboardBackground(self)

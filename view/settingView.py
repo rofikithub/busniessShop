@@ -1,5 +1,7 @@
+import json
 import tkinter as tk
 from tkinter import TOP, LEFT, ttk, BOTH
+from tkinter import colorchooser
 from PIL import ImageTk, Image
 from PIL.ImageChops import screen
 from model.Category import Category
@@ -29,7 +31,14 @@ class settingView:
         def backDeshboard(event):
             self.root.destroy()
             dashboardView.dashboardView(tk.Tk())
-
+            
+        def choose_background():
+            color_code = colorchooser.askcolor(title ="Choose color")
+            with open("./system.json", "r") as file:
+                data = json.load(file)
+                data["backgroundColor"]= color_code[1]
+            with open("./system.json", "w") as file:
+                json.dump(data, file, indent=1)
 
         satting_frame = tk.Frame(root, padx=40, pady=10)
         satting_frame.pack(fill=tk.BOTH, expand=True, side=TOP)
@@ -65,10 +74,19 @@ class settingView:
         new_product_save_btn = tk.Button(btn_frame, text="Save", command= lambda: SettingController.createShop(self), padx=30, bg="#A2C579", fg="black", border=0.5)
         new_product_save_btn.pack(side=TOP)
 
-        go_back_label = tk.Label(setting_label_frame, text='Go back', borderwidth=0, relief="groove", bg="#176B87", fg="white", padx=20, cursor='hand2')
-        go_back_label.pack(side='bottom')
-        go_back_label.bind("<Button-1>", backDeshboard)
-
         SettingController.showUpdate(self)
 
 
+        self.bg_color_frame = tk.LabelFrame(satting_frame, text="Windows Background Color", padx=5, pady=5)
+        self.bg_color_frame.pack(fill=tk.BOTH, expand=True, side=TOP)
+        
+        bill_number_label = tk.Label(self.bg_color_frame, text="Select Background Color", pady=2, padx=20)
+        bill_number_label.pack(side='left')
+        bill_number_search = tk.Button(self.bg_color_frame,text="Search", command=choose_background, padx=20, bg="#ddd", fg="black", font=("Arial", 9), border=0.5)
+        bill_number_search.pack(side='left')
+        
+        go_back_label = tk.Label(satting_frame, text='Go back', borderwidth=0, relief="groove", bg="#176B87", fg="white", padx=20, cursor='hand2')
+        go_back_label.pack(side='bottom')
+        go_back_label.bind("<Button-1>", backDeshboard)
+        
+        

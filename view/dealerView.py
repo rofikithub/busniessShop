@@ -5,6 +5,7 @@ from PIL import ImageTk,Image
 
 from controller.DealerController import DealerController
 from controller.PurchaseController import PurchaseController
+from controller.SettingController import SettingController
 from model.Dealer import Dealer
 from view import dashboardView
 from controller.CustomerController import CustomerController
@@ -23,6 +24,8 @@ class dealerView:
         c_y = int(10)
         root.geometry(f'{ww}x{sh}+{c_x}+{c_y}')
         root.resizable(False, False)
+        
+        self.bg = SettingController.bgColor(self)
 
         self.did     = tk.IntVar()
         self.company = tk.StringVar()
@@ -44,122 +47,122 @@ class dealerView:
             dashboardView.dashboardView(tk.Tk())
 
 
-        frame = tk.Frame(root, padx=20, pady=20, relief=tk.RAISED)
+        frame = tk.Frame(root, padx=20, pady=20, relief=tk.RAISED, background=self.bg)
         frame.pack(fill=tk.BOTH, expand=True, side=TOP)
 
-        label_frame = tk.LabelFrame(frame, text="Dealer Details", padx=5, pady=5)
+        label_frame = tk.LabelFrame(frame, text="Dealer Details", padx=5, pady=5, background=self.bg)
         label_frame.pack(fill=tk.BOTH, expand=True, side=TOP)
 
 
         # Customer Details
-        dealer_frame = tk.Frame(label_frame, pady=5, padx=20)
+        dealer_frame = tk.Frame(label_frame, pady=5, padx=20, background=self.bg)
         dealer_frame.pack(side='top', expand=True)
 
-        company_label = tk.Label(dealer_frame, text="Company  ", padx=12)
+        company_label = tk.Label(dealer_frame, text="Company  ", padx=12, background=self.bg)
         company_label.pack(side='left')
         company_entry = tk.Entry(dealer_frame, textvariable=self.company, bd=0.5, width=20, border=0, font=('Arial', 10), highlightthickness=1,highlightbackground = "#ddd")
         company_entry.pack(side='left')
 
-        mobile_label = tk.Label(dealer_frame, text="Mobile ", padx=10)
+        mobile_label = tk.Label(dealer_frame, text="Mobile ", padx=10, background=self.bg)
         mobile_label.pack(side='left')
         mobile_entry = tk.Entry(dealer_frame, textvariable=self.mobile, bd=0.5, width=15, font=('Arial', 10), border=0, highlightthickness=1,highlightbackground = "#ddd")
         mobile_entry.pack(side='left')
 
-        srname_label = tk.Label(dealer_frame, text="SR Name ", padx=10)
+        srname_label = tk.Label(dealer_frame, text="SR Name ", padx=10, background=self.bg)
         srname_label.pack(side='left')
         srname_entry = tk.Entry(dealer_frame, textvariable=self.srname, bd=0.5, width=20, font=('Arial', 10), border=0, highlightthickness=1,highlightbackground = "#ddd")
         srname_entry.pack(side='left')
 
-        dealer_delete_frame = tk.Frame(dealer_frame, padx=5)
+        dealer_delete_frame = tk.Frame(dealer_frame, padx=5, background=self.bg)
         dealer_delete_frame.pack(side='left')
         dealer_delete_btn = tk.Button(dealer_delete_frame, command=lambda :DealerController.deleteDealer(self), text="Delete", padx=5, bg="#E25E3E", fg="black", font=("Arial", 8), border=0.5)
         dealer_delete_btn.pack(side='left')
 
-        dealer_update_frame = tk.Frame(dealer_frame)
+        dealer_update_frame = tk.Frame(dealer_frame, background=self.bg)
         dealer_update_frame.pack(side='left')
         dealer_update_btn = tk.Button(dealer_update_frame, command=lambda :DealerController.updateDealer(self), text="Update", padx=5, bg="#B0A695", fg="black", font=("Arial", 8), border=0.5)
         dealer_update_btn.pack(side='left')
 
-        dealer_save_frame = tk.Frame(dealer_frame, padx=5)
+        dealer_save_frame = tk.Frame(dealer_frame, padx=5, background=self.bg)
         dealer_save_frame.pack(side='left')
         dealer_save_btn = tk.Button(dealer_save_frame, command=lambda :DealerController.createDealer(self), text="Save", padx=15, bg="#A2C579", fg="black", font=("Arial", 8), border=0.5)
         dealer_save_btn.pack(side='left')
 
         # Update
-        option_frame = tk.Frame(label_frame)
+        option_frame = tk.Frame(label_frame, background=self.bg)
         option_frame.pack(side=TOP, expand=True)
 
-        company_frame = tk.Frame(option_frame, padx=10, pady=10)
+        company_frame = tk.Frame(option_frame, padx=10, pady=10, background=self.bg)
         company_frame.pack(side=LEFT, expand=True)
 
-        name_frame = tk.Frame(company_frame, padx=10, pady=7)
+        name_frame = tk.Frame(company_frame, padx=10, pady=7, background=self.bg)
         name_frame.pack(side=TOP)
-        company_name_label = tk.Label(name_frame, text="Company       ")
+        company_name_label = tk.Label(name_frame, text="Company       ", background=self.bg)
         company_name_label.pack(side=LEFT)
         self.company_name_entry = ttk.Combobox(name_frame, textvariable=self.dealer, values=Dealer.list(self), width=17, font=("Arial", 10))
         self.company_name_entry.pack(side=LEFT)
         self.company_name_entry.bind('<<ComboboxSelected>>', self.thisCompany)
 
 
-        voucher_frame = tk.Frame(company_frame, padx=10, pady=7)
+        voucher_frame = tk.Frame(company_frame, padx=10, pady=7, background=self.bg)
         voucher_frame.pack(side=TOP)
-        voucher_label = tk.Label(voucher_frame, text="Voucher No    ")
+        voucher_label = tk.Label(voucher_frame, text="Voucher No    ", background=self.bg)
         voucher_label.pack(side=LEFT)
         voucher_entry = tk.Entry(voucher_frame, textvariable=self.voucher, width=20, font=("Arial", 10), border=0, highlightthickness=1,highlightbackground="#ddd")
         voucher_entry.pack(side=LEFT)
 
-        purchase_frame = tk.Frame(company_frame, padx=10, pady=7)
+        purchase_frame = tk.Frame(company_frame, padx=10, pady=7, background=self.bg)
         purchase_frame.pack(side=TOP)
-        purchase_label = tk.Label(purchase_frame, text="Purchase         ")
+        purchase_label = tk.Label(purchase_frame, text="Purchase         ", background=self.bg)
         purchase_label.pack(side=LEFT)
         purchase_entry = tk.Entry(purchase_frame, textvariable=self.purchase, width=20, font=("Arial", 10), border=0, highlightthickness=1,highlightbackground="#ddd")
         purchase_entry.pack(side=LEFT)
 
-        payment_frame = tk.Frame(company_frame, padx=10, pady=7)
+        payment_frame = tk.Frame(company_frame, padx=10, pady=7, background=self.bg)
         payment_frame.pack(side=TOP)
-        payment_label = tk.Label(payment_frame, text="Payment          ")
+        payment_label = tk.Label(payment_frame, text="Payment          ", background=self.bg)
         payment_label.pack(side=LEFT)
         payment_entry = tk.Entry(payment_frame, textvariable=self.payment, width=20, font=("Arial", 10), border=0, highlightthickness=1,highlightbackground="#ddd")
         payment_entry.pack(side=LEFT)
         self.payment.trace("w", lambda name, index, mode, vars=vars: PurchaseController.purchaseCalculate(self))
 
-        newdue_frame = tk.Frame(company_frame, padx=10, pady=7)
+        newdue_frame = tk.Frame(company_frame, padx=10, pady=7, background=self.bg)
         newdue_frame.pack(side=TOP)
-        newdue_label = tk.Label(newdue_frame, text="New Due         ")
+        newdue_label = tk.Label(newdue_frame, text="New Due         ", background=self.bg)
         newdue_label.pack(side=LEFT)
         newdue_entry = tk.Entry(newdue_frame, textvariable=self.newDue, width=20, font=("Arial", 10), border=0, highlightthickness=1,highlightbackground="#ddd")
         newdue_entry.pack(side=LEFT)
 
-        revious_frame = tk.Frame(company_frame, padx=10, pady=7)
+        revious_frame = tk.Frame(company_frame, padx=10, pady=7, background=self.bg)
         revious_frame.pack(side=TOP)
-        revious_label = tk.Label(revious_frame, text="Previous Due   ")
+        revious_label = tk.Label(revious_frame, text="Previous Due   ", background=self.bg)
         revious_label.pack(side=LEFT)
         revious_entry = tk.Entry(revious_frame, textvariable=self.previous, width=20, font=("Arial", 10), border=0, highlightthickness=1,highlightbackground="#ddd")
         revious_entry.pack(side=LEFT)
 
-        total_frame = tk.Frame(company_frame, padx=10, pady=7)
+        total_frame = tk.Frame(company_frame, padx=10, pady=7, background=self.bg)
         total_frame.pack(side=TOP)
-        total_label = tk.Label(total_frame, text="Total Due        ")
+        total_label = tk.Label(total_frame, text="Total Due        ", background=self.bg)
         total_label.pack(side=LEFT)
         total_entry = tk.Entry(total_frame, textvariable=self.totalDue, width=20, font=("Arial", 10), border=0, highlightthickness=1,highlightbackground="#ddd")
         total_entry.pack(side=LEFT)
 
-        delete_frame = tk.Frame(company_frame, padx=5)
+        delete_frame = tk.Frame(company_frame, padx=5, background=self.bg)
         delete_frame.pack(fill=tk.BOTH, side=LEFT)
         delete_btn = tk.Button(delete_frame, command=lambda: PurchaseController.deletePurchase(self), padx=8, text="Delete", bg="#E25E3E", fg="black", font=("Arial", 8), border=0.5)
         delete_btn.pack(side=TOP)
 
-        print_frame = tk.Frame(company_frame, padx=5)
+        print_frame = tk.Frame(company_frame, padx=5, background=self.bg)
         print_frame.pack(fill=tk.BOTH, side=LEFT)
         print_btn = tk.Button(print_frame, command=lambda: PurchaseController.print(self), padx=8, text="Print", bg="#ddd", fg="black", font=("Arial", 8), border=0.5)
         print_btn.pack(side=TOP)
 
-        updates_frame = tk.Frame(company_frame, padx=5)
+        updates_frame = tk.Frame(company_frame, padx=5, background=self.bg)
         updates_frame.pack(fill=tk.BOTH, side=LEFT)
         updates_btn = tk.Button(updates_frame, command=lambda: PurchaseController.updatePurchase(self), padx=8, text="Update", bg="#B0A695", fg="black", font=("Arial", 8), border=0.5)
         updates_btn.pack(side=TOP)
 
-        save_frame = tk.Frame(company_frame, padx=5)
+        save_frame = tk.Frame(company_frame, padx=5, background=self.bg)
         save_frame.pack(fill=tk.BOTH, side=LEFT)
         save_btn = tk.Button(save_frame, command=lambda :PurchaseController.createPurchase(self), padx=11, text="Save", bg="#A2C579", fg="black", font=("Arial", 8), border=0.5)
         save_btn.pack(side=TOP)

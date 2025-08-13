@@ -1,0 +1,10 @@
+{
+"backgroundColor": "Red",
+"name": "Rofiq",
+"age": 30,
+"skills": [
+"Python",
+"PHP",
+"Tkinter"
+]
+}
