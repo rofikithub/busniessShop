@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import * # type: ignore
 from tkinter import ttk
 from PIL import ImageTk,Image
+from controller.SettingController import SettingController
 from view import dashboardView
 from controller.CustomerController import CustomerController
 from model.Category import Category
@@ -24,57 +25,59 @@ class customerView:
         self.cName   = tk.StringVar()
         self.cMobile = tk.StringVar()
         self.cEmail  = tk.StringVar()
-
+        
+        self.bg = SettingController.bgColor(self)
+        self.fg = SettingController.fgColor(self)
 
         def backDeshboard(event):
             self.root.destroy()
             dashboardView.dashboardView(tk.Tk())
 
 
-        frame = tk.Frame(root, padx=20, pady=20, relief=tk.RAISED)
+        frame = tk.Frame(root, padx=20, pady=20, relief=tk.RAISED, background=self.bg)
         frame.pack(fill=tk.BOTH, expand=True, side=TOP)
 
-        label_frame = tk.LabelFrame(frame, text="Customer add and update", padx=5, pady=5)
+        label_frame = tk.LabelFrame(frame, text="Customer add and update", padx=5, pady=5, background=self.bg, fg=self.fg)
         label_frame.pack(fill=tk.BOTH, expand=True, side=TOP)
 
         # Update
-        update_frame = tk.Frame(label_frame, padx=10, pady=10, bg=None)
+        update_frame = tk.Frame(label_frame, padx=10, pady=10, background=self.bg)
         update_frame.pack(side=LEFT, expand=True)
 
-        name_frame = tk.Frame(update_frame, padx=10, pady=10, bg=None)
+        name_frame = tk.Frame(update_frame, padx=10, pady=10, background=self.bg)
         name_frame.pack(side=TOP)
-        customer_name_label = tk.Label(name_frame, text="Name        ", bg=None)
+        customer_name_label = tk.Label(name_frame, text="Name        ", background=self.bg, fg=self.fg)
         customer_name_label.pack(side=LEFT)
         self.customer_name_entry = tk.Entry(name_frame, textvariable=self.cName, width=20, font=("Arial", 10), border=0, highlightthickness=1,highlightbackground="#ddd")
         self.customer_name_entry.pack(side=LEFT)
 
 
-        mobile_frame = tk.Frame(update_frame, padx=10, pady=10)
+        mobile_frame = tk.Frame(update_frame, padx=10, pady=10, background=self.bg)
         mobile_frame.pack(side=TOP)
-        mobile_label = tk.Label(mobile_frame, text="Mobile     ")
+        mobile_label = tk.Label(mobile_frame, text="Mobile     ", background=self.bg, fg=self.fg)
         mobile_label.pack(side=LEFT)
         self.mobile_entry = tk.Entry(mobile_frame, textvariable=self.cMobile, width=20, font=("Arial", 10), border=0, highlightthickness=1,highlightbackground="#ddd")
         self.mobile_entry.pack(side=LEFT)
 
-        email_frame = tk.Frame(update_frame, padx=10, pady=10)
+        email_frame = tk.Frame(update_frame, padx=10, pady=10, background=self.bg)
         email_frame.pack(side=TOP)
-        email_label = tk.Label(email_frame, text="Email       ")
+        email_label = tk.Label(email_frame, text="Email       ", background=self.bg, fg=self.fg)
         email_label.pack(side=LEFT)
         self.email_entry = tk.Entry(email_frame, textvariable=self.cEmail, width=20, font=("Arial", 10), border=0, highlightthickness=1,highlightbackground="#ddd")
         self.email_entry.pack(side=LEFT)
 
 
-        save_frame = tk.Frame(update_frame, padx=20, pady=40)
+        save_frame = tk.Frame(update_frame, padx=20, pady=40, background=self.bg)
         save_frame.pack(fill=tk.BOTH, side=TOP)
         save_btn = tk.Button(save_frame, command=lambda :CustomerController.createCustomer(self), padx=20, text="Save", bg="#A2C579", fg="black", font=("Arial", 8), border=0.5)
         save_btn.pack(side=TOP)
 
-        updates_frame = tk.Frame(update_frame, padx=20)
+        updates_frame = tk.Frame(update_frame, padx=20, background=self.bg)
         updates_frame.pack(fill=tk.BOTH, side=TOP)
         updates_btn = tk.Button(updates_frame, command=lambda : CustomerController.updateCustomer(self), padx=30, text="Update", bg="#B0A695", fg="black", font=("Arial", 8), border=0.5)
         updates_btn.pack(side=TOP)
 
-        print_frame = tk.Frame(update_frame, padx=20, pady=40)
+        print_frame = tk.Frame(update_frame, padx=20, pady=40, background=self.bg)
         print_frame.pack(fill=tk.BOTH, side=TOP)
         print_btn = tk.Button(print_frame, command=lambda :CustomerController.print(self), padx=40, text="Print", bg="#ddd", fg="black", font=("Arial", 8), border=0.5)
         print_btn.pack(side=TOP)

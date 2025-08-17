@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import *
 from tkinter import ttk
 from PIL import ImageTk,Image
+from controller.SettingController import SettingController
 from view import dashboardView
 from controller.ReturnController import ReturnController
 
@@ -30,69 +31,70 @@ class returnView:
         self.proQun  = tk.IntVar()
         self.cid     = tk.IntVar()
 
-
+        self.bg = SettingController.bgColor(self)
+        self.fg = SettingController.fgColor(self)
 
         def backDeshboard(event):
             self.root.destroy()
             dashboardView.dashboardView(tk.Tk())
 
 
-        frame = tk.Frame(root, padx=20, pady=20, relief=tk.RAISED)
+        frame = tk.Frame(root, padx=20, pady=20, relief=tk.RAISED, background=self.bg)
         frame.pack(fill=tk.BOTH, expand=True, side=TOP)
 
-        label_frame = tk.LabelFrame(frame, text="Product Return Details", padx=5, pady=5)
+        label_frame = tk.LabelFrame(frame, text="Product Return Details", padx=5, pady=5, background=self.bg, fg=self.fg)
         label_frame.pack(fill=tk.BOTH, expand=True, side=TOP)
 
         # Update
-        update_frame = tk.Frame(label_frame, padx=10, pady=10, bg=None)
+        update_frame = tk.Frame(label_frame, padx=10, pady=10, background=self.bg)
         update_frame.pack(side=LEFT, expand=True)
 
-        name_frame = tk.Frame(update_frame, padx=10, pady=5, bg=None)
+        name_frame = tk.Frame(update_frame, padx=10, pady=5, background=self.bg)
         name_frame.pack(side=TOP)
-        product_name_label = tk.Label(name_frame, text="Bill Number    ", bg=None)
+        product_name_label = tk.Label(name_frame, text="Bill Number    ", background=self.bg, fg=self.fg)
         product_name_label.pack(side=LEFT)
         self.product_name_entry = tk.Entry(name_frame, textvariable=self.sID, width=20, font=("Arial", 10), border=0, highlightthickness=1,highlightbackground="#ddd")
         self.product_name_entry.pack(side=LEFT)
         self.sID.trace("w", lambda name, index, mode, vars=vars: ReturnController.showBill(self))
 
 
-        quantity_frame = tk.Frame(update_frame, padx=10, pady=5)
+        quantity_frame = tk.Frame(update_frame, padx=10, pady=5, background=self.bg)
         quantity_frame.pack(side=TOP)
-        quantity_label = tk.Label(quantity_frame, text="Voucher          ")
+        quantity_label = tk.Label(quantity_frame, text="Voucher          ", background=self.bg, fg=self.fg)
         quantity_label.pack(side=LEFT)
         self.quantity_entry = tk.Entry(quantity_frame, textvariable=self.voucher, width=20, font=("Arial", 10), border=0, state=DISABLED, highlightthickness=1,highlightbackground="#ddd")
         self.quantity_entry.pack(side=LEFT)
 
-        sell_frame = tk.Frame(update_frame, padx=10, pady=5)
+        sell_frame = tk.Frame(update_frame, padx=10, pady=5, background=self.bg)
         sell_frame.pack(side=TOP)
-        sell_price_label = tk.Label(sell_frame, text="Product ID      ")
+        sell_price_label = tk.Label(sell_frame, text="Product ID      ", background=self.bg, fg=self.fg)
         sell_price_label.pack(side=LEFT)
         self.sell_price_entry = tk.Entry(sell_frame, textvariable=self.proID, width=20, font=("Arial", 10), border=0, state=DISABLED, highlightthickness=1,highlightbackground="#ddd")
         self.sell_price_entry.pack(side=LEFT)
 
-        cost_frame = tk.Frame(update_frame, padx=10, pady=5)
+        cost_frame = tk.Frame(update_frame, padx=10, pady=5, background=self.bg)
         cost_frame.pack(side=TOP)
-        cost_price_label = tk.Label(cost_frame, text="Product          ")
+        cost_price_label = tk.Label(cost_frame, text="Product          ", background=self.bg, fg=self.fg)
         cost_price_label.pack(side=LEFT)
         self.cost_price_entry = tk.Entry(cost_frame, textvariable=self.proName, width=20, font=("Arial", 10), border=0, state=DISABLED, highlightthickness=1,highlightbackground="#ddd")
         self.cost_price_entry.pack(side=LEFT)
 
-        cost_frame = tk.Frame(update_frame, padx=10, pady=5)
+        cost_frame = tk.Frame(update_frame, padx=10, pady=5, background=self.bg)
         cost_frame.pack(side=TOP)
-        cost_price_label = tk.Label(cost_frame, text="Price               ")
+        cost_price_label = tk.Label(cost_frame, text="Price               ", background=self.bg, fg=self.fg)
         cost_price_label.pack(side=LEFT)
         self.cost_price_entry = tk.Entry(cost_frame, textvariable=self.price, width=20, font=("Arial", 10), border=0, state=DISABLED, highlightthickness=1,highlightbackground="#ddd")
         self.cost_price_entry.pack(side=LEFT)
 
-        cost_frame = tk.Frame(update_frame, padx=10, pady=5)
+        cost_frame = tk.Frame(update_frame, padx=10, pady=5, background=self.bg)
         cost_frame.pack(side=TOP)
-        cost_price_label = tk.Label(cost_frame, text="Quantity        ")
+        cost_price_label = tk.Label(cost_frame, text="Quantity        ", background=self.bg, fg=self.fg)
         cost_price_label.pack(side=LEFT)
         self.cost_price_entry = tk.Entry(cost_frame, textvariable=self.proQun, width=20, font=("Arial", 10), border=0, highlightthickness=1,highlightbackground="#ddd")
         self.cost_price_entry.pack(side=LEFT)
 
 
-        btn_frame = tk.Frame(update_frame, padx=10, pady=60)
+        btn_frame = tk.Frame(update_frame, padx=10, pady=60, background=self.bg)
         btn_frame.pack(fill=tk.BOTH, side=TOP)
         new_product_save_btn = tk.Button(btn_frame, command= lambda: ReturnController.productReturn(self), padx=30, text="Update", bg="#B0A695", fg="black", font=("Arial", 8), border=0.5)
         new_product_save_btn.pack(side=TOP)

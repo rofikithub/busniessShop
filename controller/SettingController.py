@@ -59,6 +59,10 @@ class SettingController:
         # Customer Details
         self.customer_frame.configure(background=bg)
         self.customer_label_frame.configure(background=bg)
+        self.billNo_frame.configure(background=bg)
+        self.number_frame.configure(background=bg)
+        self.name_frame.configure(background=bg)
+        self.address_frame.configure(background=bg)
         
         # Product and billing Frame
         self.details_frame.configure(background=bg)
@@ -97,7 +101,7 @@ class SettingController:
         self.print_frame.configure(background=bg)
         self.logout_frame.configure(background=bg)
         
-        if bg=='Black':
+        if bg=='Black' or bg=='Green' or bg=="Red":
             self.label.configure(fg='White')
             self.myshop_name.configure(fg='White')
             self.customer_label_frame.configure(fg='White')
@@ -111,6 +115,7 @@ class SettingController:
             self.bill_box.configure(fg='White')
             self.card_label_frame.configure(fg='White')
             self.bill_label_frame.configure(fg='White')
+            self.shop_name.configure(fg='White')
         else:
             self.label.configure(fg='Black')
             self.myshop_name.configure(fg='Black')
@@ -125,8 +130,52 @@ class SettingController:
             self.bill_box.configure(fg='Black')
             self.card_label_frame.configure(fg='Black')
             self.bill_label_frame.configure(fg='Black')
+            self.shop_name.configure(fg='Black')
+            
+    def getSettingBackground(self):
+        with open("./system.json", "r") as file:
+            data = json.load(file)
+            bg = data['backgroundColor']  
+        # Shop Details Update
+        self.satting_frame.configure(background=bg)
+        self.setting_label_frame.configure(background=bg)
+        self.name_frame.configure(background=bg)
+        self.shop_name_label.configure(background=bg)
+        self.address_frame.configure(background=bg)
+        self.address_label.configure(background=bg)
+        self.number_frame.configure(background=bg)
+        self.numbe_label.configure(background=bg)
+        self.update_btn_frame.configure(background=bg)
+        self.bg_LabelFrame.configure(background=bg)
+        self.background_frame.configure(background=bg)
+        self.background_label.configure(background=bg)
+        
+        if bg=='Black' or bg=='Green' or bg=="Red":
+            self.setting_label_frame.configure(fg='White')
+            self.shop_name_label.configure(fg='White')
+            self.address_label.configure(fg='White')
+            self.numbe_label.configure(fg='White')
+            self.bg_LabelFrame.configure(fg='White')
+            self.background_label.configure(fg='White')
+        else:
+            self.setting_label_frame.configure(fg='Black')
+            self.shop_name_label.configure(fg='Black')
+            self.address_label.configure(fg='Black')
+            self.numbe_label.configure(fg='Black')
+            self.bg_LabelFrame.configure(fg='Black')
+            self.background_label.configure(fg='Black')
             
     def bgColor(self):
         with open("./system.json", "r") as file:
             data = json.load(file)
             return data['backgroundColor']
+        
+    def fgColor(self):
+        bg = SettingController.bgColor(self)
+        if bg=="Black" or bg=="Green" or bg=="Red":
+            SettingController.updateJsonFile(self,"textColor","White")
+        else:
+            SettingController.updateJsonFile(self,"textColor","Black")
+        with open("./system.json", "r") as file:
+            data = json.load(file)
+            return data['textColor']

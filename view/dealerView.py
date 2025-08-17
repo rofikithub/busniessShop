@@ -26,6 +26,7 @@ class dealerView:
         root.resizable(False, False)
         
         self.bg = SettingController.bgColor(self)
+        self.fg = SettingController.fgColor(self)
 
         self.did     = tk.IntVar()
         self.company = tk.StringVar()
@@ -50,7 +51,7 @@ class dealerView:
         frame = tk.Frame(root, padx=20, pady=20, relief=tk.RAISED, background=self.bg)
         frame.pack(fill=tk.BOTH, expand=True, side=TOP)
 
-        label_frame = tk.LabelFrame(frame, text="Dealer Details", padx=5, pady=5, background=self.bg)
+        label_frame = tk.LabelFrame(frame, text="Dealer Details", padx=5, pady=5, background=self.bg, fg=self.fg)
         label_frame.pack(fill=tk.BOTH, expand=True, side=TOP)
 
 
@@ -58,17 +59,17 @@ class dealerView:
         dealer_frame = tk.Frame(label_frame, pady=5, padx=20, background=self.bg)
         dealer_frame.pack(side='top', expand=True)
 
-        company_label = tk.Label(dealer_frame, text="Company  ", padx=12, background=self.bg)
+        company_label = tk.Label(dealer_frame, text="Company  ", padx=12, background=self.bg, fg=self.fg)
         company_label.pack(side='left')
         company_entry = tk.Entry(dealer_frame, textvariable=self.company, bd=0.5, width=20, border=0, font=('Arial', 10), highlightthickness=1,highlightbackground = "#ddd")
         company_entry.pack(side='left')
 
-        mobile_label = tk.Label(dealer_frame, text="Mobile ", padx=10, background=self.bg)
+        mobile_label = tk.Label(dealer_frame, text="Mobile ", padx=10, background=self.bg, fg=self.fg)
         mobile_label.pack(side='left')
         mobile_entry = tk.Entry(dealer_frame, textvariable=self.mobile, bd=0.5, width=15, font=('Arial', 10), border=0, highlightthickness=1,highlightbackground = "#ddd")
         mobile_entry.pack(side='left')
 
-        srname_label = tk.Label(dealer_frame, text="SR Name ", padx=10, background=self.bg)
+        srname_label = tk.Label(dealer_frame, text="SR Name ", padx=10, background=self.bg, fg=self.fg)
         srname_label.pack(side='left')
         srname_entry = tk.Entry(dealer_frame, textvariable=self.srname, bd=0.5, width=20, font=('Arial', 10), border=0, highlightthickness=1,highlightbackground = "#ddd")
         srname_entry.pack(side='left')
@@ -97,7 +98,7 @@ class dealerView:
 
         name_frame = tk.Frame(company_frame, padx=10, pady=7, background=self.bg)
         name_frame.pack(side=TOP)
-        company_name_label = tk.Label(name_frame, text="Company       ", background=self.bg)
+        company_name_label = tk.Label(name_frame, text="Company       ", background=self.bg, fg=self.fg)
         company_name_label.pack(side=LEFT)
         self.company_name_entry = ttk.Combobox(name_frame, textvariable=self.dealer, values=Dealer.list(self), width=17, font=("Arial", 10))
         self.company_name_entry.pack(side=LEFT)
@@ -106,21 +107,21 @@ class dealerView:
 
         voucher_frame = tk.Frame(company_frame, padx=10, pady=7, background=self.bg)
         voucher_frame.pack(side=TOP)
-        voucher_label = tk.Label(voucher_frame, text="Voucher No    ", background=self.bg)
+        voucher_label = tk.Label(voucher_frame, text="Voucher No    ", background=self.bg, fg=self.fg)
         voucher_label.pack(side=LEFT)
         voucher_entry = tk.Entry(voucher_frame, textvariable=self.voucher, width=20, font=("Arial", 10), border=0, highlightthickness=1,highlightbackground="#ddd")
         voucher_entry.pack(side=LEFT)
 
         purchase_frame = tk.Frame(company_frame, padx=10, pady=7, background=self.bg)
         purchase_frame.pack(side=TOP)
-        purchase_label = tk.Label(purchase_frame, text="Purchase         ", background=self.bg)
+        purchase_label = tk.Label(purchase_frame, text="Purchase         ", background=self.bg, fg=self.fg)
         purchase_label.pack(side=LEFT)
         purchase_entry = tk.Entry(purchase_frame, textvariable=self.purchase, width=20, font=("Arial", 10), border=0, highlightthickness=1,highlightbackground="#ddd")
         purchase_entry.pack(side=LEFT)
 
         payment_frame = tk.Frame(company_frame, padx=10, pady=7, background=self.bg)
         payment_frame.pack(side=TOP)
-        payment_label = tk.Label(payment_frame, text="Payment          ", background=self.bg)
+        payment_label = tk.Label(payment_frame, text="Payment          ", background=self.bg, fg=self.fg)
         payment_label.pack(side=LEFT)
         payment_entry = tk.Entry(payment_frame, textvariable=self.payment, width=20, font=("Arial", 10), border=0, highlightthickness=1,highlightbackground="#ddd")
         payment_entry.pack(side=LEFT)
@@ -128,21 +129,21 @@ class dealerView:
 
         newdue_frame = tk.Frame(company_frame, padx=10, pady=7, background=self.bg)
         newdue_frame.pack(side=TOP)
-        newdue_label = tk.Label(newdue_frame, text="New Due         ", background=self.bg)
+        newdue_label = tk.Label(newdue_frame, text="New Due         ", background=self.bg, fg=self.fg)
         newdue_label.pack(side=LEFT)
         newdue_entry = tk.Entry(newdue_frame, textvariable=self.newDue, width=20, font=("Arial", 10), border=0, highlightthickness=1,highlightbackground="#ddd")
         newdue_entry.pack(side=LEFT)
 
         revious_frame = tk.Frame(company_frame, padx=10, pady=7, background=self.bg)
         revious_frame.pack(side=TOP)
-        revious_label = tk.Label(revious_frame, text="Previous Due   ", background=self.bg)
+        revious_label = tk.Label(revious_frame, text="Previous Due   ", background=self.bg, fg=self.fg)
         revious_label.pack(side=LEFT)
         revious_entry = tk.Entry(revious_frame, textvariable=self.previous, width=20, font=("Arial", 10), border=0, highlightthickness=1,highlightbackground="#ddd")
         revious_entry.pack(side=LEFT)
 
         total_frame = tk.Frame(company_frame, padx=10, pady=7, background=self.bg)
         total_frame.pack(side=TOP)
-        total_label = tk.Label(total_frame, text="Total Due        ", background=self.bg)
+        total_label = tk.Label(total_frame, text="Total Due        ", background=self.bg, fg=self.fg)
         total_label.pack(side=LEFT)
         total_entry = tk.Entry(total_frame, textvariable=self.totalDue, width=20, font=("Arial", 10), border=0, highlightthickness=1,highlightbackground="#ddd")
         total_entry.pack(side=LEFT)

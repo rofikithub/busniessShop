@@ -53,7 +53,8 @@ class dashboardView:
         self.email  = tk.StringVar()
 
         self.billDetails = []
-
+        self.bg = SettingController.bgColor(self)
+        self.fg = SettingController.fgColor(self)
         #Card.delete()
 
         menu_bar = tk.Menu(root)
@@ -84,48 +85,43 @@ class dashboardView:
         self.myshop_name = tk.Label(self.title_frame, text="ESHOP ONLINE MARCATE CENTER", font=("Times New Roman", 8))
         self.myshop_name.pack()
         
-        
-        
-        # self.options_frame = tk.Frame(self.topbar_frame)
-        # self.options_frame.pack(side='left')
-        # self.screen_frame = tk.Frame(self.options_frame)
-        # self.screen_frame.pack(side='right')
-        # self.screen_label = tk.Label(self.screen_frame, text="Screen")
-        # self.screen_label.pack(side='left')
-        self.background = ttk.Combobox(self.title_frame, values=['Default','White', 'Red', 'Black', 'Green','Yellow'], state="readonly", width=17, background='white')
-        self.background.pack()
-        self.background.set(".. Windows Color ..")
-        self.background.bind('<<ComboboxSelected>>', self.thisBackground)  
-
 
         # Customer Details
         self.customer_frame = tk.Frame(root, pady=5, padx=20)
         self.customer_frame.pack(fill=tk.BOTH,side='top', expand=True)
         self.customer_label_frame = tk.LabelFrame(self.customer_frame, text="Customer Details", pady=10, padx=10)
         self.customer_label_frame.pack(fill=tk.BOTH, side='left', expand=True)
-
-        bill_number_label = tk.Label(self.customer_label_frame, text="Bill Number:", pady=2, padx=20)
+        
+        self.billNo_frame = tk.Frame(self.customer_label_frame, padx=10)
+        self.billNo_frame.pack(side=LEFT, fill=BOTH)
+        bill_number_label = tk.Label(self.billNo_frame, text="Bill Number:", pady=2, padx=15)
         bill_number_label.pack(side='left')
-        self.bill_number_entry = tk.Entry(self.customer_label_frame, textvariable=self.billNo, bd=0.5, width=15, border=0, font=('Ubuntu', 13), highlightthickness=1,highlightbackground = "#ddd")
+        self.bill_number_entry = tk.Entry(self.billNo_frame, textvariable=self.billNo, bd=0.5, width=10, border=0, font=('Ubuntu', 13), highlightthickness=1,highlightbackground = "#ddd")
         self.bill_number_entry.pack(side='left')
-        bill_number_search = tk.Button(self.customer_label_frame, command=lambda : BillController.searchBill(self),text="Search", padx=20, bg="#ddd", fg="black", font=("Arial", 9), border=0.5)
+        bill_number_search = tk.Button(self.billNo_frame, command=lambda : BillController.searchBill(self),text="Search", padx=20, bg="#ddd", fg="black", font=("Arial", 9), border=0.5)
         bill_number_search.pack(side='left')
 
-        mobile_number_label = tk.Label(self.customer_label_frame, text="Mobile Number:", pady=2, padx=20)
+
+        self.number_frame = tk.Frame(self.customer_label_frame, padx=10)
+        self.number_frame.pack(side=LEFT, fill=BOTH)
+        mobile_number_label = tk.Label(self.number_frame, text="Mobile Number:", pady=2, padx=20)
         mobile_number_label.pack(side='left')
-        self.mobile_number_entry = tk.Entry(self.customer_label_frame, textvariable=self.mobile, bd=0.5, width=15, font=('Ubuntu', 13), border=0, highlightthickness=1,highlightbackground = "#ddd")
+        self.mobile_number_entry = tk.Entry(self.number_frame, textvariable=self.mobile, bd=0.5, width=15, font=('Ubuntu', 13), border=0, highlightthickness=1,highlightbackground = "#ddd")
         self.mobile_number_entry.pack(side='left')
         self.mobile.trace("w", lambda name, index, mode, var=self.mobile: BillController.searchName(self))
 
-        customer_name_label = tk.Label(self.customer_label_frame, text="Customer Name", pady=2, padx=20)
+        self.name_frame = tk.Frame(self.customer_label_frame, padx=10)
+        self.name_frame.pack(side=LEFT, fill=BOTH)
+        customer_name_label = tk.Label(self.name_frame, text="Customer Name", pady=2, padx=20)
         customer_name_label.pack(side='left')
-        self.customer_name_entry = tk.Entry(self.customer_label_frame, textvariable=self.name, bd=0.5, width=20, font=('Ubuntu', 13), border=0, highlightthickness=1,highlightbackground = "#ddd")
+        self.customer_name_entry = tk.Entry(self.name_frame, textvariable=self.name, bd=0.5, width=20, font=('Ubuntu', 13), border=0, highlightthickness=1,highlightbackground = "#ddd")
         self.customer_name_entry.pack(side='left')
 
-
-        email_address_label = tk.Label(self.customer_label_frame, text="Email Address:", pady=2, padx=20)
+        self.address_frame = tk.Frame(self.customer_label_frame, padx=10)
+        self.address_frame.pack(side=LEFT, fill=BOTH)
+        email_address_label = tk.Label(self.address_frame, text="Email Address:", pady=2, padx=20)
         email_address_label.pack(side='left')
-        self.email_address_entry = tk.Entry(self.customer_label_frame, textvariable=self.email, bd=0.5, width=20, font=('Ubuntu', 13), border=0, highlightthickness=1,highlightbackground = "#ddd")
+        self.email_address_entry = tk.Entry(self.address_frame, textvariable=self.email, bd=0.5, width=25, font=('Ubuntu', 13), border=0, highlightthickness=1,highlightbackground = "#ddd")
         self.email_address_entry.pack(side='left')
         #self.email_address_entry.insert(0, "rofik@gmail.com")
 
@@ -135,7 +131,7 @@ class dashboardView:
         self.details_frame.pack(fill=tk.BOTH, side='top', expand=True)
 
         # Select by category
-        self.details_label_frame = tk.LabelFrame(self.details_frame, text="Select product by category", pady=20, padx=20)
+        self.details_label_frame = tk.LabelFrame(self.details_frame, text="Select Product by Category", pady=20, padx=20)
         self.details_label_frame.pack(fill=tk.BOTH, side='left', expand=True)
 
 
@@ -195,10 +191,10 @@ class dashboardView:
 
 
         # Select by nane
-        self.label_frame = tk.LabelFrame(self.details_frame, text="Select product by name", padx=10, pady=10)
+        self.label_frame = tk.LabelFrame(self.details_frame, text="Select Product and Quantity", padx=10, pady=10)
         self.label_frame.pack(fill=tk.BOTH, side='left' )
 
-        self.name_label_frame = tk.Frame(self.label_frame)
+        self.name_label_frame = tk.Frame(self.label_frame, padx=5, pady=5)
         self.name_label_frame.pack(fill=tk.BOTH, side=TOP, expand=True)
 
         def on_configure(event):
@@ -211,9 +207,10 @@ class dashboardView:
         scrollbar.pack ( side="right", fill="y" )
 
         canvas.configure ( yscrollcommand=scrollbar.set )
+        canvas.configure(highlightthickness=1, highlightbackground = "#F9F9F9", background=self.bg)
         canvas.bind ( '<Configure>', on_configure )
 
-        self.frame_inside_canvas = tk.Frame ( canvas )
+        self.frame_inside_canvas = tk.Frame ( canvas , padx=10, pady=10)
         canvas.create_window ( (0, 0), window=self.frame_inside_canvas, anchor='nw' )
 
         products = Product().all()
@@ -225,11 +222,13 @@ class dashboardView:
                 var = tk.IntVar()
                 self.checkbox_vars.append(var)
                 self.checkbox_values.append(product[1])
-                name_frame = tk.Frame(self.frame_inside_canvas, bg="white")
+                name_frame = tk.Frame(self.frame_inside_canvas, padx=10, pady=4, background=self.bg)
                 name_frame.pack(side='top', fill=tk.BOTH, expand=False)
-                product_checkbutton = tk.Checkbutton(name_frame, text=product[1], variable=var, height=1, bg="white")
+                checkbox_frame = tk.Frame(name_frame, background="#EEEEEE")
+                checkbox_frame.pack(side='top', fill=tk.BOTH, expand=False)
+                product_checkbutton = tk.Checkbutton(checkbox_frame, text=product[1], variable=var, font=('Ubuntu', 8))
                 product_checkbutton.pack(side='left', anchor=tk.NW, expand=True)
-                self.product_name_entry = tk.Entry(name_frame, width=20, border=0, highlightthickness=1,highlightbackground = "#ddd")
+                self.product_name_entry = tk.Entry(checkbox_frame, width=5, font=('Ubuntu', 13),bd=1, border=0, highlightthickness=1,highlightbackground = "#F1F1F1")
                 self.product_name_entry.pack(side='left')
                 self.entries[product[1]] = self.product_name_entry
 
@@ -400,13 +399,3 @@ class dashboardView:
         ans = messagebox.askokcancel("Confirm", "Are you sure to logout ?")
         if ans == True:
             self.root.quit()
-            
-    def thisBackground(self, event):
-        bg = None
-        color = self.background.get()
-        if color=='Default':
-            bg=("#eeeeee")
-        else:
-            bg=(color)
-        SettingController.updateJsonFile(self,"backgroundColor",bg)
-        SettingController.getDeshboardBackground(self)
