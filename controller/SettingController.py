@@ -38,6 +38,7 @@ class SettingController:
         info = Shop().onselect()
         if info:
             return info
+        
     def updateJsonFile(self,name,velue):
             with open("./system.json", "r") as file:
                 data = json.load(file)
@@ -99,6 +100,7 @@ class SettingController:
         self.volume_frame.configure(background=bg)
         self.save_frame.configure(background=bg)
         self.print_frame.configure(background=bg)
+        self.mail_frame.configure(background=bg)
         self.logout_frame.configure(background=bg)
         
         if bg=='Black' or bg=='Green' or bg=="Red":
@@ -149,6 +151,12 @@ class SettingController:
         self.bg_LabelFrame.configure(background=bg)
         self.background_frame.configure(background=bg)
         self.background_label.configure(background=bg)
+        self.mail_LabelFrame.configure(background=bg)
+        self.mailAdd_frame.configure(background=bg)
+        self.usermail_label.configure(background=bg)
+        self.mailPass_frame.configure(background=bg)
+        self.mailPass_label.configure(background=bg)
+        self.mailSave_frame.configure(background=bg)
         
         if bg=='Black' or bg=='Green' or bg=="Red":
             self.setting_label_frame.configure(fg='White')
@@ -157,6 +165,9 @@ class SettingController:
             self.numbe_label.configure(fg='White')
             self.bg_LabelFrame.configure(fg='White')
             self.background_label.configure(fg='White')
+            self.mail_LabelFrame.configure(fg='White')
+            self.usermail_label.configure(fg='White')
+            self.mailPass_label.configure(fg='White')
         else:
             self.setting_label_frame.configure(fg='Black')
             self.shop_name_label.configure(fg='Black')
@@ -164,6 +175,9 @@ class SettingController:
             self.numbe_label.configure(fg='Black')
             self.bg_LabelFrame.configure(fg='Black')
             self.background_label.configure(fg='Black')
+            self.mail_LabelFrame.configure(fg='Black')
+            self.usermail_label.configure(fg='Black')
+            self.mailPass_label.configure(fg='Black')
             
     def bgColor(self):
         with open("./system.json", "r") as file:

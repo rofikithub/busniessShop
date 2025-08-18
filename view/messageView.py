@@ -3,18 +3,24 @@ import tkinter as tk
 from datetime import date, datetime, timedelta
 import webbrowser
 from datetime import date
-from view.dashboardView import dashboardView
 from view import loginView
+from view.dashboardView import dashboardView
+from controller.SettingController import SettingController
 
 
 class messageView:
     def __init__(self,root,data):
+        
+        self.bg = SettingController.bgColor(self)
+        self.fg = SettingController.fgColor(self)
+        
         self.root = root
         self.root.title('Notification')
         self.root.protocol('WM_DELETE_WINDOW', root.quit)
         self.root.geometry(f'400x300+500+100')
         self.root.resizable(False, False)
         self.root.iconbitmap(r'image\email.ico')
+        self.root.configure(background=self.bg)
         
         self.version = "1.0.0"
 
@@ -26,27 +32,27 @@ class messageView:
 
         
 
-        fram = tk.Frame(self.root)
+        fram = tk.Frame(self.root, background=self.bg)
         fram.pack(side='top', fill='both')
 
-        sms_label = tk.Label(fram, text='Hello\n'+str(data["name"])+'\n Welcome to '+str(data["softwar"]), fg='#555', font=("Bahnschrift SemiBold Condensed", 12))
+        sms_label = tk.Label(fram, text='Hello\n'+str(data["name"])+'\n Welcome to '+str(data["softwar"]), font=("Bahnschrift SemiBold Condensed", 12), background=self.bg, fg=self.fg)
         sms_label.pack(side='top', fill='x', padx=20, pady=40, anchor='w')
 
         if data["status"] == '1':
-            link_label = tk.Label(fram, text='Please wait until your payment is confirmed', fg='#555', cursor="hand2", font=("Bahnschrift SemiBold Condensed", 10))
+            link_label = tk.Label(fram, text='Please wait until your payment is confirmed', cursor="hand2", font=("Bahnschrift SemiBold Condensed", 10), background=self.bg, fg=self.fg)
             link_label.pack(side='top', anchor='center')
 
             
         if self.version != data["version"]:
-            link_label = tk.Label(fram, text='New version '+str(data["version"])+' is available, Click for Download', fg='#555', cursor="hand2", font=("Bahnschrift SemiBold Condensed", 10))
+            link_label = tk.Label(fram, text='New version '+str(data["version"])+' is available, Click for Download', cursor="hand2", font=("Bahnschrift SemiBold Condensed", 10), background=self.bg, fg=self.fg)
             link_label.pack(side='top', anchor='center')
             link_label.bind("<Button-1>", updateVersion)
         
         if data["status"] == '3':
-            link_label = tk.Label(fram, text='The package expired on '+str(data["end"]), fg='red', font=('Bahnschrift SemiBold Condensed', 9))
+            link_label = tk.Label(fram, text='The package expired on '+str(data["end"]), fg='red', font=('Bahnschrift SemiBold Condensed', 9), background=self.bg)
             link_label.pack(side='top', anchor='center')
         else:
-            link_label = tk.Label(fram, text='The package will expire on '+str(data["end"]), fg='#777', font=('Bahnschrift SemiBold Condensed', 9))
+            link_label = tk.Label(fram, text='The package will expire on '+str(data["end"]), font=('Bahnschrift SemiBold Condensed', 9), background=self.bg, fg=self.fg)
             link_label.pack(side='top', anchor='center')
         
         e = date.fromisoformat(data["end"])

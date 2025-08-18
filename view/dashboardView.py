@@ -317,17 +317,22 @@ class dashboardView:
         self.bill_label_frame.pack(fill=tk.BOTH, expand=True, side='left')
 
 
-        self.save_frame = tk.Frame(self.bill_label_frame, padx=40)
+        self.save_frame = tk.Frame(self.bill_label_frame, padx=20)
         self.save_frame.pack(fill=tk.BOTH, side='left' )
-        add_to_cart_btn = tk.Button(self.save_frame, text="Save Bill", command=lambda :BillController.createBill(self), padx=20, bg="#A2C579", fg="black", font=("Arial", 8), border=0.5)
+        add_to_cart_btn = tk.Button(self.save_frame, text="Save Bill", command=lambda :BillController.createBill(self), padx=30, bg="#A2C579", fg="black", font=("Arial", 8), border=0.5)
         add_to_cart_btn.pack(side='left')
 
-        self.print_frame = tk.Frame(self.bill_label_frame, padx=20)
+        self.print_frame = tk.Frame(self.bill_label_frame, padx=15)
         self.print_frame.pack(fill=tk.BOTH, side='left' )
-        add_to_cart_btn = tk.Button(self.print_frame, text="Print Bill", command=lambda: BillController.print(self), padx=30, bg="#ddd", fg="black", font=("Arial", 8), border=0.5)
+        add_to_cart_btn = tk.Button(self.print_frame, text="Print Bill", command=lambda: BillController.print(self), padx=20, bg="#ddd", fg="black", font=("Arial", 8), border=0.5)
         add_to_cart_btn.pack(side='left')
-
-        self.logout_frame = tk.Frame(self.bill_label_frame, padx=40)
+        
+        self.mail_frame = tk.Frame(self.bill_label_frame, padx=15)
+        self.mail_frame.pack(fill=tk.BOTH, side='left' )
+        send_mail_btn = tk.Button(self.mail_frame, text="Send Mail", command=lambda: BillController.sendBillMail(self), padx=20, bg="#ddd", fg="black", font=("Arial", 8), border=0.5)
+        send_mail_btn.pack(side='left')
+        
+        self.logout_frame = tk.Frame(self.bill_label_frame, padx=20)
         self.logout_frame.pack(fill=tk.BOTH, side='left' )
         add_to_cart_btn = tk.Button(self.logout_frame, command=lambda : self.logout(), text="Logout", padx=20, bg="#E25E3E", fg="black", font=("Arial", 8), border=0.5)
         add_to_cart_btn.pack(side='left')

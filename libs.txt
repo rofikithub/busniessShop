@@ -16,3 +16,4 @@ langid
 playsound==1.2.2
 easygoogletranslate
 googlesearch-python
+yagmail

@@ -1,5 +1,7 @@
+import json
 import os, time
 import datetime
+import yagmail
 from xhtml2pdf import pisa
 import webbrowser
 import tkinter as tk
@@ -7,13 +9,15 @@ from fpdf import FPDF
 from tkinter import messagebox
 from datetime import datetime,date
 
-from controller.ProductController import ProductController
 from model.Customer import Customer
 from model.Sale import Sale
 from model.Card import Card
 from model.Product import Product
 from model.List import List
 from model.Shop import Shop
+
+from controller.ProductController import ProductController
+from controller.SettingController import SettingController
 
 class BillController:
     def __init__(self):
@@ -124,6 +128,9 @@ class BillController:
     def searchBill(self):
         shop = Shop().onselect()
         bill = Sale().getbill(self.billNo.get())
+        self.mobile.set(bill[10])
+        self.name.set(bill[9])
+        self.email.set(bill[11])
         list = List().getList(bill[0])
 
         if shop:
@@ -138,13 +145,13 @@ class BillController:
                     self.bill_box.insert(tk.END, '\nDate :            '+str(bill[8])+'')
                     self.bill_box.insert(tk.END, '\nCustomer Name :  '+str(bill[9])+'')
                     self.bill_box.insert(tk.END, '\nMobile Number :    '+str(bill[10])+'')
-                    self.bill_box.insert(tk.END, "\n--------------------------------------------------------------------------------------------------------------------------\n")
+                    self.bill_box.insert(tk.END, "\n-----------------------------------------------------------------------------------------------------------------------\n")
                     self.bill_box.insert (tk.END, "DESCRIPTION  \t\t\t RATE \t QUANTITY \t\t AMOUNT")
-                    self.bill_box.insert(tk.END, "\n--------------------------------------------------------------------------------------------------------------------------\n")
+                    self.bill_box.insert(tk.END, "\n-----------------------------------------------------------------------------------------------------------------------\n")
                     for lists in list:
                         pname = Product.pname(lists[3])
                         self.bill_box.insert (tk.END, ''+str(pname)+'  \t\t\t '+str(lists[4])+' \t '+str(lists[5])+' \t\t '+str(lists[4]*lists[5])+' \n' )
-                    self.bill_box.insert(tk.END, "\n--------------------------------------------------------------------------------------------------------------------------\n")
+                    self.bill_box.insert(tk.END, "\n-----------------------------------------------------------------------------------------------------------------------\n")
                     self.bill_box.insert (tk.END, '\t\t\t\tTOTAL PRICE \t  = \t '+str(bill[2])+'\n')
                     self.bill_box.insert (tk.END, '\t\t\t\tLess  (-)\t           = \t '+str(bill[3])+'\n ')
                     self.bill_box.insert (tk.END,"\t\t------------------------------------------------------------------------------------\n" )
@@ -268,10 +275,53 @@ class BillController:
                         webbrowser.open_new(pdf_path)
                     return not pisa_status.err
 
-
-
-
-
-
+    def getMailConfig(self):
+        with open("./system.json", "r") as file:
+            data = json.load(file)
+            return data['userMail']
+        
+    def updateMailConfig(self):
+        mail = self.usermail_entry.get()
+        addr = self.mailPass_entry.get()
+        
+        with open("./system.json", "r") as file:
+            data = json.load(file)
+            data['userMail']['userAddr']= mail
+            data['userMail']['userPass']= addr
+        with open("./system.json", "w") as file:
+            json.dump(data, file, indent=2)
+        messagebox.showinfo("Success", " Successfully update mail configaration.")
+        
+    def sendBillMail(self):
+        customerName = self.customer_name_entry.get()
+        mailAddress  = self.email_address_entry.get()
+        if not customerName or not mailAddress:
+            messagebox.showerror("Error", "Invalid customer name or email address ! ")
+        else :
+            shop = SettingController.showShop(self)
+            invoice = os.path.abspath(os.path.expanduser( '~' )+"\\AppData\\Local\\BMS\\report\\invoice.pdf")
+            subject = ('Invoice from '+str(shop[0]))
+            message = ('''\
+                        <html>
+                        <body>
+                            <h2 style="padding:0;margin:0;" >Dear '''+str(customerName)+'''</h2>
+                            <p>Thank you for choosing <u>'''+str(shop[0])+'''</u>.<br>Please find attached the invoice for your recent transaction.We kindly request you to review the invoice and make the payment by the due date mentioned above.
+                            If you have any questions regarding this invoice, please feel free to contact us at <b>'''+str(shop[2])+'''</b>.</p>
+                            <h3 style="padding:0;margin:0;">Best Regards</h3>,
+                            <p style="padding:0;margin:0;"><b>Manager</b><br>'''+str(shop[0])+'''<br>'''+str(shop[1])+'''</p>
+                        </body>
+                        </html>
+                        ''')
+            mailbox = yagmail.SMTP(
+                user = BillController.getMailConfig(self)['userAddr'], 
+                password = BillController.getMailConfig(self)['userPass']
+            )
+            mailbox.send(
+                to=mailAddress, 
+                subject=subject,
+                contents=message,
+                attachments=invoice
+                ) 
+            messagebox.showinfo("Success", "Email sent successfully.")
 
 

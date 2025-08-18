@@ -1,4 +1,8 @@
 {
-"backgroundColor": "Green",
-"textColor": "White"
+"backgroundColor": "Red",
+"textColor": "White",
+"userMail": {
+"userAddr": "rofik.info.bd@gmail.com",
+"userPass": "jmdr sekk dhpq vouz"
+}
 }

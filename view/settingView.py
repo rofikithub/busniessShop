@@ -1,11 +1,12 @@
 import json
 import tkinter as tk
-from tkinter import TOP, LEFT, ttk, BOTH
+from tkinter import BOTTOM, TOP, LEFT, ttk, BOTH
 from tkinter import colorchooser
 from PIL import ImageTk, Image
 from PIL.ImageChops import screen
 from model.Category import Category
 from view import dashboardView
+from controller.BillController import BillController
 from controller.SettingController import SettingController
 
 
@@ -27,7 +28,10 @@ class settingView:
         self.sname   = tk.StringVar()
         self.address = tk.StringVar()
         self.mobile  = tk.StringVar()
-        
+        self.mailAdd = tk.StringVar()
+        self.mailPas = tk.StringVar()
+        self.mailAdd.set(BillController.getMailConfig(self)["userAddr"])
+        self.mailPas.set(BillController.getMailConfig(self)["userPass"])
 
         def backDeshboard(event):
             self.root.destroy()
@@ -58,14 +62,14 @@ class settingView:
         self.satting_frame = tk.Frame(root, padx=20, pady=20, background=self.bg)
         self.satting_frame.pack(fill=tk.BOTH, expand=True, side=TOP)
 
-        self.setting_label_frame = tk.LabelFrame(self.satting_frame, text="Shop information", padx=10, pady=10, background=self.bg, fg=self.fg)
+        self.setting_label_frame = tk.LabelFrame(self.satting_frame, text="Shop information", padx=5, pady=5, background=self.bg, fg=self.fg)
         self.setting_label_frame.pack(fill=tk.BOTH, side=TOP)
 
         self.name_frame = tk.Frame(self.setting_label_frame, padx=10, pady=5, background=self.bg)
         self.name_frame.pack(side=TOP)
         self.shop_name_label = tk.Label(self.name_frame, text="Shop Name        ", background=self.bg, fg=self.fg)
         self.shop_name_label.pack(side=LEFT)
-        self.shop_name_entry = tk.Entry(self.name_frame, textvariable=self.sname, width=40, font=("Arial", 9), border=0, highlightthickness=1,highlightbackground = "#ddd")
+        self.shop_name_entry = tk.Entry(self.name_frame, textvariable=self.sname, width=40, font=("Arial", 8), border=0, highlightthickness=1,highlightbackground = "#ddd")
         self.shop_name_entry.pack(side=LEFT)
 
 
@@ -73,14 +77,14 @@ class settingView:
         self.address_frame.pack(side=TOP)
         self.address_label = tk.Label(self.address_frame, text="Shop Address     ", background=self.bg, fg=self.fg)
         self.address_label.pack(side=LEFT)
-        self.shop_address_entry = tk.Entry(self.address_frame, textvariable=self.address, width=40, font=("Arial", 9), border=0, highlightthickness=1,highlightbackground = "#ddd")
+        self.shop_address_entry = tk.Entry(self.address_frame, textvariable=self.address, width=40, font=("Arial", 8), border=0, highlightthickness=1,highlightbackground = "#ddd")
         self.shop_address_entry.pack(side=LEFT)
 
         self.number_frame = tk.Frame(self.setting_label_frame, padx=10, pady=5, background=self.bg)
         self.number_frame.pack(side=TOP)
         self.numbe_label = tk.Label(self.number_frame, text="Mobile Number ", background=self.bg, fg=self.fg)
         self.numbe_label.pack(side=LEFT)
-        self.shop_mobile_entry = tk.Entry(self.number_frame, textvariable=self.mobile, width=40, font=("Arial", 9), border=0, highlightthickness=1,highlightbackground = "#ddd")
+        self.shop_mobile_entry = tk.Entry(self.number_frame, textvariable=self.mobile, width=40, font=("Arial", 8), border=0, highlightthickness=1,highlightbackground = "#ddd")
         self.shop_mobile_entry.pack(side=LEFT)
 
 
@@ -92,7 +96,7 @@ class settingView:
         SettingController.showUpdate(self)
 
 
-        self.bg_LabelFrame = tk.LabelFrame(self.satting_frame, text="Windows Background", padx=10, pady=10, background=self.bg, fg=self.fg)
+        self.bg_LabelFrame = tk.LabelFrame(self.satting_frame, text="Windows Background", padx=5, pady=5, background=self.bg, fg=self.fg)
         self.bg_LabelFrame.pack(fill=tk.BOTH, side=TOP)
         
         self.background_frame = tk.Frame(self.bg_LabelFrame, padx=10, pady=5, background=self.bg)
@@ -111,6 +115,37 @@ class settingView:
                 self.background_box.set(self.bg)
         else:
             self.background_box.set(".. Windows Color ..")
+            
+            
+        self.mail_LabelFrame = tk.LabelFrame(self.satting_frame, text="Software Mail Configuration", padx=5, pady=5, background=self.bg, fg=self.fg)
+        self.mail_LabelFrame.pack(side=TOP, fill=BOTH)
+        
+        self.mailinfo_frame = tk.Frame(self.mail_LabelFrame, background=self.bg)
+        self.mailinfo_frame.pack(side=TOP)
+        
+        self.mailAdd_frame = tk.Frame(self.mailinfo_frame, padx=5, pady=5, background=self.bg)
+        self.mailAdd_frame.pack(side=LEFT)
+        self.usermail_label = tk.Label(self.mailAdd_frame, text="Usermail  ", pady=10, padx=20, background=self.bg, fg=self.fg)
+        self.usermail_label.pack(side='left')
+        self.usermail_entry = tk.Entry(self.mailAdd_frame, textvariable=self.mailAdd, width=30, font=("Arial", 8), border=0, highlightthickness=1,highlightbackground = "#ddd")
+        self.usermail_entry.pack(side=LEFT)
+        
+        self.mailPass_frame = tk.Frame(self.mailinfo_frame, padx=5, pady=5, background=self.bg)
+        self.mailPass_frame.pack(side=LEFT)
+        self.mailPass_label = tk.Label(self.mailPass_frame, text="Password  ", pady=10, padx=20, background=self.bg, fg=self.fg)
+        self.mailPass_label.pack(side='left')
+        self.mailPass_entry = tk.Entry(self.mailPass_frame, textvariable=self.mailPas, width=30, font=("Arial", 8), border=0, highlightthickness=1,highlightbackground = "#ddd")
+        self.mailPass_entry.pack(side=LEFT)
+        
+        self.mailSave_frame = tk.Frame(self.mailinfo_frame, padx=5, pady=5, background=self.bg)
+        self.mailSave_frame.pack(side=LEFT)
+        self.mail_Save_btn = tk.Button(self.mailSave_frame, command=lambda:BillController.updateMailConfig(self), text="Save", padx=30, bg="#A2C579", fg="black", border=0.5)
+        self.mail_Save_btn.pack(side=LEFT)
+        
+        self.passNote_frame = tk.Frame(self.mail_LabelFrame, background=self.bg)
+        self.passNote_frame.pack(side=BOTTOM, anchor='s')
+        self.passwordApp_label = tk.Label(self.passNote_frame, text="Go to => https://myaccount.google.com/apppasswords <= To create a new app specific password.", background=self.bg, fg=self.fg)
+        self.passwordApp_label.pack(side=LEFT)
             
         go_back_label = tk.Label(self.satting_frame, text='Go back', borderwidth=0, relief="groove", bg="#176B87", fg="white", padx=20, cursor='hand2')
         go_back_label.pack(side='bottom')
