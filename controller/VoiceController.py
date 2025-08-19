@@ -1,5 +1,4 @@
 import os
-import langid
 import playsound
 from gtts import gTTS
 from langdetect import detect

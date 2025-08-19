@@ -1,11 +1,9 @@
 import tkinter as tk
-from tkinter import * # type: ignore
+from tkinter import *
 from tkinter import ttk
-from PIL import ImageTk,Image
-from controller.SettingController import SettingController
+from controller.JsonController import JsonController
 from view import dashboardView
 from controller.CustomerController import CustomerController
-from model.Category import Category
 
 
 class customerView:
@@ -19,6 +17,7 @@ class customerView:
         c_x = int(sw / 2 - ww / 2)
         c_y = int(50)
         root.geometry(f'{ww}x{wh}+{c_x}+{c_y}')
+        self.root.iconbitmap(r'image\winico.ico')
         root.resizable(False, False)
 
         self.cID     = tk.IntVar()
@@ -26,8 +25,8 @@ class customerView:
         self.cMobile = tk.StringVar()
         self.cEmail  = tk.StringVar()
         
-        self.bg = SettingController.bgColor(self)
-        self.fg = SettingController.fgColor(self)
+        self.bg = JsonController.bgColor(self)
+        self.fg = JsonController.fgColor(self)
 
         def backDeshboard(event):
             self.root.destroy()
@@ -69,17 +68,17 @@ class customerView:
 
         save_frame = tk.Frame(update_frame, padx=20, pady=40, background=self.bg)
         save_frame.pack(fill=tk.BOTH, side=TOP)
-        save_btn = tk.Button(save_frame, command=lambda :CustomerController.createCustomer(self), padx=20, text="Save", bg="#A2C579", fg="black", font=("Arial", 8), border=0.5)
+        save_btn = tk.Button(save_frame, command=lambda :CustomerController.createCustomer(self), padx=20, text="Save", bg="#A2C579", fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
         save_btn.pack(side=TOP)
 
         updates_frame = tk.Frame(update_frame, padx=20, background=self.bg)
         updates_frame.pack(fill=tk.BOTH, side=TOP)
-        updates_btn = tk.Button(updates_frame, command=lambda : CustomerController.updateCustomer(self), padx=30, text="Update", bg="#B0A695", fg="black", font=("Arial", 8), border=0.5)
+        updates_btn = tk.Button(updates_frame, command=lambda : CustomerController.updateCustomer(self), padx=30, text="Update", bg="#B0A695", fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
         updates_btn.pack(side=TOP)
 
         print_frame = tk.Frame(update_frame, padx=20, pady=40, background=self.bg)
         print_frame.pack(fill=tk.BOTH, side=TOP)
-        print_btn = tk.Button(print_frame, command=lambda :CustomerController.print(self), padx=40, text="Print", bg="#ddd", fg="black", font=("Arial", 8), border=0.5)
+        print_btn = tk.Button(print_frame, command=lambda :CustomerController.print(self), padx=40, text="Print", bg="#ddd", fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
         print_btn.pack(side=TOP)
 
         go_back_label = tk.Label(update_frame, text='Go back', borderwidth=0, relief="groove",bg="#176B87", fg="white", padx=50, cursor='hand2')

@@ -1,8 +1,7 @@
 {
-"backgroundColor": "Red",
-"textColor": "White",
-"userMail": {
-"userAddr": "rofik.info.bd@gmail.com",
-"userPass": "jmdr sekk dhpq vouz"
-}
+ "backgroundColor": "Red",
+ "textColor": "White",
+ "userMail": "rofik.info.bd@gmail.com",
+ "userPass": "jmdr sekk dhpq vouz",
+ "greenwebToken": "90711209121675836552c51ffb7a986bde0f360da57de5712f09"
 }

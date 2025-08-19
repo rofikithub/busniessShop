@@ -1,5 +1,4 @@
 from tkinter import messagebox
-from model.Category import Category
 from model.Dealer import Dealer
 
 

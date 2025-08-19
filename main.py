@@ -1,17 +1,15 @@
-import os, time
+import os
 import tkinter as tk
-from PIL.ImageChops import screen
 from view.loginView import loginView
 from view.dashboardView import dashboardView
-from controller.VoiceController import VoiceController
 
 
-from reportlab.graphics.barcode import code128
-from reportlab.graphics.barcode import code93
-from reportlab.graphics.barcode import code39
-from reportlab.graphics.barcode import usps
-from reportlab.graphics.barcode import usps4s
-from reportlab.graphics.barcode import ecc200datamatrix
+# from reportlab.graphics.barcode import code128
+# from reportlab.graphics.barcode import code93
+# from reportlab.graphics.barcode import code39
+# from reportlab.graphics.barcode import usps
+# from reportlab.graphics.barcode import usps4s
+# from reportlab.graphics.barcode import ecc200datamatrix
 
 
 class App:
@@ -36,5 +34,5 @@ if __name__ == "__main__":
     app = App(root)
     root.mainloop() 
 
-    
+
 # pip install -r libs.txt

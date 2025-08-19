@@ -1,12 +1,10 @@
-import os, time
-import datetime
+import os
 from xhtml2pdf import pisa
 import webbrowser
 import tkinter as tk
 from tkinter import messagebox
 from datetime import date
 
-from model.Customer import Customer
 from model.Sale import Sale
 from model.Shop import Shop
 

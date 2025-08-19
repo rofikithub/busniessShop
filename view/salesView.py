@@ -1,18 +1,12 @@
 import tkinter as tk
 from tkinter import * # type: ignore
 from tkinter import ttk
-from PIL import ImageTk,Image
 from tkcalendar import DateEntry
 
-from controller.CardController import CardController
-from controller.CategoryController import CategoryController
+from controller.JsonController import JsonController
 from controller.SalesController import SalesController
-from controller.SettingController import SettingController
 from view import dashboardView
 from view.returnView import returnView
-from controller.ProductController import ProductController
-from model.Category import Category
-
 
 class salesView:
     def __init__(self, root):
@@ -25,6 +19,7 @@ class salesView:
         c_x = int(sw / 2 - ww / 2)
         c_y = int(50)
         root.geometry(f'{ww}x{wh}+{c_x}+{c_y}')
+        self.root.iconbitmap(r'image\winico.ico')
         root.resizable(False, False)
 
         self.sID      = tk.StringVar()
@@ -36,8 +31,8 @@ class salesView:
         self.status   = tk.IntVar()
         self.taka     = tk.IntVar()
 
-        self.bg = SettingController.bgColor(self)
-        self.fg = SettingController.fgColor(self)
+        self.bg = JsonController.bgColor(self)
+        self.fg = JsonController.fgColor(self)
         
         def backDeshboard(event):
             self.root.destroy()
@@ -81,12 +76,12 @@ class salesView:
 
         btn_frame = tk.Frame(options_frame, padx=10, pady=10, background=self.bg)
         btn_frame.pack(fill=tk.BOTH, side=LEFT)
-        product_save_btn = tk.Button(btn_frame, command=lambda : self.viewReturn(), padx=5, text="Product Return", bg="#E25E3E", fg="black", font=("Arial", 8), border=0.5)
+        product_save_btn = tk.Button(btn_frame, command=lambda : self.viewReturn(), padx=5, text="Product Return", bg="#E25E3E", fg="black", font=("Arial", 8), border=0, relief="flat", cursor='hand2')
         product_save_btn.pack(side=LEFT)
 
         btn_frame = tk.Frame(options_frame, padx=10, pady=10, background=self.bg)
         btn_frame.pack(fill=tk.BOTH, side=LEFT)
-        product_save_btn = tk.Button(btn_frame, command=lambda : SalesController.duePaid(self), padx=20, text="Paid", bg="#A2C579", fg="black", font=("Arial", 8), border=0.5)
+        product_save_btn = tk.Button(btn_frame, command=lambda : SalesController.duePaid(self), padx=20, text="Paid", bg="#A2C579", fg="black", font=("Arial", 8), border=0, relief="flat", cursor='hand2')
         product_save_btn.pack(side=LEFT)
 
         from_frame = tk.Frame(update_frame, padx=10, pady=10, background=self.bg)
@@ -105,17 +100,17 @@ class salesView:
 
         print_frame = tk.Frame(update_frame, padx=20, pady=10, background=self.bg)
         print_frame.pack(fill=tk.BOTH, side=TOP)
-        print_btn = tk.Button(print_frame, command=lambda : SalesController.print(self,2), padx=20, text="Print", font=("Arial", 8), border=0.5)
+        print_btn = tk.Button(print_frame, command=lambda : SalesController.print(self,2), padx=20, text="Print", font=("Arial", 8), border=0, relief="flat", cursor='hand2')
         print_btn.pack(side=TOP)
 
         list_frame = tk.Frame(update_frame, padx=20, pady=10, background=self.bg)
         list_frame.pack(fill=tk.BOTH, side=TOP)
-        list_btn = tk.Button(list_frame, command=lambda : SalesController.print(self,0), padx=30, text="All list print", font=("Arial", 8), border=0.5)
+        list_btn = tk.Button(list_frame, command=lambda : SalesController.print(self,0), padx=30, text="All list print", font=("Arial", 8), border=0, relief="flat", cursor='hand2')
         list_btn.pack(side=TOP)
 
         due_frame = tk.Frame(update_frame, padx=20, pady=10, background=self.bg)
         due_frame.pack(fill=tk.BOTH, side=TOP)
-        due_btn = tk.Button(due_frame, command=lambda : SalesController.print(self,1), padx=40, text="All due print", font=("Arial", 8), border=0.5)
+        due_btn = tk.Button(due_frame, command=lambda : SalesController.print(self,1), padx=40, text="All due print", font=("Arial", 8), border=0, relief="flat", cursor='hand2')
         due_btn.pack(side=TOP)
 
         back_frame = tk.Frame(update_frame, padx=20, pady=30, background=self.bg)

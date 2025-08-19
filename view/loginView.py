@@ -1,17 +1,15 @@
 import json
 import tkinter as tk
 import webbrowser
-import requests
-from tkinter import messagebox 
+from controller.JsonController import JsonController
 from controller.LoginController import LoginController
-from controller.SettingController import SettingController
 
 
 class loginView:
     def __init__(self, root):
         
-        self.bg = SettingController.bgColor(self)
-        self.fg = SettingController.fgColor(self)
+        self.bg = JsonController.bgColor(self)
+        self.fg = JsonController.fgColor(self)
         
         self.root = root
         self.root.title('Login')

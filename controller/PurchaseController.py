@@ -8,7 +8,6 @@ from PIL.ImImagePlugin import number
 from xhtml2pdf import pisa
 
 from model.Dealer import Dealer
-from model.Product import Product
 from model.Purchase import Purchase
 from model.Shop import Shop
 

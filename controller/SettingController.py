@@ -1,6 +1,7 @@
 import json
 import tkinter as tk
 from tkinter import messagebox
+from controller.JsonController import JsonController
 from model.Shop import Shop
 
 
@@ -36,20 +37,12 @@ class SettingController:
 
     def showShop(self):
         info = Shop().onselect()
-        if info:
+        if info is not None:
             return info
-        
-    def updateJsonFile(self,name,velue):
-            with open("./system.json", "r") as file:
-                data = json.load(file)
-                data[name]= velue
-            with open("./system.json", "w") as file:
-                json.dump(data, file, indent=0)
+
         
     def getDeshboardBackground(self):
-        with open("./system.json", "r") as file:
-            data = json.load(file)
-            bg = data['backgroundColor']
+        bg = JsonController.bgColor(self)
         # Title Bar
         self.root.configure(background=bg)
         self.topbar_frame.configure(background=bg)
@@ -101,6 +94,7 @@ class SettingController:
         self.save_frame.configure(background=bg)
         self.print_frame.configure(background=bg)
         self.mail_frame.configure(background=bg)
+        self.sms_frame.configure(background=bg)
         self.logout_frame.configure(background=bg)
         
         if bg=='Black' or bg=='Green' or bg=="Red":
@@ -135,9 +129,7 @@ class SettingController:
             self.shop_name.configure(fg='Black')
             
     def getSettingBackground(self):
-        with open("./system.json", "r") as file:
-            data = json.load(file)
-            bg = data['backgroundColor']  
+        bg = JsonController.bgColor(self)  
         # Shop Details Update
         self.satting_frame.configure(background=bg)
         self.setting_label_frame.configure(background=bg)
@@ -152,11 +144,16 @@ class SettingController:
         self.background_frame.configure(background=bg)
         self.background_label.configure(background=bg)
         self.mail_LabelFrame.configure(background=bg)
+        self.mailinfo_frame.configure(background=bg)
         self.mailAdd_frame.configure(background=bg)
         self.usermail_label.configure(background=bg)
         self.mailPass_frame.configure(background=bg)
         self.mailPass_label.configure(background=bg)
         self.mailSave_frame.configure(background=bg)
+        self.passNote_frame.configure(background=bg)
+        self.passwordApp_label1.configure(background=bg)
+        self.passwordApp_label2.configure(background=bg)
+        self.passwordApp_label3.configure(background=bg)
         
         if bg=='Black' or bg=='Green' or bg=="Red":
             self.setting_label_frame.configure(fg='White')
@@ -168,6 +165,9 @@ class SettingController:
             self.mail_LabelFrame.configure(fg='White')
             self.usermail_label.configure(fg='White')
             self.mailPass_label.configure(fg='White')
+            self.passwordApp_label1.configure(fg='White')
+            self.passwordApp_label2.configure(fg='White')
+            self.passwordApp_label3.configure(fg='White')
         else:
             self.setting_label_frame.configure(fg='Black')
             self.shop_name_label.configure(fg='Black')
@@ -178,18 +178,7 @@ class SettingController:
             self.mail_LabelFrame.configure(fg='Black')
             self.usermail_label.configure(fg='Black')
             self.mailPass_label.configure(fg='Black')
+            self.passwordApp_label1.configure(fg='Black')
+            self.passwordApp_label2.configure(fg='Black')
+            self.passwordApp_label3.configure(fg='Black')
             
-    def bgColor(self):
-        with open("./system.json", "r") as file:
-            data = json.load(file)
-            return data['backgroundColor']
-        
-    def fgColor(self):
-        bg = SettingController.bgColor(self)
-        if bg=="Black" or bg=="Green" or bg=="Red":
-            SettingController.updateJsonFile(self,"textColor","White")
-        else:
-            SettingController.updateJsonFile(self,"textColor","Black")
-        with open("./system.json", "r") as file:
-            data = json.load(file)
-            return data['textColor']

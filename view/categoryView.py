@@ -1,15 +1,10 @@
 import tkinter as tk
 from tkinter import * # type: ignore
 from tkinter import ttk
-from PIL import ImageTk,Image
-from unicodedata import category
 
-from controller.CardController import CardController
 from controller.CategoryController import CategoryController
-from controller.SettingController import SettingController
+from controller.JsonController import JsonController
 from view import dashboardView
-from controller.ProductController import ProductController
-from model.Category import Category
 
 
 class categoryView:
@@ -23,13 +18,14 @@ class categoryView:
         c_x = int(sw / 2 - ww / 2)
         c_y = int(100)
         root.geometry(f'{ww}x{wh}+{c_x}+{c_y}')
+        self.root.iconbitmap(r'image\winico.ico')
         root.resizable(False, False)
 
         self.catID = tk.IntVar()
         self.cName = tk.StringVar()
         
-        self.bg = SettingController.bgColor(self)
-        self.fg = SettingController.fgColor(self)
+        self.bg = JsonController.bgColor(self)
+        self.fg = JsonController.fgColor(self)
 
         def backDeshboard(event):
             self.root.destroy()
@@ -55,12 +51,12 @@ class categoryView:
 
         save_frame = tk.Frame(update_frame, padx=40, pady=40, background=self.bg)
         save_frame.pack(fill=tk.BOTH, side=TOP)
-        new_save_btn = tk.Button(save_frame, command=lambda :CategoryController.createCategory(self), padx=20, text="Save", bg="#A2C579", fg="black", font=("Arial", 8), border=0.5)
+        new_save_btn = tk.Button(save_frame, command=lambda :CategoryController.createCategory(self), padx=20, text="Save", bg="#A2C579", fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
         new_save_btn.pack(side=TOP)
 
         btn_frame = tk.Frame(update_frame, padx=40, background=self.bg)
         btn_frame.pack(fill=tk.BOTH, side=TOP)
-        product_save_btn = tk.Button(btn_frame, command=lambda :CategoryController.update(self), padx=30, text="Update", bg="#B0A695", fg="black", font=("Arial", 8), border=0.5)
+        product_save_btn = tk.Button(btn_frame, command=lambda :CategoryController.update(self), padx=30, text="Update", bg="#B0A695", fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
         product_save_btn.pack(side=TOP)
 
         back_frame = tk.Frame(update_frame, padx=40, pady=40, background=self.bg)

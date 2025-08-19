@@ -1,15 +1,12 @@
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
-from PIL import ImageTk,Image
 
 from controller.DealerController import DealerController
+from controller.JsonController import JsonController
 from controller.PurchaseController import PurchaseController
-from controller.SettingController import SettingController
 from model.Dealer import Dealer
 from view import dashboardView
-from controller.CustomerController import CustomerController
-from model.Category import Category
 
 
 class dealerView:
@@ -23,10 +20,11 @@ class dealerView:
         c_x = int(sw / 2 - ww / 2)
         c_y = int(10)
         root.geometry(f'{ww}x{sh}+{c_x}+{c_y}')
+        self.root.iconbitmap(r'image\winico.ico')
         root.resizable(False, False)
         
-        self.bg = SettingController.bgColor(self)
-        self.fg = SettingController.fgColor(self)
+        self.bg = JsonController.bgColor(self)
+        self.fg = JsonController.fgColor(self)
 
         self.did     = tk.IntVar()
         self.company = tk.StringVar()
@@ -76,17 +74,17 @@ class dealerView:
 
         dealer_delete_frame = tk.Frame(dealer_frame, padx=5, background=self.bg)
         dealer_delete_frame.pack(side='left')
-        dealer_delete_btn = tk.Button(dealer_delete_frame, command=lambda :DealerController.deleteDealer(self), text="Delete", padx=5, bg="#E25E3E", fg="black", font=("Arial", 8), border=0.5)
+        dealer_delete_btn = tk.Button(dealer_delete_frame, command=lambda :DealerController.deleteDealer(self), text="Delete", padx=5, bg="#E25E3E", fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
         dealer_delete_btn.pack(side='left')
 
         dealer_update_frame = tk.Frame(dealer_frame, background=self.bg)
         dealer_update_frame.pack(side='left')
-        dealer_update_btn = tk.Button(dealer_update_frame, command=lambda :DealerController.updateDealer(self), text="Update", padx=5, bg="#B0A695", fg="black", font=("Arial", 8), border=0.5)
+        dealer_update_btn = tk.Button(dealer_update_frame, command=lambda :DealerController.updateDealer(self), text="Update", padx=5, bg="#B0A695", fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
         dealer_update_btn.pack(side='left')
 
         dealer_save_frame = tk.Frame(dealer_frame, padx=5, background=self.bg)
         dealer_save_frame.pack(side='left')
-        dealer_save_btn = tk.Button(dealer_save_frame, command=lambda :DealerController.createDealer(self), text="Save", padx=15, bg="#A2C579", fg="black", font=("Arial", 8), border=0.5)
+        dealer_save_btn = tk.Button(dealer_save_frame, command=lambda :DealerController.createDealer(self), text="Save", padx=15, bg="#A2C579", fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
         dealer_save_btn.pack(side='left')
 
         # Update
@@ -150,22 +148,22 @@ class dealerView:
 
         delete_frame = tk.Frame(company_frame, padx=5, background=self.bg)
         delete_frame.pack(fill=tk.BOTH, side=LEFT)
-        delete_btn = tk.Button(delete_frame, command=lambda: PurchaseController.deletePurchase(self), padx=8, text="Delete", bg="#E25E3E", fg="black", font=("Arial", 8), border=0.5)
+        delete_btn = tk.Button(delete_frame, command=lambda: PurchaseController.deletePurchase(self), padx=8, text="Delete", bg="#E25E3E", fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
         delete_btn.pack(side=TOP)
 
         print_frame = tk.Frame(company_frame, padx=5, background=self.bg)
         print_frame.pack(fill=tk.BOTH, side=LEFT)
-        print_btn = tk.Button(print_frame, command=lambda: PurchaseController.print(self), padx=8, text="Print", bg="#ddd", fg="black", font=("Arial", 8), border=0.5)
+        print_btn = tk.Button(print_frame, command=lambda: PurchaseController.print(self), padx=8, text="Print", bg="#ddd", fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
         print_btn.pack(side=TOP)
 
         updates_frame = tk.Frame(company_frame, padx=5, background=self.bg)
         updates_frame.pack(fill=tk.BOTH, side=LEFT)
-        updates_btn = tk.Button(updates_frame, command=lambda: PurchaseController.updatePurchase(self), padx=8, text="Update", bg="#B0A695", fg="black", font=("Arial", 8), border=0.5)
+        updates_btn = tk.Button(updates_frame, command=lambda: PurchaseController.updatePurchase(self), padx=8, text="Update", bg="#B0A695", fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
         updates_btn.pack(side=TOP)
 
         save_frame = tk.Frame(company_frame, padx=5, background=self.bg)
         save_frame.pack(fill=tk.BOTH, side=LEFT)
-        save_btn = tk.Button(save_frame, command=lambda :PurchaseController.createPurchase(self), padx=11, text="Save", bg="#A2C579", fg="black", font=("Arial", 8), border=0.5)
+        save_btn = tk.Button(save_frame, command=lambda :PurchaseController.createPurchase(self), padx=11, text="Save", bg="#A2C579", fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
         save_btn.pack(side=TOP)
 
 

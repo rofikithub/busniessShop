@@ -1,8 +1,7 @@
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
-from PIL import ImageTk,Image
-from controller.SettingController import SettingController
+from controller.JsonController import JsonController
 from view import dashboardView
 from controller.ReturnController import ReturnController
 
@@ -18,6 +17,7 @@ class returnView:
         c_x = int(sw / 2 - ww / 2)
         c_y = int(50)
         root.geometry(f'{ww}x{wh}+{c_x}+{c_y}')
+        self.root.iconbitmap(r'image\winico.ico')
         # root.resizable(False, False)
 
 
@@ -31,8 +31,8 @@ class returnView:
         self.proQun  = tk.IntVar()
         self.cid     = tk.IntVar()
 
-        self.bg = SettingController.bgColor(self)
-        self.fg = SettingController.fgColor(self)
+        self.bg = JsonController.bgColor(self)
+        self.fg = JsonController.fgColor(self)
 
         def backDeshboard(event):
             self.root.destroy()
@@ -96,7 +96,7 @@ class returnView:
 
         btn_frame = tk.Frame(update_frame, padx=10, pady=60, background=self.bg)
         btn_frame.pack(fill=tk.BOTH, side=TOP)
-        new_product_save_btn = tk.Button(btn_frame, command= lambda: ReturnController.productReturn(self), padx=30, text="Update", bg="#B0A695", fg="black", font=("Arial", 8), border=0.5)
+        new_product_save_btn = tk.Button(btn_frame, command= lambda: ReturnController.productReturn(self), padx=30, text="Update", bg="#B0A695", fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
         new_product_save_btn.pack(side=TOP)
 
 

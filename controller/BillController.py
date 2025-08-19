@@ -1,13 +1,10 @@
-import json
-import os, time
-import datetime
-import yagmail
+import os
 from xhtml2pdf import pisa
 import webbrowser
 import tkinter as tk
 from fpdf import FPDF
 from tkinter import messagebox
-from datetime import datetime,date
+from datetime import date
 
 from model.Customer import Customer
 from model.Sale import Sale
@@ -128,200 +125,151 @@ class BillController:
     def searchBill(self):
         shop = Shop().onselect()
         bill = Sale().getbill(self.billNo.get())
-        self.mobile.set(bill[10])
-        self.name.set(bill[9])
-        self.email.set(bill[11])
-        list = List().getList(bill[0])
+        if bill is not None :
+            self.mobile.set(bill[10])
+            self.name.set(bill[9])
+            self.email.set(bill[11])
+            list = List().getList(bill[0])
 
-        if shop:
-            if bill:
-                if list:
-                    self.bill_box.delete('1.0', tk.END)
-                    self.bill_box.insert(tk.END, '\t\t\t'+str(shop[0])+'\n')
-                    self.bill_box.insert(tk.END, '\t\t\t        '+str(shop[1])+'\n')
-                    self.bill_box.insert(tk.END, '\t\t\t           Mobile : - '+str(shop[2])+'\n')
+            if shop:
+                if bill:
+                    if list:
+                        self.bill_box.delete('1.0', tk.END)
+                        self.bill_box.insert(tk.END, '\t\t\t'+str(shop[0])+'\n')
+                        self.bill_box.insert(tk.END, '\t\t\t        '+str(shop[1])+'\n')
+                        self.bill_box.insert(tk.END, '\t\t\t           Mobile : - '+str(shop[2])+'\n')
 
-                    self.bill_box.insert(tk.END, '\n---------------------------------------------  BILL NUMBER :  '+str(bill[0])+'  -----------------------------------------')
-                    self.bill_box.insert(tk.END, '\nDate :            '+str(bill[8])+'')
-                    self.bill_box.insert(tk.END, '\nCustomer Name :  '+str(bill[9])+'')
-                    self.bill_box.insert(tk.END, '\nMobile Number :    '+str(bill[10])+'')
-                    self.bill_box.insert(tk.END, "\n-----------------------------------------------------------------------------------------------------------------------\n")
-                    self.bill_box.insert (tk.END, "DESCRIPTION  \t\t\t RATE \t QUANTITY \t\t AMOUNT")
-                    self.bill_box.insert(tk.END, "\n-----------------------------------------------------------------------------------------------------------------------\n")
-                    for lists in list:
-                        pname = Product.pname(lists[3])
-                        self.bill_box.insert (tk.END, ''+str(pname)+'  \t\t\t '+str(lists[4])+' \t '+str(lists[5])+' \t\t '+str(lists[4]*lists[5])+' \n' )
-                    self.bill_box.insert(tk.END, "\n-----------------------------------------------------------------------------------------------------------------------\n")
-                    self.bill_box.insert (tk.END, '\t\t\t\tTOTAL PRICE \t  = \t '+str(bill[2])+'\n')
-                    self.bill_box.insert (tk.END, '\t\t\t\tLess  (-)\t           = \t '+str(bill[3])+'\n ')
-                    self.bill_box.insert (tk.END,"\t\t------------------------------------------------------------------------------------\n" )
-                    self.bill_box.insert (tk.END, '\t\t\t\tNET PAYABLE \t  = \t '+str(bill[2]-bill[3])+'\n' )
-                    self.bill_box.insert (tk.END, '\t\t\t\tPaid   (-)\t            = \t '+str(bill[5])+'\n' )
-                    self.bill_box.insert (tk.END, "\t\t      ------------------------------------------------------------------------\n" )
-                    self.bill_box.insert (tk.END, '\t\t\t\tDUE AMOUNT   \t=\t '+str(bill[4])+'\n ')
-
-
-
-        #messagebox.showwarning("Warning", "Invalid bill number ! ")
+                        self.bill_box.insert(tk.END, '\n---------------------------------------------  BILL NUMBER :  '+str(bill[0])+'  -----------------------------------------')
+                        self.bill_box.insert(tk.END, '\nDate :            '+str(bill[8])+'')
+                        self.bill_box.insert(tk.END, '\nCustomer Name :  '+str(bill[9])+'')
+                        self.bill_box.insert(tk.END, '\nMobile Number :    '+str(bill[10])+'')
+                        self.bill_box.insert(tk.END, "\n-----------------------------------------------------------------------------------------------------------------------\n")
+                        self.bill_box.insert (tk.END, "DESCRIPTION  \t\t\t RATE \t QUANTITY \t\t AMOUNT")
+                        self.bill_box.insert(tk.END, "\n-----------------------------------------------------------------------------------------------------------------------\n")
+                        for lists in list:
+                            pname = Product.pname(lists[3])
+                            self.bill_box.insert (tk.END, ''+str(pname)+'  \t\t\t '+str(lists[4])+' \t '+str(lists[5])+' \t\t '+str(lists[4]*lists[5])+' \n' )
+                        self.bill_box.insert(tk.END, "\n-----------------------------------------------------------------------------------------------------------------------\n")
+                        self.bill_box.insert (tk.END, '\t\t\t\tTOTAL PRICE \t  = \t '+str(bill[2])+'\n')
+                        self.bill_box.insert (tk.END, '\t\t\t\tLess  (-)\t           = \t '+str(bill[3])+'\n ')
+                        self.bill_box.insert (tk.END,"\t\t------------------------------------------------------------------------------------\n" )
+                        self.bill_box.insert (tk.END, '\t\t\t\tNET PAYABLE \t  = \t '+str(bill[2]-bill[3])+'\n' )
+                        self.bill_box.insert (tk.END, '\t\t\t\tPaid   (-)\t            = \t '+str(bill[5])+'\n' )
+                        self.bill_box.insert (tk.END, "\t\t      ------------------------------------------------------------------------\n" )
+                        self.bill_box.insert (tk.END, '\t\t\t\tDUE AMOUNT   \t=\t '+str(bill[4])+'\n ')
+        else:
+            messagebox.showwarning("Warning", "Invalid your bill number !")
 
     def print(self):
         shop = Shop().onselect()
         bill = Sale().getbill(self.billNo.get())
-        list = List().getList(bill[0])
-        if shop:
-            if bill:
-                if list:
-                    trlist = ""
-                    for lists in list:
-                        pname = Product.pname(lists[3])
-                        tr = '''<tr>
-                                <td>'''+str(str(pname))+'''</td>
-                                <td class="text-center">'''+str(lists[4])+'''</td>
-                                <td class="text-center">'''+str(lists[5])+'''</td>
-                                <td class="text-right">'''+str(lists[4]*lists[5])+'''</td>
-                            </tr>'''
-                        trlist = str(trlist)+str(tr)
+        if bill is not None :
+            list = List().getList(bill[0])
+            if shop:
+                if bill:
+                    if list:
+                        trlist = ""
+                        for lists in list:
+                            pname = Product.pname(lists[3])
+                            tr = '''<tr>
+                                    <td>'''+str(str(pname))+'''</td>
+                                    <td class="text-center">'''+str(lists[4])+'''</td>
+                                    <td class="text-center">'''+str(lists[5])+'''</td>
+                                    <td class="text-right">'''+str(lists[4]*lists[5])+'''</td>
+                                </tr>'''
+                            trlist = str(trlist)+str(tr)
 
-                        if bill[6]==0:
-                            status = "Paid"
-                        elif bill[6]==1:
-                            status = "Due"
+                            if bill[6]==0:
+                                status = "Paid"
+                            elif bill[6]==1:
+                                status = "Due"
 
-                    html = '''<!DOCTYPE html>
-                            <html lang="en">  
-                            <meta charset="utf-8">
-                            <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-                            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-                            <meta name="description" content="">
-                            <meta name="author" content="">
-                            
-                            <h4 style="text-align:center; padding:0;margin:0;">'''+ str(shop[0])+'''</h4>
-                            <p style="text-align:center; padding:0;margin:0;">'''+ str(shop[1])+'''</p>
-                            <p style="text-align:center; padding:0;margin:0;">Mobile : '''+ str(shop[2])+''' </p>
-                            <h1 style="text-align:center; font-size:1.2 rem;">SHOPPING INVOICE</h1>
+                        html = '''<!DOCTYPE html>
+                                <html lang="en">  
+                                <meta charset="utf-8">
+                                <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+                                <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+                                <meta name="description" content="">
+                                <meta name="author" content="">
+                                
+                                <h4 style="text-align:center; padding:0;margin:0;">'''+ str(shop[0])+'''</h4>
+                                <p style="text-align:center; padding:0;margin:0;">'''+ str(shop[1])+'''</p>
+                                <p style="text-align:center; padding:0;margin:0;">Mobile : '''+ str(shop[2])+''' </p>
+                                <h1 style="text-align:center; font-size:1.2 rem;">SHOPPING INVOICE</h1>
 
-                            <p style="padding:0;margin:0;"><u>Billing Information</u></p>
-                            <table class="info">
-                              <tr>
-                                <td style="width:90px;">Customer Name</td>
-                                <td style="width:450px;"> : '''+ str(bill[9])+'''</td>
-                                <td style="width:90px;">Bill Number</td>
-                                <td> : <strong>'''+str(bill[0])+'''</strong></td>
-                              </tr>
-                              <tr>
-                                <td>Mobile Number</td>
-                                <td> : '''+ str(bill[10])+'''</td>
-                                <td>Balling Date</td>
-                                <td> : '''+str(bill[8])+'''</td>
-                              </tr>
-                              <tr>
-                                <td>Email Address</td>
-                                <td> : '''+ str(bill[11])+'''</td>
-                                <td>Bill Status</td>
-                                <td> : <strong>'''+str(status)+'''</strong></td>
-                              </tr>
-                            </table>
-                            <br/>
-                            <p style="padding:0;margin:0;"><u>Shipping Information</u></p>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <td><strong>Item</strong></td>
-                                        <td class="text-center"><strong>Price</strong></td>
-                                        <td class="text-center"><strong>Quantity</strong></td>
-                                        <td class="text-right"><strong>Totals</strong></td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    '''+str(trlist)+'''
-                                    <tr style="border-top: 1px solid #ddd; weight:20px" ></tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td><strong>Subtotal</strong></td>
-                                        <td><strong>'''+str(bill[2])+'''</strong></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td>Less (-)</td>
-                                        <td>'''+str(bill[3])+'''</td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td>Total Amount</td>
-                                        <td><strong>'''+str(bill[2]-bill[3])+'''</strong></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td><strong>Paid</strong> (-)</td>
-                                        <td><strong>'''+str(bill[5])+'''</strong></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td>Due Amount</strong></td>
-                                        <td>'''+str(bill[4])+'''</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            </html>'''
-                    pdf_path = os.path.abspath(os.path.expanduser( '~' )+"\\AppData\\Local\\BMS\\report\\invoice.pdf")
+                                <p style="padding:0;margin:0;"><u>Billing Information</u></p>
+                                <table class="info">
+                                <tr>
+                                    <td style="width:90px;">Customer Name</td>
+                                    <td style="width:450px;"> : '''+ str(bill[9])+'''</td>
+                                    <td style="width:90px;">Bill Number</td>
+                                    <td> : <strong>'''+str(bill[0])+'''</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Mobile Number</td>
+                                    <td> : '''+ str(bill[10])+'''</td>
+                                    <td>Balling Date</td>
+                                    <td> : '''+str(bill[8])+'''</td>
+                                </tr>
+                                <tr>
+                                    <td>Email Address</td>
+                                    <td> : '''+ str(bill[11])+'''</td>
+                                    <td>Bill Status</td>
+                                    <td> : <strong>'''+str(status)+'''</strong></td>
+                                </tr>
+                                </table>
+                                <br/>
+                                <p style="padding:0;margin:0;"><u>Shipping Information</u></p>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <td><strong>Item</strong></td>
+                                            <td class="text-center"><strong>Price</strong></td>
+                                            <td class="text-center"><strong>Quantity</strong></td>
+                                            <td class="text-right"><strong>Totals</strong></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        '''+str(trlist)+'''
+                                        <tr style="border-top: 1px solid #ddd; weight:20px" ></tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td><strong>Subtotal</strong></td>
+                                            <td><strong>'''+str(bill[2])+'''</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td>Less (-)</td>
+                                            <td>'''+str(bill[3])+'''</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td>Total Amount</td>
+                                            <td><strong>'''+str(bill[2]-bill[3])+'''</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td><strong>Paid</strong> (-)</td>
+                                            <td><strong>'''+str(bill[5])+'''</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td>Due Amount</strong></td>
+                                            <td>'''+str(bill[4])+'''</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                </html>'''
+                        pdf_path = os.path.abspath(os.path.expanduser( '~' )+"\\AppData\\Local\\BMS\\report\\invoice.pdf")
 
-                    with open(pdf_path, "wb") as pdf_file:
-                        pisa_status = pisa.CreatePDF(html, dest=pdf_file)
-                        webbrowser.open_new(pdf_path)
-                    return not pisa_status.err
-
-    def getMailConfig(self):
-        with open("./system.json", "r") as file:
-            data = json.load(file)
-            return data['userMail']
-        
-    def updateMailConfig(self):
-        mail = self.usermail_entry.get()
-        addr = self.mailPass_entry.get()
-        
-        with open("./system.json", "r") as file:
-            data = json.load(file)
-            data['userMail']['userAddr']= mail
-            data['userMail']['userPass']= addr
-        with open("./system.json", "w") as file:
-            json.dump(data, file, indent=2)
-        messagebox.showinfo("Success", " Successfully update mail configaration.")
-        
-    def sendBillMail(self):
-        customerName = self.customer_name_entry.get()
-        mailAddress  = self.email_address_entry.get()
-        if not customerName or not mailAddress:
-            messagebox.showerror("Error", "Invalid customer name or email address ! ")
-        else :
-            shop = SettingController.showShop(self)
-            invoice = os.path.abspath(os.path.expanduser( '~' )+"\\AppData\\Local\\BMS\\report\\invoice.pdf")
-            subject = ('Invoice from '+str(shop[0]))
-            message = ('''\
-                        <html>
-                        <body>
-                            <h2 style="padding:0;margin:0;" >Dear '''+str(customerName)+'''</h2>
-                            <p>Thank you for choosing <u>'''+str(shop[0])+'''</u>.<br>Please find attached the invoice for your recent transaction.We kindly request you to review the invoice and make the payment by the due date mentioned above.
-                            If you have any questions regarding this invoice, please feel free to contact us at <b>'''+str(shop[2])+'''</b>.</p>
-                            <h3 style="padding:0;margin:0;">Best Regards</h3>,
-                            <p style="padding:0;margin:0;"><b>Manager</b><br>'''+str(shop[0])+'''<br>'''+str(shop[1])+'''</p>
-                        </body>
-                        </html>
-                        ''')
-            mailbox = yagmail.SMTP(
-                user = BillController.getMailConfig(self)['userAddr'], 
-                password = BillController.getMailConfig(self)['userPass']
-            )
-            mailbox.send(
-                to=mailAddress, 
-                subject=subject,
-                contents=message,
-                attachments=invoice
-                ) 
-            messagebox.showinfo("Success", "Email sent successfully.")
-
-
+                        with open(pdf_path, "wb") as pdf_file:
+                            pisa_status = pisa.CreatePDF(html, dest=pdf_file)
+                            webbrowser.open_new(pdf_path)
+                        return not pisa_status.err
+        else:
+            messagebox.showwarning("Warning", "Invalid your bill number !")

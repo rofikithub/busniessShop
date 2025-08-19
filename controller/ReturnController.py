@@ -1,12 +1,4 @@
-import os, time
-import datetime
-
-import webbrowser
-import tkinter as tk
-from datetime import date
 from tkinter import messagebox
-
-from controller.SalesController import SalesController
 from model.Sale import Sale
 from model.List import List
 from model.Product import Product

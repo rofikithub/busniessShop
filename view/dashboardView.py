@@ -1,16 +1,13 @@
-import json
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
-from tkinter import colorchooser
 from PIL import ImageTk,Image
 from tkinter import messagebox
 import PIL
-from tkinter_webcam import webcam
-from importlib.metadata import files
 from PIL import Image as PIM, ImageTk
 
-from controller.VoiceController import VoiceController
+from controller.JsonController import JsonController
+from controller.SmsController import SmsController
 from view.dealerView import dealerView
 from view.salesView import salesView
 from view.settingView import settingView
@@ -25,13 +22,11 @@ from controller.SettingController import SettingController
 
 from model.Category import Category
 from model.Product import Product
-from model.Card import Card
 
 
 
 class dashboardView:
     def __init__(self,root):
-        # self.attributes('-fullscreen', True)
         self.root = root
         root.title("User Dashboard")
         root.protocol('WM_DELETE_WINDOW', root.quit)
@@ -39,7 +34,10 @@ class dashboardView:
         sh = root.winfo_screenheight()-60
         root.geometry(f'{sw}x{sh}+{-10}+{0}')
         root.iconbitmap(r'image/winico.ico')
-
+        root.state("zoomed")
+        # root.attributes("-fullscreen", True)
+        # root.bind("<Escape>", lambda e: root.attributes("-fullscreen", False))
+        
         self.qun       = tk.IntVar()
         self.cardTotal = tk.IntVar()
         self.less      = tk.IntVar()
@@ -53,10 +51,11 @@ class dashboardView:
         self.email  = tk.StringVar()
 
         self.billDetails = []
-        self.bg = SettingController.bgColor(self)
-        self.fg = SettingController.fgColor(self)
+        self.bg = JsonController.bgColor(self)
+        self.fg = JsonController.fgColor(self)
+        
+        
         #Card.delete()
-
         menu_bar = tk.Menu(root)
         menu_bar.add_command(label="Dealer", command=self.viewDealer)
         menu_bar.add_command(label="Product", command=self.viewProduct)
@@ -79,10 +78,10 @@ class dashboardView:
         self.title_frame = tk.Frame(self.topbar_frame)
         self.title_frame.pack(side='left')
         
-        self.label = tk.Label(self.title_frame, text="Bill Management System", font=("Times New Roman", 20))
+        self.label = tk.Label(self.title_frame, text=SettingController.showShop(self)[0], font=("Times New Roman", 18))
         self.label.pack()
         
-        self.myshop_name = tk.Label(self.title_frame, text="ESHOP ONLINE MARCATE CENTER", font=("Times New Roman", 8))
+        self.myshop_name = tk.Label(self.title_frame, text=SettingController.showShop(self)[1], font=("Times New Roman", 10))
         self.myshop_name.pack()
         
 
@@ -98,7 +97,7 @@ class dashboardView:
         bill_number_label.pack(side='left')
         self.bill_number_entry = tk.Entry(self.billNo_frame, textvariable=self.billNo, bd=0.5, width=10, border=0, font=('Ubuntu', 13), highlightthickness=1,highlightbackground = "#ddd")
         self.bill_number_entry.pack(side='left')
-        bill_number_search = tk.Button(self.billNo_frame, command=lambda : BillController.searchBill(self),text="Search", padx=20, bg="#ddd", fg="black", font=("Arial", 9), border=0.5)
+        bill_number_search = tk.Button(self.billNo_frame, command=lambda : BillController.searchBill(self),text="Search", padx=20, font=("Arial", 8), border=0.5, bg="#ddd", fg="black", relief="flat", cursor='hand2')
         bill_number_search.pack(side='left')
 
 
@@ -161,7 +160,7 @@ class dashboardView:
 
         self.add_card_frame1 = tk.Frame(self.details_label_frame)
         self.add_card_frame1.pack(fill=tk.Y, side='top', pady=20 )
-        self.add_to_cart_btn1 = tk.Button(self.add_card_frame1, command=lambda:CardController.addToCard(self), text="Add to card", padx=20, bg="#ddd", fg="black", font=("Arial", 8), border=0.5)
+        self.add_to_cart_btn1 = tk.Button(self.add_card_frame1, command=lambda:CardController.addToCard(self), text="Add to card", padx=20, bg="#ddd", fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
         self.add_to_cart_btn1.pack(side='bottom')
 
         cmof_img = Image.open("./image/camera_of.png").resize((30, 20))
@@ -238,7 +237,7 @@ class dashboardView:
 
         self.add_card_frame2 = tk.Frame(self.label_frame, pady=5)
         self.add_card_frame2.pack(side=TOP, anchor='s')
-        self.add_to_cart_btn2 = tk.Button(self.add_card_frame2, command=lambda:CardController.getQuntaty(self), text="Add to card", padx=20, fg="black", font=("Arial", 8), border=0.5)
+        self.add_to_cart_btn2 = tk.Button(self.add_card_frame2, command=lambda:CardController.getQuntaty(self), text="Add to card", padx=20, fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
         self.add_to_cart_btn2.pack()
 
         # Bill Area
@@ -267,14 +266,14 @@ class dashboardView:
 
         self.total_frame = tk.Frame(self.card_label_frame, padx=10)
         self.total_frame.pack(fill=tk.BOTH, side='left')
-        total_label = tk.Label(self.total_frame, text="Total", padx=15, pady=2, bg="#999")
+        total_label = tk.Label(self.total_frame, text="Total", padx=15, pady=2, font=("Arial", 8), bg="#999")
         total_label.pack(side='left')
-        self.total_entry = tk.Entry(self.total_frame, textvariable=self.cardTotal, width=10, font=13, border=0, highlightthickness=1,highlightbackground = "#ddd", state='readonly')
+        self.total_entry = tk.Entry(self.total_frame, textvariable=self.cardTotal, width=10, font=5, border=0, highlightthickness=1,highlightbackground = "#ddd", state='readonly')
         self.total_entry.pack(side='left')
 
         self.less_frame = tk.Frame(self.card_label_frame, padx=10)
         self.less_frame.pack(fill=tk.BOTH, side='left' )
-        total_label = tk.Label(self.less_frame, text="Less", padx=10, pady=2, bg="#ddd")
+        total_label = tk.Label(self.less_frame, text="Less", padx=10, pady=2, font=("Arial", 8), bg="#ddd")
         total_label.pack(side='left')
         self.less_entry = tk.Entry(self.less_frame, textvariable=self.less, width=7, font=5, border=0, highlightthickness=1,highlightbackground = "#ddd")
         self.less_entry.pack(side='left')
@@ -282,7 +281,7 @@ class dashboardView:
 
         self.due_frame = tk.Frame(self.card_label_frame, padx=10)
         self.due_frame.pack(fill=tk.BOTH, side='left' )
-        total_label = tk.Label(self.due_frame, text="Due", padx=10, pady=2, bg="#ddd")
+        total_label = tk.Label(self.due_frame, text="Due", padx=10, pady=2, font=("Arial", 8), bg="#ddd")
         total_label.pack(side='left')
         self.due_entry = tk.Entry(self.due_frame, textvariable=self.due, width=7, font=5, border=0, highlightthickness=1,highlightbackground = "#ddd")
         self.due_entry.pack(side='left')
@@ -291,14 +290,14 @@ class dashboardView:
 
         self.paid_frame = tk.Frame(self.card_label_frame, padx=10)
         self.paid_frame.pack(fill=tk.BOTH, side='left' )
-        total_label = tk.Label(self.paid_frame, text="Paid", padx=10, pady=2, bg="#999")
+        total_label = tk.Label(self.paid_frame, text="Paid", padx=10, pady=2, font=("Arial", 8), bg="#999")
         total_label.pack(side='left')
         self.total_entry = tk.Entry(self.paid_frame, textvariable=self.paid, width=10, font=13, border=0, highlightthickness=1,highlightbackground = "#ddd", state='readonly')
         self.total_entry.pack(side='left')
 
         self.refresh_frame = tk.Frame(self.card_label_frame, padx=20 )
         self.refresh_frame.pack(fill=tk.BOTH, side='left')
-        add_to_cart_btn1 = tk.Button(self.refresh_frame, command=lambda:CardController.refreshCard(self), text="Refresh Card", padx=20, bg="#ddd", fg="black", font=("Arial", 8), border=0.5)
+        add_to_cart_btn1 = tk.Button(self.refresh_frame, command=lambda:CardController.refreshCard(self), text="Refresh Card", padx=20, bg="#ddd", fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
         add_to_cart_btn1.pack(side='left')
 
         auof_img = Image.open("./image/audio_of.png").resize((25, 18))
@@ -317,29 +316,35 @@ class dashboardView:
         self.bill_label_frame.pack(fill=tk.BOTH, expand=True, side='left')
 
 
-        self.save_frame = tk.Frame(self.bill_label_frame, padx=20)
+        self.save_frame = tk.Frame(self.bill_label_frame, padx=10)
         self.save_frame.pack(fill=tk.BOTH, side='left' )
-        add_to_cart_btn = tk.Button(self.save_frame, text="Save Bill", command=lambda :BillController.createBill(self), padx=30, bg="#A2C579", fg="black", font=("Arial", 8), border=0.5)
+        add_to_cart_btn = tk.Button(self.save_frame, text="Save Bill", command=lambda :BillController.createBill(self), padx=20, bg="#A2C579", fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
         add_to_cart_btn.pack(side='left')
 
-        self.print_frame = tk.Frame(self.bill_label_frame, padx=15)
+        self.print_frame = tk.Frame(self.bill_label_frame, padx=10)
         self.print_frame.pack(fill=tk.BOTH, side='left' )
-        add_to_cart_btn = tk.Button(self.print_frame, text="Print Bill", command=lambda: BillController.print(self), padx=20, bg="#ddd", fg="black", font=("Arial", 8), border=0.5)
+        add_to_cart_btn = tk.Button(self.print_frame, text="Print Bill", command=lambda: BillController.print(self), padx=15, bg="#ddd", fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
         add_to_cart_btn.pack(side='left')
         
-        self.mail_frame = tk.Frame(self.bill_label_frame, padx=15)
+        self.mail_frame = tk.Frame(self.bill_label_frame, padx=10)
         self.mail_frame.pack(fill=tk.BOTH, side='left' )
-        send_mail_btn = tk.Button(self.mail_frame, text="Send Mail", command=lambda: BillController.sendBillMail(self), padx=20, bg="#ddd", fg="black", font=("Arial", 8), border=0.5)
+        send_mail_btn = tk.Button(self.mail_frame, text="Send Mail", command=lambda: SmsController.sendBillMail(self), padx=15, bg="#ddd", fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
         send_mail_btn.pack(side='left')
         
-        self.logout_frame = tk.Frame(self.bill_label_frame, padx=20)
+        self.sms_frame = tk.Frame(self.bill_label_frame, padx=10)
+        self.sms_frame.pack(fill=tk.BOTH, side='left' )
+        send_sms_btn = tk.Button(self.sms_frame, text="Send SMS", command=lambda: SmsController.shopingsms(self), padx=15, bg="#ddd", fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
+        send_sms_btn.pack(side='left')
+        
+        
+        self.logout_frame = tk.Frame(self.bill_label_frame, padx=15)
         self.logout_frame.pack(fill=tk.BOTH, side='left' )
-        add_to_cart_btn = tk.Button(self.logout_frame, command=lambda : self.logout(), text="Logout", padx=20, bg="#E25E3E", fg="black", font=("Arial", 8), border=0.5)
+        add_to_cart_btn = tk.Button(self.logout_frame, command=lambda : self.logout(), text="Logout", padx=15, bg="#E25E3E", fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
         add_to_cart_btn.pack(side='left')
         
         
         
-        self.shop_name = tk.Label(root, text='© 2025 - Softwar Developed by Md. Rafikul Islam (Rofik), Phone- 01737034338, Email- rofik.it.bd@gmail.com', font=("Times New Roman", 8))
+        self.shop_name = tk.Label(root, text='© 2025 - Softwar Developed by Md. Rafikul Islam (Rofik), Phone- 01737034338, Email- rofik.it.bd@gmail.com', font=("Times New Roman", 8), cursor='hand2')
         self.shop_name.pack(side=BOTTOM, anchor='s')
         
         

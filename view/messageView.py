@@ -3,16 +3,16 @@ import tkinter as tk
 from datetime import date, datetime, timedelta
 import webbrowser
 from datetime import date
+from controller.JsonController import JsonController
 from view import loginView
 from view.dashboardView import dashboardView
-from controller.SettingController import SettingController
 
 
 class messageView:
     def __init__(self,root,data):
         
-        self.bg = SettingController.bgColor(self)
-        self.fg = SettingController.fgColor(self)
+        self.bg = JsonController.bgColor(self)
+        self.fg = JsonController.fgColor(self)
         
         self.root = root
         self.root.title('Notification')

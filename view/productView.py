@@ -1,8 +1,7 @@
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
-from PIL import ImageTk,Image
-from controller.SettingController import SettingController
+from controller.JsonController import JsonController
 from view import dashboardView
 from controller.ProductController import ProductController
 from model.Category import Category
@@ -19,6 +18,7 @@ class productView:
         c_x = int(sw / 2 - ww / 2)
         c_y = int(50)
         root.geometry(f'{ww}x{wh}+{c_x}+{c_y}')
+        self.root.iconbitmap(r'image\winico.ico')
         root.resizable(False, False)
 
         self.proID   = tk.IntVar()
@@ -28,8 +28,8 @@ class productView:
         self.sPrice  = tk.IntVar()
         self.cPrice  = tk.IntVar()
         
-        self.bg = SettingController.bgColor(self)
-        self.fg = SettingController.fgColor(self)
+        self.bg = JsonController.bgColor(self)
+        self.fg = JsonController.fgColor(self)
 
 
         def backDeshboard(event):
@@ -84,23 +84,23 @@ class productView:
 
         save_frame = tk.Frame(update_frame, padx=10, pady=40, background=self.bg)
         save_frame.pack(fill=tk.BOTH, side=TOP)
-        product_save_btn = tk.Button(save_frame, command=lambda : ProductController.createProduct(self), padx=20, text="Save", bg="#A2C579", fg="black", font=("Arial", 8), border=0.5)
+        product_save_btn = tk.Button(save_frame, command=lambda : ProductController.createProduct(self), padx=20, text="Save", bg="#A2C579", fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
         product_save_btn.pack(side=TOP)
 
         btn_frame = tk.Frame(update_frame, padx=10, background=self.bg)
         btn_frame.pack(fill=tk.BOTH, side=TOP)
-        new_product_save_btn = tk.Button(btn_frame, command=lambda : ProductController.update(self), padx=30, text="Update", bg="#B0A695", fg="black", font=("Arial", 8), border=0.5)
+        new_product_save_btn = tk.Button(btn_frame, command=lambda : ProductController.update(self), padx=30, text="Update", bg="#B0A695", fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
         new_product_save_btn.pack(side=TOP)
 
         save_frame = tk.Frame(update_frame, padx=10, pady=20, background=self.bg)
         save_frame.pack(fill=tk.BOTH, side=TOP)
-        save_btn = tk.Button(save_frame, command=lambda : ProductController.print(self),text="Print", padx=40, bg="#ddd", fg="black", font=("Arial", 8), border=0.5)
+        save_btn = tk.Button(save_frame, command=lambda : ProductController.print(self),text="Print", padx=40, bg="#ddd", fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
         save_btn.pack(side=TOP)
 
 
         qr_frame = tk.Frame(update_frame, padx=10, pady=30, background=self.bg)
         qr_frame.pack(fill=tk.BOTH, side=TOP)
-        qr_btn = tk.Button(qr_frame, command=lambda : ProductController.printqr(self),text="Print QR Code", padx=40, bg="#ddd", fg="black", font=("Arial", 8), border=0.5)
+        qr_btn = tk.Button(qr_frame, command=lambda : ProductController.printqr(self),text="Print QR Code", padx=40, bg="#ddd", fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
         qr_btn.pack(side=TOP)
 
         go_back_label = tk.Label(update_frame, text='Go back', borderwidth=0, relief="groove", padx=50, bg="#176B87", fg="white", cursor='hand2')
