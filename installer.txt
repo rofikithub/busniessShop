@@ -1,0 +1,15 @@
+pyinstaller --onefile --windowed --icon="image/winico.ico" `
+--add-data "controller;controller" `
+--add-data "image;image" `
+--add-data "model;model" `
+--add-data "view;view" `
+--add-data "scan.mp3;." `
+--add-binary "libiconv.dll;." `
+--add-binary "libzbar-64.dll;." `
+main.py
+
+
+
+Business Management System
+Rofik IT
+https://rofikit.com/

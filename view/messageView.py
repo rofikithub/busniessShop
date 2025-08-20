@@ -1,11 +1,14 @@
 import math
+import os
 import tkinter as tk
 from datetime import date, datetime, timedelta
 import webbrowser
 from datetime import date
 from controller.JsonController import JsonController
+from model.Shop import Shop
 from view import loginView
 from view.dashboardView import dashboardView
+from view.settingView import settingView
 
 
 class messageView:
@@ -19,11 +22,10 @@ class messageView:
         self.root.protocol('WM_DELETE_WINDOW', root.quit)
         self.root.geometry(f'400x300+500+100')
         self.root.resizable(False, False)
-        self.root.iconbitmap(r'image\email.ico')
+        self.root.iconbitmap(os.path.join(os.getcwd(), "image", "email.ico"))
         self.root.configure(background=self.bg)
         
         self.version = "1.0.0"
-
 
         def updateVersion(event):
             webbrowser.open_new('https://rofikit.com/')
@@ -90,5 +92,9 @@ class messageView:
 
     def nextAction(self):
         self.root.destroy()
-        dashboardView(tk.Tk())
+        info = Shop().onselect()
+        if info:
+            dashboardView(tk.Tk())
+        else: 
+            settingView(tk.Tk())
 

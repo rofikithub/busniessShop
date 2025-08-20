@@ -1,3 +1,4 @@
+import os
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
@@ -33,7 +34,7 @@ class dashboardView:
         sw = root.winfo_screenwidth()
         sh = root.winfo_screenheight()-60
         root.geometry(f'{sw}x{sh}+{-10}+{0}')
-        root.iconbitmap(r'image/winico.ico')
+        root.iconbitmap(os.path.join(os.getcwd(), "image", "winico.ico"))
         root.state("zoomed")
         # root.attributes("-fullscreen", True)
         # root.bind("<Escape>", lambda e: root.attributes("-fullscreen", False))
@@ -49,6 +50,11 @@ class dashboardView:
         self.name   = tk.StringVar()
         self.mobile = tk.StringVar()
         self.email  = tk.StringVar()
+        
+        self.snam = tk.StringVar()
+        self.sadd = tk.StringVar()
+        self.snum = tk.StringVar()
+        SettingController.showShop(self)
 
         self.billDetails = []
         self.bg = JsonController.bgColor(self)
@@ -78,10 +84,10 @@ class dashboardView:
         self.title_frame = tk.Frame(self.topbar_frame)
         self.title_frame.pack(side='left')
         
-        self.label = tk.Label(self.title_frame, text=SettingController.showShop(self)[0], font=("Times New Roman", 18))
+        self.label = tk.Label(self.title_frame, textvariable=self.snam, font=("Times New Roman", 18))
         self.label.pack()
         
-        self.myshop_name = tk.Label(self.title_frame, text=SettingController.showShop(self)[1], font=("Times New Roman", 10))
+        self.myshop_name = tk.Label(self.title_frame, textvariable=self.sadd, font=("Times New Roman", 10))
         self.myshop_name.pack()
         
 

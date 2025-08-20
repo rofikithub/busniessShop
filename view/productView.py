@@ -1,3 +1,4 @@
+import os
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
@@ -18,7 +19,7 @@ class productView:
         c_x = int(sw / 2 - ww / 2)
         c_y = int(50)
         root.geometry(f'{ww}x{wh}+{c_x}+{c_y}')
-        self.root.iconbitmap(r'image\winico.ico')
+        self.root.iconbitmap(os.path.join(os.getcwd(), "image", "winico.ico"))
         root.resizable(False, False)
 
         self.proID   = tk.IntVar()

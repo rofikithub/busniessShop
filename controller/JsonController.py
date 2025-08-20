@@ -1,21 +1,42 @@
+import os
 import json
 from tkinter import messagebox
 
 class JsonController:
     def __init__(self):
         pass
-
+    def getPath(self):
+        home_directory = os.path.expanduser( '~' )
+        db_path = (home_directory+"\\AppData\\Local\\BMS")
+        if not os.path.exists(db_path):
+            os.mkdir(db_path)
+        path=(home_directory+"\\AppData\\Local\\BMS\\system.json")
+        
+        if not os.path.exists(path):
+            default_data = {
+                "backgroundColor": "#eeeeee",
+                "textColor": "Black",
+                "userMail": "",
+                "userPass": "",
+                "greenwebToken": ""
+            }
+            with open(path, "w", encoding="utf-8") as f:
+                json.dump(default_data, f, indent=5, ensure_ascii=False)
+                
+        return path
+        
+        
     def updateJson(self,name,velue,index):
-            with open("./system.json", "r") as file:
+            with open(JsonController.getPath(self), "r") as file:
                 data = json.load(file)
                 data[name]= velue
-            with open("./system.json", "w") as file:
+            with open(JsonController.getPath(self), "w") as file:
                 json.dump(data, file, indent=index)
 
     def updateConfiguration(self):
         mail = self.usermail_entry.get()
         pasw = self.mailPass_entry.get()
-        with open("./system.json", "r") as file:
+        with open(JsonController.getPath(self), "r") as file:
             data = json.load(file)
             data['userMail']= mail
             data['userPass']= pasw
@@ -25,7 +46,7 @@ class JsonController:
                 
                 
     def getJson(self,name):
-        with open("./system.json", "r") as file:
+        with open(JsonController.getPath(self), "r") as file:
             jsondata = json.load(file)
             data = jsondata[name]
         if data is not None:
@@ -33,8 +54,8 @@ class JsonController:
         else:
             return None
         
-    def bgColor(self):
-        with open("./system.json", "r") as file:
+    def bgColor(self): 
+        with open(JsonController.getPath(self), "r") as file:
             data = json.load(file)
             return data['backgroundColor']
         
@@ -44,7 +65,7 @@ class JsonController:
             JsonController.updateJson(self,"textColor","White",1)
         else:
             JsonController.updateJson(self,"textColor","Black",1)
-        with open("./system.json", "r") as file:
+        with open(JsonController.getPath(self), "r") as file:
             data = json.load(file)
             return data['textColor']
         

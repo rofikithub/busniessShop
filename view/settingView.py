@@ -1,4 +1,5 @@
 import json
+import os
 import tkinter as tk
 from tkinter import BOTTOM, TOP, LEFT, ttk, BOTH
 from tkinter import colorchooser
@@ -22,14 +23,16 @@ class settingView:
         c_y = int(50)
         root.geometry(f'{ww}x{wh}+{c_x}+{c_y}')
         root.resizable(False, False)
-        self.root.iconbitmap(r'image\winico.ico')
+        self.root.iconbitmap(os.path.join(os.getcwd(), "image", "winico.ico"))
 
-        self.sname   = tk.StringVar()
-        self.address = tk.StringVar()
-        self.mobile  = tk.StringVar()
+        self.snam     = tk.StringVar()
+        self.sadd     = tk.StringVar()
+        self.snum     = tk.StringVar()
         self.userMail = tk.StringVar()
         self.userPass = tk.StringVar()
-        self.token   = tk.StringVar()
+        self.token    = tk.StringVar()
+        
+        SettingController.showShop(self)
         self.userMail.set(JsonController.getJson(self,'userMail'))
         self.userPass.set(JsonController.getJson(self,'userPass'))
         self.token.set(JsonController.getJson(self,'greenwebToken'))
@@ -66,7 +69,7 @@ class settingView:
         self.name_frame.pack(side=TOP)
         self.shop_name_label = tk.Label(self.name_frame, text="Shop Name        ", background=self.bg, fg=self.fg)
         self.shop_name_label.pack(side=LEFT)
-        self.shop_name_entry = tk.Entry(self.name_frame, textvariable=self.sname, width=40, font=("Arial", 10), border=0, highlightthickness=1,highlightbackground = "#ddd")
+        self.shop_name_entry = tk.Entry(self.name_frame, textvariable=self.snam, width=40, font=("Arial", 10), border=0, highlightthickness=1,highlightbackground = "#ddd")
         self.shop_name_entry.pack(side=LEFT)
 
 
@@ -74,14 +77,14 @@ class settingView:
         self.address_frame.pack(side=TOP)
         self.address_label = tk.Label(self.address_frame, text="Shop Address     ", background=self.bg, fg=self.fg)
         self.address_label.pack(side=LEFT)
-        self.shop_address_entry = tk.Entry(self.address_frame, textvariable=self.address, width=40, font=("Arial", 10), border=0, highlightthickness=1,highlightbackground = "#ddd")
+        self.shop_address_entry = tk.Entry(self.address_frame, textvariable=self.sadd, width=40, font=("Arial", 10), border=0, highlightthickness=1,highlightbackground = "#ddd")
         self.shop_address_entry.pack(side=LEFT)
 
         self.number_frame = tk.Frame(self.setting_label_frame, padx=10, pady=5, background=self.bg)
         self.number_frame.pack(side=TOP)
         self.numbe_label = tk.Label(self.number_frame, text="Mobile Number ", background=self.bg, fg=self.fg)
         self.numbe_label.pack(side=LEFT)
-        self.shop_mobile_entry = tk.Entry(self.number_frame, textvariable=self.mobile, width=40, font=("Arial", 10), border=0, highlightthickness=1,highlightbackground = "#ddd")
+        self.shop_mobile_entry = tk.Entry(self.number_frame, textvariable=self.snum, width=40, font=("Arial", 10), border=0, highlightthickness=1,highlightbackground = "#ddd")
         self.shop_mobile_entry.pack(side=LEFT)
 
 
@@ -89,9 +92,6 @@ class settingView:
         self.update_btn_frame.pack(fill=tk.BOTH, side=TOP)
         self.save_btn = tk.Button(self.update_btn_frame, text="Save", command= lambda: SettingController.createShop(self), padx=30, bg="#A2C579", fg="black", border=0, relief="flat", cursor='hand2')
         self.save_btn.pack(side=TOP)
-
-        SettingController.showUpdate(self)
-
 
         self.bg_LabelFrame = tk.LabelFrame(self.satting_frame, text="Windows Background", padx=5, pady=5, background=self.bg, fg=self.fg)
         self.bg_LabelFrame.pack(fill=tk.BOTH, side=TOP)

@@ -4,19 +4,18 @@ from view.loginView import loginView
 from view.dashboardView import dashboardView
 
 
-# from reportlab.graphics.barcode import code128
-# from reportlab.graphics.barcode import code93
-# from reportlab.graphics.barcode import code39
-# from reportlab.graphics.barcode import usps
-# from reportlab.graphics.barcode import usps4s
-# from reportlab.graphics.barcode import ecc200datamatrix
-
+from reportlab.graphics.barcode import code128
+from reportlab.graphics.barcode import code93
+from reportlab.graphics.barcode import code39
+from reportlab.graphics.barcode import usps
+from reportlab.graphics.barcode import usps4s
+from reportlab.graphics.barcode import ecc200datamatrix
 
 class App:
     def __init__(self, root):
         
-        #loginView(root)
-        dashboardView(root)
+        loginView(root)
+        #dashboardView(root)
         
         home_directory = os.path.expanduser( '~' )
         

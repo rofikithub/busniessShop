@@ -1,4 +1,5 @@
 import json
+import os
 import tkinter as tk
 import webbrowser
 from controller.JsonController import JsonController
@@ -16,7 +17,7 @@ class loginView:
         self.root.protocol('WM_DELETE_WINDOW', root.quit)
         self.root.geometry(f'400x360+500+100')
         self.root.resizable(False, False)
-        self.root.iconbitmap(r'image\winico.ico')
+        self.root.iconbitmap(os.path.join(os.getcwd(), "image", "winico.ico"))
         self.root.configure(background=self.bg)
 
 
@@ -59,6 +60,6 @@ class loginView:
         link_label.pack(side='bottom',anchor='s')
         link_label.bind("<Button-1>", goLink)
 
-        self.mobile_entry.insert(0,"01737034338")
-        self.password_entry.insert(0,"180825")
+        # self.mobile_entry.insert(0,"01737034338")
+        # self.password_entry.insert(0,"180825")
 

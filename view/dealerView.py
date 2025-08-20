@@ -1,3 +1,4 @@
+import os
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
@@ -20,7 +21,7 @@ class dealerView:
         c_x = int(sw / 2 - ww / 2)
         c_y = int(10)
         root.geometry(f'{ww}x{sh}+{c_x}+{c_y}')
-        self.root.iconbitmap(r'image\winico.ico')
+        self.root.iconbitmap(os.path.join(os.getcwd(), "image", "winico.ico"))
         root.resizable(False, False)
         
         self.bg = JsonController.bgColor(self)

@@ -28,6 +28,7 @@ class SmsController:
             return False
         
     def sendBillMail(self):
+        # jmdr sekk dhpq vouz
         customerName = self.customer_name_entry.get()
         mailAddress  = self.email_address_entry.get()
         net          = SmsController.checkNet(self)

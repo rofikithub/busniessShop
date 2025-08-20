@@ -1,5 +1,3 @@
-import json
-import tkinter as tk
 from tkinter import messagebox
 from controller.JsonController import JsonController
 from model.Shop import Shop
@@ -10,35 +8,36 @@ class SettingController:
         pass
 
     def createShop(self):
-        sname   = self.sname.get()
-        address = self.address.get()
-        mobile  = self.mobile.get()
+        snam   = self.snam.get()
+        sadd = self.sadd.get()
+        snum  = self.snum.get()
 
-        if sname == "":
+        if snam == "":
             messagebox.showwarning("Warning", "Please enter your shop name ! ")
-        elif address =="":
+        elif sadd =="":
             messagebox.showwarning("Warning", "Please enter your shop address ! ")
-        elif mobile =="":
+        elif snum =="":
             messagebox.showwarning("Warning", "Please enter shop number ! ")
         else:
             chack = Shop().chack()
             if chack:
-                if Shop().update([sname,address,mobile]):
+                if Shop().update([snam,sadd,snum]):
                     messagebox.showinfo("Update", "Successfully update shop informetion. ")
             else:
-                if Shop().create([sname,address,mobile]) :
-                    messagebox.showinfo("Success", "Shop informetion saved successfully.")
-
-    def showUpdate(self):
-        info = Shop().onselect()
-        self.sname.set(info[0])
-        self.address.set(info[1])
-        self.mobile.set(info[2])
+                if Shop().create([snam,sadd,snum]) :
+                    messagebox.showinfo("Success", "Shop informetion saved successfully.")    
+            
 
     def showShop(self):
         info = Shop().onselect()
-        if info is not None:
-            return info
+        if info:
+            self.snam.set(info[0])
+            self.sadd.set(info[1])
+            self.snum.set(info[2])
+        else: 
+            self.snam.set("")
+            self.sadd.set("")
+            self.snum.set("")
 
         
     def getDeshboardBackground(self):
@@ -154,6 +153,15 @@ class SettingController:
         self.passwordApp_label1.configure(background=bg)
         self.passwordApp_label2.configure(background=bg)
         self.passwordApp_label3.configure(background=bg)
+        self.sms_LabelFrame.configure(background=bg)
+        self.sms_frame.configure(background=bg)
+        self.token_frame.configure(background=bg)
+        self.token_label.configure(background=bg)
+        self.stoken_frame.configure(background=bg)
+        self.greenweb_frame.configure(background=bg)
+        self.smsnote_label1.configure(background=bg)
+        self.smsnote_label2.configure(background=bg)
+        self.smsnote_label3.configure(background=bg)
         
         if bg=='Black' or bg=='Green' or bg=="Red":
             self.setting_label_frame.configure(fg='White')
@@ -168,6 +176,11 @@ class SettingController:
             self.passwordApp_label1.configure(fg='White')
             self.passwordApp_label2.configure(fg='White')
             self.passwordApp_label3.configure(fg='White')
+            self.sms_LabelFrame.configure(fg='White')
+            self.token_label.configure(fg='White')
+            self.smsnote_label1.configure(fg='White')
+            self.smsnote_label2.configure(fg='White')
+            self.smsnote_label3.configure(fg='White')
         else:
             self.setting_label_frame.configure(fg='Black')
             self.shop_name_label.configure(fg='Black')
@@ -181,4 +194,9 @@ class SettingController:
             self.passwordApp_label1.configure(fg='Black')
             self.passwordApp_label2.configure(fg='Black')
             self.passwordApp_label3.configure(fg='Black')
+            self.sms_LabelFrame.configure(fg='Black')
+            self.token_label.configure(fg='Black')
+            self.smsnote_label1.configure(fg='Black')
+            self.smsnote_label2.configure(fg='Black')
+            self.smsnote_label3.configure(fg='Black')
             
