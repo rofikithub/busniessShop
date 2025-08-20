@@ -154,6 +154,15 @@ class SettingController:
         self.passwordApp_label1.configure(background=bg)
         self.passwordApp_label2.configure(background=bg)
         self.passwordApp_label3.configure(background=bg)
+        self.sms_LabelFrame.configure(background=bg)
+        self.sms_frame.configure(background=bg)
+        self.token_frame.configure(background=bg)
+        self.token_label.configure(background=bg)
+        self.stoken_frame.configure(background=bg)
+        self.greenweb_frame.configure(background=bg)
+        self.smsnote_label1.configure(background=bg)
+        self.smsnote_label2.configure(background=bg)
+        self.smsnote_label3.configure(background=bg)
         
         if bg=='Black' or bg=='Green' or bg=="Red":
             self.setting_label_frame.configure(fg='White')
@@ -168,6 +177,10 @@ class SettingController:
             self.passwordApp_label1.configure(fg='White')
             self.passwordApp_label2.configure(fg='White')
             self.passwordApp_label3.configure(fg='White')
+            self.token_label.configure(fg='White')
+            self.smsnote_label1.configure(fg='White')
+            self.smsnote_label2.configure(fg='White')
+            self.smsnote_label3.configure(fg='White')
         else:
             self.setting_label_frame.configure(fg='Black')
             self.shop_name_label.configure(fg='Black')
@@ -181,4 +194,8 @@ class SettingController:
             self.passwordApp_label1.configure(fg='Black')
             self.passwordApp_label2.configure(fg='Black')
             self.passwordApp_label3.configure(fg='Black')
+            self.token_label.configure(fg='Black')
+            self.smsnote_label1.configure(fg='Black')
+            self.smsnote_label2.configure(fg='Black')
+            self.smsnote_label3.configure(fg='Black')
             
