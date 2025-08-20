@@ -100,17 +100,17 @@ class salesView:
 
         print_frame = tk.Frame(update_frame, padx=20, pady=10, background=self.bg)
         print_frame.pack(fill=tk.BOTH, side=TOP)
-        print_btn = tk.Button(print_frame, command=lambda : SalesController.print(self,2), padx=20, text="Print", font=("Arial", 8), border=0, relief="flat", cursor='hand2')
+        print_btn = tk.Button(print_frame, command=lambda : SalesController.print(self,2), padx=20, text="Print", font=("Arial", 8), background='#ddd', border=0, relief="flat", cursor='hand2')
         print_btn.pack(side=TOP)
 
         list_frame = tk.Frame(update_frame, padx=20, pady=10, background=self.bg)
         list_frame.pack(fill=tk.BOTH, side=TOP)
-        list_btn = tk.Button(list_frame, command=lambda : SalesController.print(self,0), padx=30, text="All list print", font=("Arial", 8), border=0, relief="flat", cursor='hand2')
+        list_btn = tk.Button(list_frame, command=lambda : SalesController.print(self,0), padx=30, text="All list print", font=("Arial", 8), background='#ddd', border=0, relief="flat", cursor='hand2')
         list_btn.pack(side=TOP)
 
         due_frame = tk.Frame(update_frame, padx=20, pady=10, background=self.bg)
         due_frame.pack(fill=tk.BOTH, side=TOP)
-        due_btn = tk.Button(due_frame, command=lambda : SalesController.print(self,1), padx=40, text="All due print", font=("Arial", 8), border=0, relief="flat", cursor='hand2')
+        due_btn = tk.Button(due_frame, command=lambda : SalesController.print(self,1), padx=40, text="All due print", font=("Arial", 8), background='#ddd', border=0, relief="flat", cursor='hand2')
         due_btn.pack(side=TOP)
 
         back_frame = tk.Frame(update_frame, padx=20, pady=30, background=self.bg)
