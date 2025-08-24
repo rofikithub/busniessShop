@@ -14,7 +14,7 @@ from reportlab.graphics.barcode import ecc200datamatrix
 class App:
     def __init__(self, root):
         
-        loginView(root)
+        loginView(root) 
         #dashboardView(root)
         
         home_directory = os.path.expanduser( '~' )

@@ -1,13 +1,11 @@
-import json
-import os, time
-import datetime
+import os
 import yagmail
 import requests 
 import tkinter as tk
 from tkinter import messagebox
 from model.Customer import Customer
-from controller.SettingController import SettingController
 from controller.JsonController import JsonController
+from model.Shop import Shop
 
 class SmsController:
     def __init__(self):
@@ -37,7 +35,7 @@ class SmsController:
         elif net is not True:
             messagebox.showwarning("No Internet","Chack your internet connection!")
         else :
-            shop = SettingController.showShop(self)
+            shop    = Shop.onselect(self)
             invoice = os.path.abspath(os.path.expanduser( '~' )+"\\AppData\\Local\\BMS\\report\\invoice.pdf")
             subject = ('Invoice from '+str(shop[0]))
             message = ('''\

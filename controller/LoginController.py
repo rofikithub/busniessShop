@@ -3,7 +3,7 @@ import tkinter as tk
 import requests
 from view.messageView import messageView
 from tkinter import messagebox 
-
+from model.Admin import Admin
 
 class LoginController:
     def __init__(self, mobile, password):
@@ -59,11 +59,28 @@ class LoginController:
                 if data == []:
                     messagebox.showerror("Error", "Invalid your number or password ! ")
                 else:
+                    user = Admin.onselect(self)
+                    if user==[]:
+                        Admin.create(self,data)
+                    else:
+                        Admin.update(self,data)
                     self.root.destroy()
                     messageView(tk.Tk(), data)
             else:
-                messagebox.showwarning("Connection Error","Chack your internet connection!")
-
+                user = Admin.onselect(self)
+                if user==[]:
+                    messagebox.showwarning("Connection Error","Chack your internet connection!")
+                else:
+                    data = {
+                        "name": user[0],
+                        "softwar": user[1],
+                        "version": user[2],
+                        "start": user[3],
+                        "end": user[4],
+                        "status": str(user[5])
+                    }
+                    self.root.destroy()
+                    messageView(tk.Tk(), data)
 
 
 
