@@ -9,6 +9,8 @@ from PIL import Image as PIM, ImageTk
 
 from controller.JsonController import JsonController
 from controller.SmsController import SmsController
+from model.Shop import Shop
+from view.helpsView import helpsView
 from view.dealerView import dealerView
 from view.salesView import salesView
 from view.settingView import settingView
@@ -70,7 +72,7 @@ class dashboardView:
         menu_bar.add_command(label="Sales", command=self.viewSales)
         menu_bar.add_command(label="Return", command=self.viewReturn)
         menu_bar.add_command(label="Setting", command=self.setting)
-        menu_bar.add_command(label="Help")
+        menu_bar.add_command(label="Help", command=self.helps)
         root.config(menu=menu_bar)
         # root.configure(background="#eeeeee")
 
@@ -204,15 +206,27 @@ class dashboardView:
 
         def on_configure(event):
             canvas.configure ( scrollregion=canvas.bbox ( 'all' ) )
-        
+            
+        def on_mouse_wheel(event):
+            canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+
+        def on_mouse_wheel_mac(event):
+            if event.num == 4:
+                canvas.yview_scroll(-1, "units")
+            elif event.num == 5:
+                canvas.yview_scroll(1, "units") 
+                
         canvas = tk.Canvas ( self.name_label_frame)
         canvas.pack ( side="left", fill="both")
 
-        scrollbar = tk.Scrollbar ( self.name_label_frame, orient="vertical", command=canvas.yview, background='red')
+        scrollbar = tk.Scrollbar ( self.name_label_frame, orient="vertical", command=canvas.yview)
         scrollbar.pack ( side="right", fill="y" )
 
         canvas.configure ( yscrollcommand=scrollbar.set )
         canvas.configure(highlightthickness=1, highlightbackground = "#F9F9F9", background=self.bg)
+        canvas.bind_all("<MouseWheel>", on_mouse_wheel)
+        canvas.bind_all("<Button-4>", on_mouse_wheel_mac)
+        canvas.bind_all("<Button-5>", on_mouse_wheel_mac)
         canvas.bind ( '<Configure>', on_configure )
 
         self.frame_inside_canvas = tk.Frame ( canvas , padx=10, pady=10)
@@ -241,6 +255,7 @@ class dashboardView:
         # Set the canvas scroll region
         canvas.config ( scrollregion=canvas.bbox ( "all" ) )
 
+
         self.add_card_frame2 = tk.Frame(self.label_frame, pady=5)
         self.add_card_frame2.pack(side=TOP, anchor='s')
         self.add_to_cart_btn2 = tk.Button(self.add_card_frame2, command=lambda:CardController.getQuntaty(self), text="Add to card", padx=20, fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
@@ -252,13 +267,14 @@ class dashboardView:
 
         self.bill_box = tk.Text(self.bill_frame, fg="black", font=("Arial", 9))
         self.bill_box.pack(side='left')
+        self.bill_box.tag_configure("center", justify="center")
 
         self.bill_box.delete('1.0', tk.END)
-        shop = SettingController.showShop(self)
+        shop = Shop.onselect(self)
         if shop:
-            self.bill_box.insert(tk.END, '\t\t\t'+str(shop[0])+'\n')
-            self.bill_box.insert(tk.END, '\t\t\t        '+str(shop[1])+'\n')
-            self.bill_box.insert(tk.END, '\t\t\t           Mobile : - '+str(shop[2])+'\n')
+            self.bill_box.insert(tk.END, str(shop[0])+'\n',"center")
+            self.bill_box.insert(tk.END, str(shop[1])+'\n', "center")
+            self.bill_box.insert(tk.END, 'Mobile : - '+str(shop[2])+'\n', "center")
         self.billDetails
 
         # Footer Options
@@ -356,27 +372,22 @@ class dashboardView:
         
         SettingController.getDeshboardBackground(self)
                 
-                
-
-
+# >>>>>Start Menu<<<<<
     def viewDealer(self):
         self.root.destroy()
         dealerView(tk.Tk())
-
-    def setting(self):
-        self.root.destroy()
-        settingView(tk.Tk())
-
 
     def viewProduct(self):
         self.root.destroy()
         productView(tk.Tk())
 
-
+    def setting(self):
+        self.root.destroy()
+        settingView(tk.Tk())
+        
     def viewCategory(self):
         self.root.destroy()
         categoryView(tk.Tk())
-
 
     def viewCustomer(self):
         self.root.destroy()
@@ -389,6 +400,14 @@ class dashboardView:
     def viewReturn(self):
         self.root.destroy()
         returnView(tk.Tk())
+        
+    def helps(self):
+        helpsView(tk.Tk())
+
+    def setting(self):
+        self.root.destroy()
+        settingView(tk.Tk())
+# >>>>>Start Menu<<<<< 
 
     def thisCategory(self, event):
         cat = self.category_select.get()
@@ -415,3 +434,6 @@ class dashboardView:
         ans = messagebox.askokcancel("Confirm", "Are you sure to logout ?")
         if ans == True:
             self.root.quit()
+
+
+

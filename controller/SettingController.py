@@ -130,7 +130,10 @@ class SettingController:
     def getSettingBackground(self):
         bg = JsonController.bgColor(self)  
         # Shop Details Update
+        self.root.configure(background=bg)
         self.satting_frame.configure(background=bg)
+        self.info_frame.configure(background=bg)
+        self.scroll_frame.configure(background=bg)
         self.setting_label_frame.configure(background=bg)
         self.name_frame.configure(background=bg)
         self.shop_name_label.configure(background=bg)
@@ -139,9 +142,11 @@ class SettingController:
         self.number_frame.configure(background=bg)
         self.numbe_label.configure(background=bg)
         self.update_btn_frame.configure(background=bg)
+        self.bg_frame.configure(background=bg)
         self.bg_LabelFrame.configure(background=bg)
         self.background_frame.configure(background=bg)
         self.background_label.configure(background=bg)
+        self.gmail_frame.configure(background=bg)
         self.mail_LabelFrame.configure(background=bg)
         self.mailinfo_frame.configure(background=bg)
         self.mailAdd_frame.configure(background=bg)
@@ -153,6 +158,7 @@ class SettingController:
         self.passwordApp_label1.configure(background=bg)
         self.passwordApp_label2.configure(background=bg)
         self.passwordApp_label3.configure(background=bg)
+        self.massage_frame.configure(background=bg)
         self.sms_LabelFrame.configure(background=bg)
         self.sms_frame.configure(background=bg)
         self.token_frame.configure(background=bg)
@@ -162,6 +168,7 @@ class SettingController:
         self.smsnote_label1.configure(background=bg)
         self.smsnote_label2.configure(background=bg)
         self.smsnote_label3.configure(background=bg)
+        self.back_frame.configure(background=bg)
         
         if bg=='Black' or bg=='Green' or bg=="Red":
             self.setting_label_frame.configure(fg='White')

@@ -13,9 +13,12 @@ class settingView:
 
     def __init__(self, root):
         
+        self.bg = JsonController.bgColor(self)
+        self.fg = JsonController.fgColor(self)
+        
         self.root = root
         root.title("Configaretion Satting")
-        ww = 800
+        ww = 855
         wh = 600
         sw = root.winfo_screenwidth()
         sh = root.winfo_screenheight()
@@ -24,6 +27,7 @@ class settingView:
         root.geometry(f'{ww}x{wh}+{c_x}+{c_y}')
         root.resizable(False, False)
         self.root.iconbitmap(os.path.join(os.getcwd(), "image", "winico.ico"))
+        self.root.configure(background=self.bg)
 
         self.snam     = tk.StringVar()
         self.sadd     = tk.StringVar()
@@ -51,19 +55,53 @@ class settingView:
             JsonController.updateJson(self,"backgroundColor",bg,0)
             SettingController.getSettingBackground(self)
 
-        self.bg = JsonController.bgColor(self)
-        self.fg = JsonController.fgColor(self)
         
         def goGmail(event):
                 webbrowser.open_new('https://myaccount.google.com/apppasswords')
         def goGreenweb(event):
                 webbrowser.open_new('https://sms.greenweb.com.bd/index.php?ref=gen_token.php')   
-        # Shop Details Update
-        self.satting_frame = tk.Frame(root, padx=20, pady=20, background=self.bg)
-        self.satting_frame.pack(side=TOP,fill=tk.BOTH, expand=True)
+                
+        def on_mouse_wheel(event):
+            canvas.yview_scroll(int(-1*(event.delta/120)), "units")
 
-        self.setting_label_frame = tk.LabelFrame(self.satting_frame, text="Shop information", padx=5, pady=5, background=self.bg, fg=self.fg)
-        self.setting_label_frame.pack(fill=tk.BOTH, side=TOP)
+        def on_mouse_wheel_mac(event):
+            if event.num == 4:
+                canvas.yview_scroll(-1, "units")
+            elif event.num == 5:
+                canvas.yview_scroll(1, "units")   
+                
+        
+        self.satting_frame = tk.Frame(root, padx=10, pady=10, background=self.bg)
+        self.satting_frame.pack(side=TOP, fill=tk.BOTH, expand = True)
+        
+        
+        # ===== Scrollable Frame Setup =====
+        canvas = tk.Canvas(self.satting_frame, background=self.bg)
+        scrollbar = ttk.Scrollbar(self.satting_frame, orient="vertical", command=canvas.yview)
+        self.scroll_frame = tk.Frame(canvas, padx=10, pady=10, background=self.bg)
+
+        self.scroll_frame.bind(
+            "<Configure>",
+            lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+        )
+
+        canvas.create_window((0, 0), window=self.scroll_frame, anchor="nw")
+        canvas.configure(yscrollcommand=scrollbar.set)
+        canvas.configure(highlightthickness=0, highlightbackground = "#F9F9F9")
+        
+        canvas.bind_all("<MouseWheel>", on_mouse_wheel)
+        canvas.bind_all("<Button-4>", on_mouse_wheel_mac)
+        canvas.bind_all("<Button-5>", on_mouse_wheel_mac)
+        
+        canvas.pack(side="left", fill="both", expand=True)
+        scrollbar.pack(side="right", fill="y")
+        
+        # >>> Shop information <<<
+        self.info_frame = tk.Frame(self.scroll_frame, padx=10, pady=10, background=self.bg)
+        self.info_frame.pack(side=TOP, fill=tk.BOTH, expand = True)
+        
+        self.setting_label_frame = tk.LabelFrame(self.info_frame, text="Shop information", padx=5, pady=5, background=self.bg, fg=self.fg)
+        self.setting_label_frame.pack(side=TOP, fill=tk.BOTH, expand = True)
 
         self.name_frame = tk.Frame(self.setting_label_frame, padx=10, pady=5, background=self.bg)
         self.name_frame.pack(side=TOP)
@@ -93,8 +131,12 @@ class settingView:
         self.save_btn = tk.Button(self.update_btn_frame, text="Save", command= lambda: SettingController.createShop(self), padx=30, bg="#A2C579", fg="black", border=0, relief="flat", cursor='hand2')
         self.save_btn.pack(side=TOP)
 
-        self.bg_LabelFrame = tk.LabelFrame(self.satting_frame, text="Windows Background", padx=5, pady=5, background=self.bg, fg=self.fg)
-        self.bg_LabelFrame.pack(fill=tk.BOTH, side=TOP)
+        # >>> Windows Background <<<
+        self.bg_frame = tk.Frame(self.scroll_frame, padx=10, pady=10, background=self.bg)
+        self.bg_frame.pack(side=TOP, fill=tk.BOTH, expand = True)
+        
+        self.bg_LabelFrame = tk.LabelFrame(self.bg_frame, text="Windows Background", padx=5, pady=5, background=self.bg, fg=self.fg)
+        self.bg_LabelFrame.pack(side=TOP, fill=tk.BOTH, expand = True)
         
         self.background_frame = tk.Frame(self.bg_LabelFrame, padx=10, pady=5, background=self.bg)
         self.background_frame.pack(side=TOP)
@@ -114,8 +156,12 @@ class settingView:
             self.background_box.set(".. Windows Color ..")
             
             
-        self.mail_LabelFrame = tk.LabelFrame(self.satting_frame, text="Gmail Configuration", padx=25, pady=10, background=self.bg, fg=self.fg)
-        self.mail_LabelFrame.pack(side=TOP, fill=BOTH)
+        # >>> Gmail Configuration <<<
+        self.gmail_frame = tk.Frame(self.scroll_frame, padx=10, pady=10, background=self.bg)
+        self.gmail_frame.pack(side=TOP, fill=tk.BOTH, expand = True)
+        
+        self.mail_LabelFrame = tk.LabelFrame(self.gmail_frame, text="Gmail Configuration", padx=25, pady=10, background=self.bg, fg=self.fg)
+        self.mail_LabelFrame.pack(side=TOP, fill=tk.BOTH, expand = True)
         
         self.mailinfo_frame = tk.Frame(self.mail_LabelFrame, background=self.bg)
         self.mailinfo_frame.pack(side=TOP)
@@ -150,8 +196,12 @@ class settingView:
         self.passwordApp_label3.pack(side=LEFT)
             
             
-        self.sms_LabelFrame = tk.LabelFrame(self.satting_frame, text="SMS Configuration of Greenweb", padx=20, pady=10, background=self.bg, fg=self.fg)
-        self.sms_LabelFrame.pack(side=TOP, fill=BOTH)
+        # >>> SMS Configuration of Greenweb <<<   
+        self.massage_frame = tk.Frame(self.scroll_frame, padx=10, pady=10, background=self.bg)
+        self.massage_frame.pack(side=TOP, fill=BOTH, expand=True)
+        
+        self.sms_LabelFrame = tk.LabelFrame(self.massage_frame, text="SMS Configuration of Greenweb", padx=20, pady=10, background=self.bg, fg=self.fg)
+        self.sms_LabelFrame.pack(side=TOP, fill=BOTH, expand=True)
         
         self.sms_frame = tk.Frame(self.sms_LabelFrame, background=self.bg)
         self.sms_frame.pack(side=TOP, fill=BOTH, expand=True)
@@ -177,9 +227,10 @@ class settingView:
         self.smsnote_label3 = tk.Label(self.greenweb_frame, text=".To create a new api token.", font=("Arial", 8), background=self.bg, fg=self.fg)
         self.smsnote_label3.pack(side=LEFT)  
             
-            
-        go_back_label = tk.Label(self.satting_frame, text='Go back', borderwidth=0, relief="groove", bg="#176B87", fg="white", padx=20, cursor='hand2')
-        go_back_label.pack(side='bottom')
+        self.back_frame = tk.Frame(root, padx=10, pady=10, background=self.bg)
+        self.back_frame.pack(side=BOTTOM)
+        go_back_label = tk.Label(self.back_frame, text='Go back', borderwidth=0, relief="groove", bg="#176B87", fg="white", padx=20, cursor='hand2')
+        go_back_label.pack(side=BOTTOM, anchor='s')
         go_back_label.bind("<Button-1>", backDeshboard)
         
         

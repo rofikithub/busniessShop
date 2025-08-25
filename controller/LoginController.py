@@ -31,8 +31,8 @@ class LoginController:
     def userLogin(self):
         mobile   = self.mobile_entry.get()
         password = self.password_entry.get()
-        #link = 'http://127.0.0.1:8000/softwar/login/'+ str(mobile) + '/' + str(password)
-        link = 'https://rofikit.com/softwar/login/'+ str(mobile) + '/' + str(password)
+        #link = 'http://127.0.0.1:8000/software/login/'+ str(mobile) + '/' + str(password)
+        link = 'https://rofikit.com/software/login/'+ str(mobile) + '/' + str(password)
 
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0",
