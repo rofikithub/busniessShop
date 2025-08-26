@@ -9,7 +9,7 @@ class Database:
         db_path = (home_directory+"\\AppData\\Local\\BMS")
         if not os.path.exists(db_path):
             os.mkdir(db_path)
-        db_url=(home_directory+"\\AppData\\Local\\BMS\\bms.db")
+        db_url=(home_directory+"\\AppData\\Local\\BMS\\bms_database.db")
               
         self.db_name = db_url
         self.conn = None

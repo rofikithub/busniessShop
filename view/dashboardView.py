@@ -286,38 +286,38 @@ class dashboardView:
         self.card_label_frame.pack(fill=tk.BOTH, expand=True, side='left')
 
 
-        self.total_frame = tk.Frame(self.card_label_frame, padx=10)
+        self.total_frame = tk.Frame(self.card_label_frame, padx=8)
         self.total_frame.pack(fill=tk.BOTH, side='left')
-        total_label = tk.Label(self.total_frame, text="Total", padx=15, pady=2, font=("Arial", 8), bg="#999")
+        total_label = tk.Label(self.total_frame, text="Total", padx=10, pady=2, font=("Arial", 8), bg="#999")
         total_label.pack(side='left')
         self.total_entry = tk.Entry(self.total_frame, textvariable=self.cardTotal, width=10, font=5, border=0, highlightthickness=1,highlightbackground = "#ddd", state='readonly')
         self.total_entry.pack(side='left')
 
-        self.less_frame = tk.Frame(self.card_label_frame, padx=10)
+        self.less_frame = tk.Frame(self.card_label_frame, padx=8)
         self.less_frame.pack(fill=tk.BOTH, side='left' )
         total_label = tk.Label(self.less_frame, text="Less", padx=10, pady=2, font=("Arial", 8), bg="#ddd")
         total_label.pack(side='left')
-        self.less_entry = tk.Entry(self.less_frame, textvariable=self.less, width=7, font=5, border=0, highlightthickness=1,highlightbackground = "#ddd")
+        self.less_entry = tk.Entry(self.less_frame, textvariable=self.less, width=6, font=5, border=0, highlightthickness=1,highlightbackground = "#ddd")
         self.less_entry.pack(side='left')
         self.less.trace("w", lambda name, index, mode, var=IntVar: CardController.cardCalculate(self))
 
-        self.due_frame = tk.Frame(self.card_label_frame, padx=10)
+        self.due_frame = tk.Frame(self.card_label_frame, padx=8)
         self.due_frame.pack(fill=tk.BOTH, side='left' )
         total_label = tk.Label(self.due_frame, text="Due", padx=10, pady=2, font=("Arial", 8), bg="#ddd")
         total_label.pack(side='left')
-        self.due_entry = tk.Entry(self.due_frame, textvariable=self.due, width=7, font=5, border=0, highlightthickness=1,highlightbackground = "#ddd")
+        self.due_entry = tk.Entry(self.due_frame, textvariable=self.due, width=6, font=5, border=0, highlightthickness=1,highlightbackground = "#ddd")
         self.due_entry.pack(side='left')
         self.due.trace("w", lambda name, index, mode, var=IntVar: CardController.cardCalculate(self))
 
 
-        self.paid_frame = tk.Frame(self.card_label_frame, padx=10)
+        self.paid_frame = tk.Frame(self.card_label_frame, padx=8)
         self.paid_frame.pack(fill=tk.BOTH, side='left' )
         total_label = tk.Label(self.paid_frame, text="Paid", padx=10, pady=2, font=("Arial", 8), bg="#999")
         total_label.pack(side='left')
         self.total_entry = tk.Entry(self.paid_frame, textvariable=self.paid, width=10, font=13, border=0, highlightthickness=1,highlightbackground = "#ddd", state='readonly')
         self.total_entry.pack(side='left')
 
-        self.refresh_frame = tk.Frame(self.card_label_frame, padx=20 )
+        self.refresh_frame = tk.Frame(self.card_label_frame, padx=8 )
         self.refresh_frame.pack(fill=tk.BOTH, side='left')
         add_to_cart_btn1 = tk.Button(self.refresh_frame, command=lambda:CardController.refreshCard(self), text="Refresh Card", padx=20, bg="#ddd", fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
         add_to_cart_btn1.pack(side='left')
@@ -338,30 +338,34 @@ class dashboardView:
         self.bill_label_frame.pack(fill=tk.BOTH, expand=True, side='left')
 
 
-        self.save_frame = tk.Frame(self.bill_label_frame, padx=10)
+        self.save_frame = tk.Frame(self.bill_label_frame, padx=8)
         self.save_frame.pack(fill=tk.BOTH, side='left' )
         add_to_cart_btn = tk.Button(self.save_frame, text="Save Bill", command=lambda :BillController.createBill(self), padx=20, bg="#A2C579", fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
         add_to_cart_btn.pack(side='left')
 
-        self.print_frame = tk.Frame(self.bill_label_frame, padx=10)
+        self.print_frame = tk.Frame(self.bill_label_frame, padx=8)
         self.print_frame.pack(fill=tk.BOTH, side='left' )
-        add_to_cart_btn = tk.Button(self.print_frame, text="Print Bill", command=lambda: BillController.print(self), padx=15, bg="#ddd", fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
+        add_to_cart_btn = tk.Button(self.print_frame, text="Print Bill", command=lambda: BillController.print(self), padx=15, bg="#7ADAA5", fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
         add_to_cart_btn.pack(side='left')
         
-        self.mail_frame = tk.Frame(self.bill_label_frame, padx=10)
+        self.mail_frame = tk.Frame(self.bill_label_frame, padx=8)
         self.mail_frame.pack(fill=tk.BOTH, side='left' )
-        send_mail_btn = tk.Button(self.mail_frame, text="Send Mail", command=lambda: SmsController.sendBillMail(self), padx=15, bg="#ddd", fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
+        send_mail_btn = tk.Button(self.mail_frame, text="Send Mail", command=lambda: SmsController.sendBillMail(self), padx=15, bg="#2DAA9E", fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
         send_mail_btn.pack(side='left')
         
-        self.sms_frame = tk.Frame(self.bill_label_frame, padx=10)
+        self.sms_frame = tk.Frame(self.bill_label_frame, padx=8)
         self.sms_frame.pack(fill=tk.BOTH, side='left' )
-        send_sms_btn = tk.Button(self.sms_frame, text="Send SMS", command=lambda: SmsController.shopingsms(self), padx=15, bg="#ddd", fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
+        send_sms_btn = tk.Button(self.sms_frame, text="Send SMS", command=lambda: SmsController.shopingsms(self), padx=15, bg="#C59560", fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
         send_sms_btn.pack(side='left')
         
+        self.backup_frame = tk.Frame(self.bill_label_frame, padx=8)
+        self.backup_frame.pack(fill=tk.BOTH, side='left' )
+        send_backup_btn = tk.Button(self.backup_frame, text="Google Drive", command=lambda: SmsController.shopingsms(self), padx=10, bg="#FFAB5B", fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
+        send_backup_btn.pack(side='left')
         
-        self.logout_frame = tk.Frame(self.bill_label_frame, padx=15)
+        self.logout_frame = tk.Frame(self.bill_label_frame, padx=8)
         self.logout_frame.pack(fill=tk.BOTH, side='left' )
-        add_to_cart_btn = tk.Button(self.logout_frame, command=lambda : self.logout(), text="Logout", padx=15, bg="#E25E3E", fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
+        add_to_cart_btn = tk.Button(self.logout_frame, command=lambda : self.logout(), text="Logout", padx=15, bg="#EC7FA9", fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
         add_to_cart_btn.pack(side='left')
         
         

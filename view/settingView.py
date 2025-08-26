@@ -1,9 +1,9 @@
-import json
 import os
 import tkinter as tk
 from tkinter import BOTTOM, TOP, LEFT, ttk, BOTH
-from tkinter import colorchooser
+from tkinter import filedialog
 import webbrowser
+from controller.DriveController import DriveController
 from controller.JsonController import JsonController
 from view import dashboardView
 from controller.SettingController import SettingController
@@ -35,11 +35,23 @@ class settingView:
         self.userMail = tk.StringVar()
         self.userPass = tk.StringVar()
         self.token    = tk.StringVar()
+        self.client   = tk.StringVar()
+        self.database = tk.StringVar()
+        self.system = tk.StringVar()
         
         SettingController.showShop(self)
         self.userMail.set(JsonController.getJson(self,'userMail'))
         self.userPass.set(JsonController.getJson(self,'userPass'))
         self.token.set(JsonController.getJson(self,'greenwebToken'))
+
+        def backupDatabase(event):
+            self.database.set(filedialog.askopenfilename(title="Select File", filetypes=[("DB","*.db")]))
+
+        def clientSecrets(event):
+            self.client.set(filedialog.askopenfilename(title="Select File", filetypes=[("JSON","*.json")]))
+
+        def systemJson(event):
+            self.system.set(filedialog.askopenfilename(title="Select File", filetypes=[("JSON","*.json")]))
 
         def backDeshboard(event):
             self.root.destroy()
@@ -214,7 +226,7 @@ class settingView:
         self.token_entry.pack(side=LEFT)
         self.stoken_frame = tk.Frame(self.token_frame, padx=10, pady=5, background=self.bg)
         self.stoken_frame.pack(side=LEFT)
-        self.stoken_btn = tk.Button(self.stoken_frame, command=lambda:JsonController.updateToken(self), text="Save Token", padx=21, bg="#A2C579", fg="black", border=0, relief="flat", cursor='hand2')
+        self.stoken_btn = tk.Button(self.stoken_frame, command=lambda:JsonController.updateToken(self), text="Save Token", padx=15, bg="#A2C579", fg="black", border=0, relief="flat", cursor='hand2')
         self.stoken_btn.pack(side=LEFT)
         
         self.greenweb_frame = tk.Frame(self.sms_frame, background=self.bg)
@@ -226,6 +238,106 @@ class settingView:
         self.smsnote_label2.bind("<Button-1>", goGreenweb)
         self.smsnote_label3 = tk.Label(self.greenweb_frame, text=".To create a new api token.", font=("Arial", 8), background=self.bg, fg=self.fg)
         self.smsnote_label3.pack(side=LEFT)  
+         
+            
+        # >>> Google Drive Configuration <<<   
+        self.drive_frame = tk.Frame(self.scroll_frame, padx=10, pady=10, background=self.bg)
+        self.drive_frame.pack(side=TOP, fill=BOTH, expand=True)
+        
+        self.drive_LabelFrame = tk.LabelFrame(self.drive_frame, text="Google Drive Configuration", padx=20, pady=10, background=self.bg, fg=self.fg)
+        self.drive_LabelFrame.pack(side=TOP, fill=BOTH, expand=True)
+        
+        self.driver_frame = tk.Frame(self.drive_LabelFrame, background=self.bg)
+        self.driver_frame.pack(side=TOP, fill=BOTH, expand=True)
+        
+        self.gdrive_frame = tk.Frame(self.driver_frame, padx=5, pady=5, background=self.bg)
+        self.gdrive_frame.pack(side=TOP)
+        self.gdrive_label = tk.Label(self.gdrive_frame, text="Browse client_secrets.json File",  padx=15, pady=2, font=("Arial", 8), background="#999999", cursor='hand2')
+        self.gdrive_label.pack(side=LEFT)
+        self.gdrive_label.bind("<Button-1>", clientSecrets)
+        self.gdrive_entry = tk.Entry(self.gdrive_frame, textvariable=self.client, width=45, font=5, border=0, highlightthickness=1,highlightbackground = "#ddd", state='readonly')
+        self.gdrive_entry.pack(side=LEFT)
+        self.driveg_frame = tk.Frame(self.gdrive_frame, padx=10, pady=5, background=self.bg)
+        self.driveg_frame.pack(side=LEFT)
+        self.driveg_btn = tk.Button(self.driveg_frame, command=lambda:DriveController.uploadClient(self), text="Upload", padx=30, bg="#A2C579", fg="black", border=0, relief="flat", cursor='hand2')
+        self.driveg_btn.pack(side=LEFT)
+        
+        self.drivenot_frame = tk.Frame(self.driver_frame, background=self.bg)
+        self.drivenot_frame.pack(side=BOTTOM, anchor='s')
+        self.gdnote_label1 = tk.Label(self.drivenot_frame, text="Create a account for buy sms service. Go to this link", font=("Arial", 8), background=self.bg, fg=self.fg)
+        self.gdnote_label1.pack(side=LEFT)
+        self.gdnote_label2 = tk.Label(self.drivenot_frame, text="https://sms.greenweb.com.bd", font=("Arial", 8,"underline"), cursor='hand2', background=self.bg, fg=self.fg)
+        self.gdnote_label2.pack(side=LEFT)
+        self.gdnote_label2.bind("<Button-1>", goGreenweb)
+        self.gdnote_label3 = tk.Label(self.drivenot_frame, text=".To create a new api token.", font=("Arial", 8), background=self.bg, fg=self.fg)
+        self.gdnote_label3.pack(side=LEFT)  
+
+       
+        # >>> Database Backup File Upload <<<   
+        self.dbfile_frame = tk.Frame(self.scroll_frame, padx=10, pady=10, background=self.bg)
+        self.dbfile_frame.pack(side=TOP, fill=BOTH, expand=True)
+        
+        self.dbfile_LabelFrame = tk.LabelFrame(self.dbfile_frame, text="Database Backup File Upload", padx=20, pady=10, background=self.bg, fg=self.fg)
+        self.dbfile_LabelFrame.pack(side=TOP, fill=BOTH, expand=True)
+        
+        self.database_frame = tk.Frame(self.dbfile_LabelFrame, background=self.bg)
+        self.database_frame.pack(side=TOP, fill=BOTH, expand=True)
+        
+        self.dbf_frame = tk.Frame(self.database_frame, padx=5, pady=5, background=self.bg)
+        self.dbf_frame.pack(side=TOP)
+        self.dbf_label = tk.Label(self.dbf_frame, text="Browse bms_database.db File",  padx=15, pady=2, font=("Arial", 8), background="#999999", cursor='hand2')
+        self.dbf_label.pack(side=LEFT)
+        self.dbf_label.bind("<Button-1>", backupDatabase)
+        self.dbf_entry = tk.Entry(self.dbf_frame, textvariable=self.database, width=45, font=5, border=0, highlightthickness=1,highlightbackground = "#ddd", state='readonly')
+        self.dbf_entry.pack(side=LEFT)
+        self.bdfile_frame = tk.Frame(self.dbf_frame, padx=10, pady=5, background=self.bg)
+        self.bdfile_frame.pack(side=LEFT)
+        self.dbfile_btn = tk.Button(self.bdfile_frame, command=lambda:DriveController.uploadDatabase(self), text="Upload", padx=30, bg="#A2C579", fg="black", border=0, relief="flat", cursor='hand2')
+        self.dbfile_btn.pack(side=LEFT)
+        
+        self.dbnote_frame = tk.Frame(self.database_frame, background=self.bg)
+        self.dbnote_frame.pack(side=BOTTOM, anchor='s')
+        self.dbnote_label1 = tk.Label(self.dbnote_frame, text="Create a account for buy sms service. Go to this link", font=("Arial", 8), background=self.bg, fg=self.fg)
+        self.dbnote_label1.pack(side=LEFT)
+        self.dbnote_label2 = tk.Label(self.dbnote_frame, text="https://sms.greenweb.com.bd", font=("Arial", 8,"underline"), cursor='hand2', background=self.bg, fg=self.fg)
+        self.dbnote_label2.pack(side=LEFT)
+        self.dbnote_label2.bind("<Button-1>", goGreenweb)
+        self.dbnote_label3 = tk.Label(self.dbnote_frame, text=".To create a new api token.", font=("Arial", 8), background=self.bg, fg=self.fg)
+        self.dbnote_label3.pack(side=LEFT)  
+
+       
+        # >>> Upload System Json File <<<   
+        self.sjson_frame = tk.Frame(self.scroll_frame, padx=10, pady=10, background=self.bg)
+        self.sjson_frame.pack(side=TOP, fill=BOTH, expand=True)
+        
+        self.sjson_LabelFrame = tk.LabelFrame(self.sjson_frame, text="Database Backup File Upload", padx=20, pady=10, background=self.bg, fg=self.fg)
+        self.sjson_LabelFrame.pack(side=TOP, fill=BOTH, expand=True)
+        
+        self.system_frame = tk.Frame(self.sjson_LabelFrame, background=self.bg)
+        self.system_frame.pack(side=TOP, fill=BOTH, expand=True)
+        
+        self.sjfile_frame = tk.Frame(self.system_frame, padx=5, pady=5, background=self.bg)
+        self.sjfile_frame.pack(side=TOP)
+        self.sjfile_label = tk.Label(self.sjfile_frame, text="Browse system.json File",  padx=15, pady=2, font=("Arial", 8), background="#999999", cursor='hand2')
+        self.sjfile_label.pack(side=LEFT)
+        self.sjfile_label.bind("<Button-1>", systemJson)
+        self.sjfile_entry = tk.Entry(self.sjfile_frame, textvariable=self.system, width=49, font=5, border=0, highlightthickness=1,highlightbackground = "#ddd", state='readonly')
+        self.sjfile_entry.pack(side=LEFT)
+        self.sjsonf_frame = tk.Frame(self.sjfile_frame, padx=10, pady=5, background=self.bg)
+        self.sjsonf_frame.pack(side=LEFT)
+        self.sjfile_btn = tk.Button(self.sjsonf_frame, command=lambda:DriveController.uploadSystemjson(self), text="Upload", padx=30, bg="#A2C579", fg="black", border=0, relief="flat", cursor='hand2')
+        self.sjfile_btn.pack(side=LEFT)
+        
+        self.sysnot_frame = tk.Frame(self.system_frame, background=self.bg)
+        self.sysnot_frame.pack(side=BOTTOM, anchor='s')
+        self.sysnote_label1 = tk.Label(self.sysnot_frame, text="Create a account for buy sms service. Go to this link", font=("Arial", 8), background=self.bg, fg=self.fg)
+        self.sysnote_label1.pack(side=LEFT)
+        self.sysnote_label2 = tk.Label(self.sysnot_frame, text="https://sms.greenweb.com.bd", font=("Arial", 8,"underline"), cursor='hand2', background=self.bg, fg=self.fg)
+        self.sysnote_label2.pack(side=LEFT)
+        self.sysnote_label2.bind("<Button-1>", goGreenweb)
+        self.sysnote_label3 = tk.Label(self.sysnot_frame, text=".To create a new api token.", font=("Arial", 8), background=self.bg, fg=self.fg)
+        self.sysnote_label3.pack(side=LEFT)  
+            
             
         self.back_frame = tk.Frame(root, padx=10, pady=10, background=self.bg)
         self.back_frame.pack(side=BOTTOM)
