@@ -34,4 +34,4 @@ if __name__ == "__main__":
     root.mainloop() 
 
 
-# pip install -r libs.txt
+# pip install -r requirements.txt

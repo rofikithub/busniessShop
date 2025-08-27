@@ -1,12 +1,15 @@
 import os
 import io
 import shutil
+import tkinter as tk
 from tkinter import filedialog, messagebox
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload, MediaIoBaseDownload
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request
+import requests
+from view import dashboardView
 
 SCOPES = ['https://www.googleapis.com/auth/drive.file']
 HOME_DIRECTORY = os.path.expanduser( '~' )
@@ -31,7 +34,21 @@ class DriveController:
           return CLIENT_SECRET_FILE
         else:
             return False
-      
+        
+    def checkNet(self):
+        url = "http://www.google.com"
+        timeout = 50
+        try:
+            response = requests.get(url, timeout=timeout)
+            if response.status_code == 200:
+                return True
+            else:
+                return False
+        except requests.ConnectionError:
+            return False
+        except requests.Timeout:
+            return False
+        
     def get_credentials():
         creds = None
         if os.path.exists(TOKEN_FILE):
@@ -46,63 +63,28 @@ class DriveController:
 
             with open(TOKEN_FILE, 'w') as token:
                 token.write(creds.to_json())
-
         return creds
 
     def get_drive_service(self):
         creds = DriveController.get_credentials()
         service = build('drive', 'v3', credentials=creds)
         return service
-
-    # ---------------- Upload in Google Drive ----------------
-    def upload_file(self,fnam):
-        file_path = DriveController.getFile(self,fnam)
-        if file_path:
-            service = DriveController.get_drive_service(self)
-            file_metadata = {'name': os.path.basename(file_path)}
-            media = MediaFileUpload(file_path, resumable=True)
-            file = service.files().create(body=file_metadata, media_body=media, fields='id').execute()
-            if file.get('id'):
-                messagebox.showinfo("Success", f"File uploaded successfully in your google drive!")
-
-    # ---------------- Download from Goole Drive ----------------
-    def download_file(self,file_id, save_as):
-        service = DriveController.get_drive_service()
-        request = service.files().get_media(fileId=file_id)
-        fh = io.FileIO(save_as, 'wb')
-        downloader = MediaIoBaseDownload(fh, request)
-        done = False
-        while not done:
-            status, done = downloader.next_chunk()
-        fh.close()
-        
-        
-    # ---------------- Upload file in softwer system ----------------
-    # def file_upload(self):
-    #     file_path = filedialog.askopenfilename(title="Select File", filetypes=[("DB/JSON","*.db *.json")])
-    #     if file_path:
-            
-    #         try:
-    #             dest_path = os.path.join(DIRECTORY, os.path.basename(file_path))
-    #             shutil.copy(file_path, dest_path)
-
-    #             messagebox.showinfo("Success", f"File uploaded successfully!")
-    #         except Exception as e:
-    #             messagebox.showerror("Error", str(e))
                 
     def uploadClient(self):
         file_path = self.client.get()
         if file_path:
             os.makedirs(DIRECTORY, exist_ok=True)
             new_name = "client_secrets.json"
-            
             try:
                 dest_path = os.path.join(DIRECTORY, new_name)
                 shutil.copy(file_path, dest_path)
                 messagebox.showinfo("Success", f"client_secrets.json File uploaded successfully!")
                 self.client.set("")
+                self.root.destroy()
+                dashboardView.dashboardView(tk.Tk())
             except Exception as e:
                 messagebox.showerror("Error", str(e))
+                
                 
     def uploadDatabase(self):
         file_path = self.database.get()
@@ -115,6 +97,8 @@ class DriveController:
                 shutil.copy(file_path, dest_path)
                 messagebox.showinfo("Success", f"Backup Database File uploaded successfully!")
                 self.client.set("")
+                self.root.destroy()
+                dashboardView.dashboardView(tk.Tk())
             except Exception as e:
                 messagebox.showerror("Error", str(e))
                 
@@ -130,7 +114,82 @@ class DriveController:
                 shutil.copy(file_path, dest_path)
                 messagebox.showinfo("Success", f"System Json File uploaded successfully!")
                 self.system.set("")
+                self.root.destroy()
+                dashboardView.dashboardView(tk.Tk())
             except Exception as e:
                 messagebox.showerror("Error", str(e))
+              
                 
-                
+    def deleteDrive(self,service,fileName):
+        query = (f"name='{fileName}' and trashed=false")
+        response = service.files().list(q=query, spaces='drive', fields='files(id, name)').execute()
+        items = response.get('files', [])
+        for item in items:
+            service.files().delete(fileId=item['id']).execute()
+        
+          
+    def uploaDrive(self):
+        if DriveController.checkNet(self):
+            if os.path.exists(CLIENT_SECRET_FILE):
+                service = DriveController.get_drive_service(self)
+                DriveController.deleteDrive(self,service,"bms_database.db")
+                file_metadata = {'name': os.path.basename(DATABASE_PATH)}
+                media = MediaFileUpload(DATABASE_PATH, resumable=True)
+                db = service.files().create(body=file_metadata, media_body=media, fields='id').execute()
+                if db.get('id'):
+                    DriveController.deleteDrive(self,service,"client_secrets.json")
+                    file_metadata = {'name': os.path.basename(CLIENT_SECRET_FILE)}
+                    media = MediaFileUpload(CLIENT_SECRET_FILE, resumable=True)
+                    cs = service.files().create(body=file_metadata, media_body=media, fields='id').execute()
+                    if cs.get('id'):
+                        DriveController.deleteDrive(self,service,"system.json")
+                        file_metadata = {'name': os.path.basename(SYSTEM_PATH)}
+                        media = MediaFileUpload(SYSTEM_PATH, resumable=True)
+                        ss = service.files().create(body=file_metadata, media_body=media, fields='id').execute()
+                        if ss.get('id'): 
+                            messagebox.showinfo("Success", f"Back files upload successfully in Your Google Drive!")
+            else:
+                # https://console.cloud.google.com/
+                messagebox.showwarning("Drive Api","Not Found client_secrets.json File!")
+        else:
+            messagebox.showwarning("No Internet","Chack your internet connection!")
+            
+            
+            
+            
+
+    # ---------------- Upload in Google Drive ----------------
+    # def upload_file(self,fnam):
+    #     file_path = DriveController.getFile(self,fnam)
+    #     if file_path:
+    #         service = DriveController.get_drive_service(self)
+    #         file_metadata = {'name': os.path.basename(file_path)}
+    #         media = MediaFileUpload(file_path, resumable=True)
+    #         file = service.files().create(body=file_metadata, media_body=media, fields='id').execute()
+    #         if file.get('id'):
+    #             messagebox.showinfo("Success", f"File uploaded successfully in your google drive!")
+
+    # ---------------- Download from Goole Drive ----------------
+    # def download_file(self,file_id, save_as):
+    #     service = DriveController.get_drive_service()
+    #     request = service.files().get_media(fileId=file_id)
+    #     fh = io.FileIO(save_as, 'wb')
+    #     downloader = MediaIoBaseDownload(fh, request)
+    #     done = False
+    #     while not done:
+    #         status, done = downloader.next_chunk()
+    #     fh.close()
+        
+        
+    # ---------------- Upload file in softwer system ----------------
+    # def file_upload(self):
+    #     file_path = filedialog.askopenfilename(title="Select File", filetypes=[("DB/JSON","*.db *.json")])
+    #     if file_path:
+            
+    #         try:
+    #             dest_path = os.path.join(DIRECTORY, os.path.basename(file_path))
+    #             shutil.copy(file_path, dest_path)
+
+    #             messagebox.showinfo("Success", f"File uploaded successfully!")
+    #         except Exception as e:
+    #             messagebox.showerror("Error", str(e))

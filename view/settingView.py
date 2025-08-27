@@ -18,7 +18,7 @@ class settingView:
         
         self.root = root
         root.title("Configaretion Satting")
-        ww = 855
+        ww = 850
         wh = 600
         sw = root.winfo_screenwidth()
         sh = root.winfo_screenheight()
@@ -244,7 +244,7 @@ class settingView:
         self.drive_frame = tk.Frame(self.scroll_frame, padx=10, pady=10, background=self.bg)
         self.drive_frame.pack(side=TOP, fill=BOTH, expand=True)
         
-        self.drive_LabelFrame = tk.LabelFrame(self.drive_frame, text="Google Drive Configuration", padx=20, pady=10, background=self.bg, fg=self.fg)
+        self.drive_LabelFrame = tk.LabelFrame(self.drive_frame, text="Google Drive Configuration File", padx=20, pady=10, background=self.bg, fg=self.fg)
         self.drive_LabelFrame.pack(side=TOP, fill=BOTH, expand=True)
         
         self.driver_frame = tk.Frame(self.drive_LabelFrame, background=self.bg)
@@ -310,7 +310,7 @@ class settingView:
         self.sjson_frame = tk.Frame(self.scroll_frame, padx=10, pady=10, background=self.bg)
         self.sjson_frame.pack(side=TOP, fill=BOTH, expand=True)
         
-        self.sjson_LabelFrame = tk.LabelFrame(self.sjson_frame, text="Database Backup File Upload", padx=20, pady=10, background=self.bg, fg=self.fg)
+        self.sjson_LabelFrame = tk.LabelFrame(self.sjson_frame, text="Softwere System File Upload", padx=20, pady=10, background=self.bg, fg=self.fg)
         self.sjson_LabelFrame.pack(side=TOP, fill=BOTH, expand=True)
         
         self.system_frame = tk.Frame(self.sjson_LabelFrame, background=self.bg)
@@ -325,7 +325,7 @@ class settingView:
         self.sjfile_entry.pack(side=LEFT)
         self.sjsonf_frame = tk.Frame(self.sjfile_frame, padx=10, pady=5, background=self.bg)
         self.sjsonf_frame.pack(side=LEFT)
-        self.sjfile_btn = tk.Button(self.sjsonf_frame, command=lambda:DriveController.uploadSystemjson(self), text="Upload", padx=30, bg="#A2C579", fg="black", border=0, relief="flat", cursor='hand2')
+        self.sjfile_btn = tk.Button(self.sjsonf_frame, command=lambda:DriveController.uploadSystemJson(self), text="Upload", padx=30, bg="#A2C579", fg="black", border=0, relief="flat", cursor='hand2')
         self.sjfile_btn.pack(side=LEFT)
         
         self.sysnot_frame = tk.Frame(self.system_frame, background=self.bg)

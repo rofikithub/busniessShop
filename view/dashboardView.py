@@ -7,6 +7,7 @@ from tkinter import messagebox
 import PIL
 from PIL import Image as PIM, ImageTk
 
+from controller.DriveController import DriveController
 from controller.JsonController import JsonController
 from controller.SmsController import SmsController
 from model.Shop import Shop
@@ -360,7 +361,7 @@ class dashboardView:
         
         self.backup_frame = tk.Frame(self.bill_label_frame, padx=8)
         self.backup_frame.pack(fill=tk.BOTH, side='left' )
-        send_backup_btn = tk.Button(self.backup_frame, text="Google Drive", command=lambda: SmsController.shopingsms(self), padx=10, bg="#FFAB5B", fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
+        send_backup_btn = tk.Button(self.backup_frame, text="Google Drive", command=lambda: DriveController.uploaDrive(self), padx=10, bg="#FFAB5B", fg="black", font=("Arial", 8), border=0.5, relief="flat", cursor='hand2')
         send_backup_btn.pack(side='left')
         
         self.logout_frame = tk.Frame(self.bill_label_frame, padx=8)

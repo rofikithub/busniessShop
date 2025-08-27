@@ -26,7 +26,6 @@ class SmsController:
             return False
         
     def sendBillMail(self):
-        # jmdr sekk dhpq vouz
         customerName = self.customer_name_entry.get()
         mailAddress  = self.email_address_entry.get()
         net          = SmsController.checkNet(self)
@@ -69,20 +68,15 @@ class SmsController:
                 
                 
     def sendSMS(self,number,sms):
-        
         greenweburl = "https://api.bdbulksms.net/api.php"
-        # token = "90711209121675836552c51ffb7a986bde0f360da57de5712f09"
         greenwebtoken = JsonController.getJson(self,'greenwebToken')
-
         to = number
-
         data = {
                 'token':greenwebtoken, 
                 'to':number, 
                 'message':sms
-                } 
-        
-        responses = requests.post(url = greenweburl, data = data) 
+            }
+        responses = requests.post(url = greenweburl, data = data)
         return responses
 
     def shopingsms(self):
@@ -93,8 +87,8 @@ class SmsController:
             user = Customer.chack(self,mobile)
             if user is None:
                 messagebox.showinfo("Error", "Customer not found at this number!")
-        else:
-            sms = 'Dear Rafiq Talukder, you purchased a total of 1000 taka of products from my shop, discount 100 taka, paid 700 taka. The current outstanding amount is 200 taka.'
-            text = SmsController.sendSMS(self,'+88'+mobile,sms)
-            messagebox.showinfo("Info", text)
+            else:
+                sms = 'Dear Rafiq Talukder, you purchased a total of 1000 taka of products from my shop, discount 100 taka, paid 700 taka. The current outstanding amount is 200 taka.'
+                responses = SmsController.sendSMS(self,'+88'+mobile,sms)
+                messagebox.showinfo("Info", responses.text)
             

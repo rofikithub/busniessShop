@@ -7,9 +7,3 @@ pyinstaller --onefile --windowed --icon="image/winico.ico" `
 --add-binary "libiconv.dll;." `
 --add-binary "libzbar-64.dll;." `
 main.py
-
-
-
-Business Management System
-Rofik IT
-https://rofikit.com/
