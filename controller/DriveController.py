@@ -155,41 +155,4 @@ class DriveController:
             messagebox.showwarning("No Internet","Chack your internet connection!")
             
             
-            
-            
-
-    # ---------------- Upload in Google Drive ----------------
-    # def upload_file(self,fnam):
-    #     file_path = DriveController.getFile(self,fnam)
-    #     if file_path:
-    #         service = DriveController.get_drive_service(self)
-    #         file_metadata = {'name': os.path.basename(file_path)}
-    #         media = MediaFileUpload(file_path, resumable=True)
-    #         file = service.files().create(body=file_metadata, media_body=media, fields='id').execute()
-    #         if file.get('id'):
-    #             messagebox.showinfo("Success", f"File uploaded successfully in your google drive!")
-
-    # ---------------- Download from Goole Drive ----------------
-    # def download_file(self,file_id, save_as):
-    #     service = DriveController.get_drive_service()
-    #     request = service.files().get_media(fileId=file_id)
-    #     fh = io.FileIO(save_as, 'wb')
-    #     downloader = MediaIoBaseDownload(fh, request)
-    #     done = False
-    #     while not done:
-    #         status, done = downloader.next_chunk()
-    #     fh.close()
-        
-        
-    # ---------------- Upload file in softwer system ----------------
-    # def file_upload(self):
-    #     file_path = filedialog.askopenfilename(title="Select File", filetypes=[("DB/JSON","*.db *.json")])
-    #     if file_path:
-            
-    #         try:
-    #             dest_path = os.path.join(DIRECTORY, os.path.basename(file_path))
-    #             shutil.copy(file_path, dest_path)
-
-    #             messagebox.showinfo("Success", f"File uploaded successfully!")
-    #         except Exception as e:
-    #             messagebox.showerror("Error", str(e))
+   

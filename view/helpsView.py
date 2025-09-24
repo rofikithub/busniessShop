@@ -22,7 +22,7 @@ class helpsView:
         c_x = int(sw / 2 - ww / 2)
         c_y = int(50)
         root.geometry(f'{ww}x{wh}+{c_x}+{c_y}')
-        # root.resizable(False, False)
+        root.resizable(False, False)
         self.root.iconbitmap(os.path.join(os.getcwd(), "image", "winico.ico"))
 
         def on_mouse_wheel(event):
@@ -131,6 +131,19 @@ class helpsView:
                 "SMS সার্ভিস প্রোভাইডারের API Key 'SMS Config' এ যুক্ত করুন।",
                 "কাস্টমারকে ইনভয়েস/নোটিফিকেশন পাঠাতে এটি ব্যবহার হবে।",
                 "API Key সুরক্ষিত রাখুন।"
+            ],
+            "Google Drive কনফিগার": [
+                "https://console.cloud.google.com লিঙ্ক থেকে নতুন একটি প্রোজেট তৈরি করুন",
+                "Search বার থেকে Google Drive API সার্চ করে তা Enable করুন।",
+                "সাইট মেনু OAuth consent screen থেকে Create OAuth client এ ক্লিক করুন।",
+                "Application type এ Desktop app সিলেক্ট করে Create বাটন ক্লিক করলে Download JSON পাওয়া যাবে।",
+                "সাইট মেনু Audience থেকে Test users আপনার লগইন করা Gmail Address যুক্ত করুন।",
+                "সব শেষে Download করা client_secrets.json ফাইল টি সেটিং - এ আপলোড করুন।"
+            ],
+            "মোবাইল ফোন কনফিগার": [
+                "QR কোড স্ক্যান করার জন্য মোবাইলে iVCam Webcam অ্যাপ Install করুন।",
+                "কম্পিউটারে iVCam Webcam কম্পিউটার Softwer ডাউলোড করে Install করুন।",
+                "কম্পিউটার এবং মোবাইল একই ইন্টারন্টে রেখে iVCam Webcam কানেক্ট করুন।"
             ]
             
         }
@@ -142,7 +155,7 @@ class helpsView:
 
             # Section Details
             for p in points:
-                lbl = tk.Label(scroll_frame, text="• " + p, anchor="w", justify="left", wraplength=400, background=self.bg, fg=self.fg)
+                lbl = tk.Label(scroll_frame, text="• " + p, anchor="w", justify="left", wraplength=600, background=self.bg, fg=self.fg)
                 lbl.pack(fill="x", padx=20, pady=2)
             
         

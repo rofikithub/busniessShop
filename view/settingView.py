@@ -70,9 +70,16 @@ class settingView:
         
         def goGmail(event):
                 webbrowser.open_new('https://myaccount.google.com/apppasswords')
-        def goGreenweb(event):
-                webbrowser.open_new('https://sms.greenweb.com.bd/index.php?ref=gen_token.php')   
                 
+        def goGreenweb(event):
+                webbrowser.open_new('https://sms.greenweb.com.bd/index.php?ref=gen_token.php') 
+                  
+        def goConsoleCloud(event):
+            webbrowser.open_new('https://console.cloud.google.com/')  
+        
+        def goDrive(event):
+            webbrowser.open_new('https://drive.google.com/drive/u/1/home') 
+        
         def on_mouse_wheel(event):
             canvas.yview_scroll(int(-1*(event.delta/120)), "units")
 
@@ -264,12 +271,12 @@ class settingView:
         
         self.drivenot_frame = tk.Frame(self.driver_frame, background=self.bg)
         self.drivenot_frame.pack(side=BOTTOM, anchor='s')
-        self.gdnote_label1 = tk.Label(self.drivenot_frame, text="Create a account for buy sms service. Go to this link", font=("Arial", 8), background=self.bg, fg=self.fg)
+        self.gdnote_label1 = tk.Label(self.drivenot_frame, text="For create a project. Go to this link", font=("Arial", 8), background=self.bg, fg=self.fg)
         self.gdnote_label1.pack(side=LEFT)
-        self.gdnote_label2 = tk.Label(self.drivenot_frame, text="https://sms.greenweb.com.bd", font=("Arial", 8,"underline"), cursor='hand2', background=self.bg, fg=self.fg)
+        self.gdnote_label2 = tk.Label(self.drivenot_frame, text="https://console.cloud.google.com/", font=("Arial", 8,"underline"), cursor='hand2', background=self.bg, fg=self.fg)
         self.gdnote_label2.pack(side=LEFT)
-        self.gdnote_label2.bind("<Button-1>", goGreenweb)
-        self.gdnote_label3 = tk.Label(self.drivenot_frame, text=".To create a new api token.", font=("Arial", 8), background=self.bg, fg=self.fg)
+        self.gdnote_label2.bind("<Button-1>", goConsoleCloud)
+        self.gdnote_label3 = tk.Label(self.drivenot_frame, text=".Create OAuth client ID and get client_secrets.json.", font=("Arial", 8), background=self.bg, fg=self.fg)
         self.gdnote_label3.pack(side=LEFT)  
 
        
@@ -299,9 +306,9 @@ class settingView:
         self.dbnote_frame.pack(side=BOTTOM, anchor='s')
         self.dbnote_label1 = tk.Label(self.dbnote_frame, text="Create a account for buy sms service. Go to this link", font=("Arial", 8), background=self.bg, fg=self.fg)
         self.dbnote_label1.pack(side=LEFT)
-        self.dbnote_label2 = tk.Label(self.dbnote_frame, text="https://sms.greenweb.com.bd", font=("Arial", 8,"underline"), cursor='hand2', background=self.bg, fg=self.fg)
+        self.dbnote_label2 = tk.Label(self.dbnote_frame, text="https://drive.google.com/drive/u/1/home", font=("Arial", 8,"underline"), cursor='hand2', background=self.bg, fg=self.fg)
         self.dbnote_label2.pack(side=LEFT)
-        self.dbnote_label2.bind("<Button-1>", goGreenweb)
+        self.dbnote_label2.bind("<Button-1>", goDrive)
         self.dbnote_label3 = tk.Label(self.dbnote_frame, text=".To create a new api token.", font=("Arial", 8), background=self.bg, fg=self.fg)
         self.dbnote_label3.pack(side=LEFT)  
 
@@ -332,9 +339,9 @@ class settingView:
         self.sysnot_frame.pack(side=BOTTOM, anchor='s')
         self.sysnote_label1 = tk.Label(self.sysnot_frame, text="Create a account for buy sms service. Go to this link", font=("Arial", 8), background=self.bg, fg=self.fg)
         self.sysnote_label1.pack(side=LEFT)
-        self.sysnote_label2 = tk.Label(self.sysnot_frame, text="https://sms.greenweb.com.bd", font=("Arial", 8,"underline"), cursor='hand2', background=self.bg, fg=self.fg)
+        self.sysnote_label2 = tk.Label(self.sysnot_frame, text="https://drive.google.com/drive/u/1/home", font=("Arial", 8,"underline"), cursor='hand2', background=self.bg, fg=self.fg)
         self.sysnote_label2.pack(side=LEFT)
-        self.sysnote_label2.bind("<Button-1>", goGreenweb)
+        self.sysnote_label2.bind("<Button-1>", goDrive)
         self.sysnote_label3 = tk.Label(self.sysnot_frame, text=".To create a new api token.", font=("Arial", 8), background=self.bg, fg=self.fg)
         self.sysnote_label3.pack(side=LEFT)  
             

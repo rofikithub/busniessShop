@@ -50,6 +50,7 @@ Source: "F:\Python\busniessShop\image\*"; DestDir: "{app}\image"; Flags: ignorev
 Source: "F:\Python\busniessShop\libiconv.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "F:\Python\busniessShop\libzbar-64.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "F:\Python\busniessShop\scan.mp3"; DestDir: "{app}"; Flags: ignoreversion
+Source: "F:\Python\busniessShop\vcredist_x64.exe"; DestDir: "{tmp}"; Flags: deleteafterinstall
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
@@ -57,5 +58,6 @@ Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
 
 [Run]
+Filename: "{tmp}\vcredist_x64.exe"; Parameters: "/quiet /norestart"; Check: Is64BitInstallMode; Flags: waituntilterminated
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 
